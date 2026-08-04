@@ -11,7 +11,7 @@ export default function NewAge() {
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
         <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
-          <Image src="/images/new-age-poster.png" alt="new-age-poster.png" fill className="object-cover shadow-lg rounded" referrerPolicy="no-referrer" />
+          <Image src="/images/card-new-age.png" alt="new-age-poster.png" fill className="object-cover shadow-lg rounded" referrerPolicy="no-referrer" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
           <h1 className="text-4xl font-bold mb-4">New Age</h1>

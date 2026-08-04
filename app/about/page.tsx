@@ -9,7 +9,7 @@ export default function About() {
           About Us
         </h1>
         <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80">
-          <Image src="/images/philosophy-hero.png" alt="Mascot logo" fill className="object-contain" referrerPolicy="no-referrer" />
+          <Image src="/images/logo.png" alt="Mascot logo" fill className="object-contain" referrerPolicy="no-referrer" />
         </div>
       </section>
 
