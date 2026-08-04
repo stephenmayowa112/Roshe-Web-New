@@ -10,17 +10,16 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section */}
-      <section className="w-full max-w-7xl mx-auto mb-16 relative bg-gray-100 min-h-[60vh] flex items-center justify-center overflow-hidden">
-        <Image 
-          src="/images/home-hero.png" 
-          alt="Remember Me - Animated short film featuring a poppy field" 
+      <section className="w-full h-screen relative bg-gray-100 flex items-center justify-center overflow-hidden">
+        <Image
+          src="/images/home-hero.png"
+          alt="Remember Me - Animated short film featuring a poppy field"
           fill
-          className="object-cover"
+          className="object-contain"
           referrerPolicy="no-referrer"
           priority
         />
-        {/* If image is missing, show a placeholder box */}
-        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-start pt-16 -z-10 text-center" aria-hidden="true">
+        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center z-10 text-center px-4">
           <h1 className="text-6xl md:text-8xl font-black text-red-500 drop-shadow-lg mb-2">Remember Me</h1>
           <p className="text-sm md:text-xl font-medium text-white tracking-widest uppercase drop-shadow-md">A Roshe Studios Animated Short Film</p>
         </div>
