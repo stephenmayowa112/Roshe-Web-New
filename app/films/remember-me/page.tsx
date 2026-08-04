@@ -5,9 +5,9 @@ export default function RememberMe() {
     <div className="w-full bg-white flex flex-col items-center">
       {/* Hero Banner */}
       <section className="w-full max-w-7xl mx-auto relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-gray-200 overflow-hidden">
-        <img src="/images/remember-me-hero.jpg" alt="Remember Me Hero" className="absolute inset-0 w-full h-full object-cover" />
+        <Image src="/images/remember-me-hero.png" alt="remember-me-hero.png" fill className="object-cover" referrerPolicy="no-referrer" />
         <div className="relative z-10 flex flex-col items-center justify-center pt-20">
-          <img src="/images/remember-me-logo.png" alt="Remember Me" className="h-24 md:h-32 mb-8 object-contain" />
+          <Image src="/images/remember-me-logo.png" alt="remember-me-logo.png" width={300} height={120} className="h-24 md:h-32 mb-8 w-auto object-contain" referrerPolicy="no-referrer" />
           <div className="flex flex-wrap gap-4 justify-center">
             <button className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide shadow-md transition-colors">
               BOOK TICKETS
@@ -21,8 +21,8 @@ export default function RememberMe() {
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
-        <div className="w-full md:w-[400px] flex-shrink-0">
-          <img src="/images/remember-me-poster.jpg" alt="Remember Me Poster" className="w-full h-auto shadow-lg" />
+        <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
+          <Image src="/images/remember-me-poster.png" alt="remember-me-poster.png" fill className="object-cover shadow-lg rounded" referrerPolicy="no-referrer" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
           <h1 className="text-4xl font-bold mb-4">Remember Me</h1>
@@ -57,7 +57,7 @@ export default function RememberMe() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex flex-col gap-4">
             <div className="aspect-video relative cursor-pointer group bg-gray-200">
-              <img src="/images/remember-me-trailer.jpg" alt="Trailer" className="absolute inset-0 w-full h-full object-cover group-hover:opacity-90 transition-opacity" />
+              <Image src="/images/remember-me-trailer.png" alt="remember-me-trailer.png" fill className="object-cover group-hover:opacity-90 transition-opacity" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center">
                   <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[12px] border-l-white border-b-8 border-b-transparent ml-1" />
@@ -68,7 +68,7 @@ export default function RememberMe() {
           </div>
           <div className="flex flex-col gap-4">
             <div className="aspect-video relative cursor-pointer group bg-gray-200">
-              <img src="/images/remember-me-gallery.jpg" alt="Gallery" className="absolute inset-0 w-full h-full object-cover group-hover:opacity-90 transition-opacity" />
+              <Image src="/images/remember-me-gallery.png" alt="remember-me-gallery.png" fill className="object-cover group-hover:opacity-90 transition-opacity" referrerPolicy="no-referrer" />
               <div className="absolute inset-y-0 left-4 flex items-center text-white text-2xl font-light">{'<'}</div>
               <div className="absolute inset-y-0 right-4 flex items-center text-white text-2xl font-light">{'>'}</div>
             </div>

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function Contact() {
   return (
     <div className="w-full bg-white flex flex-col items-center pb-24">
@@ -6,8 +8,8 @@ export default function Contact() {
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-medium tracking-wide">
           Get in Touch
         </h1>
-        <div className="hidden md:block w-48 h-48 lg:w-64 lg:h-64 opacity-80">
-          <img src="/images/philosophy-hero.jpg" alt="Mascot" className="w-full h-full object-contain" />
+        <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80">
+          <Image src="/images/philosophy-hero.png" alt="Mascot logo" fill className="object-contain" referrerPolicy="no-referrer" />
         </div>
       </section>
 
@@ -15,8 +17,8 @@ export default function Contact() {
       <section className="w-full max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-16">
         {/* Left Image */}
         <div className="flex justify-center md:justify-end">
-          <div className="w-full max-w-[450px] aspect-[4/5] overflow-hidden rounded-[2rem] shadow-xl">
-            <img src="/images/contact-image.jpg" alt="Contact Us" className="w-full h-full object-cover" />
+          <div className="w-full max-w-[450px] aspect-[4/5] relative overflow-hidden rounded-[2rem] shadow-xl">
+            <Image src="/images/contact-image.png" alt="contact-image.png" fill className="object-cover" referrerPolicy="no-referrer" />
           </div>
         </div>
 

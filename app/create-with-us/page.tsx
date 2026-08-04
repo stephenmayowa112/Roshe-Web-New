@@ -1,9 +1,11 @@
+import Image from 'next/image';
+
 export default function CreateWithUs() {
   return (
     <div className="w-full bg-white flex flex-col items-center pb-20">
       {/* Hero Banner */}
       <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16">
-        <img src="/images/create-hero.jpg" alt="Create With Us" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80 bg-green-900" />
+        <Image src="/images/create-hero.png" alt="create-hero.png" fill className="object-cover mix-blend-multiply opacity-80 bg-green-900" referrerPolicy="no-referrer" />
         <h1 className="relative z-10 text-white text-4xl md:text-5xl font-medium drop-shadow-md">
           Create With Us
         </h1>
@@ -21,7 +23,7 @@ export default function CreateWithUs() {
       <section className="w-full max-w-7xl mx-auto flex flex-col mb-24">
         {/* Feature Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <img src="/images/create-feature.jpg" alt="Feature Film" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+          <Image src="/images/create-feature.png" alt="create-feature.png" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Feature Film</h2>
             <p className="text-lg">Showcase your story with high-quality animation.</p>
@@ -29,7 +31,7 @@ export default function CreateWithUs() {
         </div>
         {/* Short Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <img src="/images/create-short.jpg" alt="Short Film" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+          <Image src="/images/create-short.png" alt="create-short.png" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Short Film</h2>
             <p className="text-lg">Perfect for quick narratives that captivate.</p>
@@ -37,7 +39,7 @@ export default function CreateWithUs() {
         </div>
         {/* TV Series */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <img src="/images/create-series.jpg" alt="TV Series" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+          <Image src="/images/create-series.png" alt="create-series.png" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">TV Series</h2>
             <p className="text-lg">Develop an ongoing series that entertains and engages.</p>

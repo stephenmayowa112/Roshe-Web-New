@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function About() {
   return (
     <div className="w-full bg-white flex flex-col items-center flex-grow">
@@ -6,8 +8,8 @@ export default function About() {
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-medium tracking-wide">
           About Us
         </h1>
-        <div className="hidden md:block w-48 h-48 lg:w-64 lg:h-64 opacity-80">
-          <img src="/images/philosophy-hero.jpg" alt="Mascot" className="w-full h-full object-contain" />
+        <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80">
+          <Image src="/images/philosophy-hero.png" alt="Mascot logo" fill className="object-contain" referrerPolicy="no-referrer" />
         </div>
       </section>
 

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Shop() {
   return (
@@ -8,7 +8,7 @@ export default function Shop() {
       
       {/* Shop Banner from Home Page */}
       <section className="w-full max-w-7xl mx-auto relative h-[400px] overflow-hidden flex items-center bg-yellow-400">
-        <img src="/images/home-banner-shop.jpg" alt="Shop stories" className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-50" />
+        <Image src="/images/home-banner-shop.png" alt="home-banner-shop.png" fill className="object-cover mix-blend-multiply opacity-50" referrerPolicy="no-referrer" />
         <div className="relative z-10 w-full max-w-xl px-12 md:px-20 text-left">
           <h2 className="text-black text-3xl md:text-5xl font-bold leading-tight mb-8">
             Shop the stories you love<br />for you and your family

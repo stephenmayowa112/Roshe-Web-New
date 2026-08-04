@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function Licensing() {
@@ -5,7 +6,7 @@ export default function Licensing() {
     <div className="w-full bg-white flex flex-col items-center pb-24">
       {/* Hero Banner */}
       <section className="w-full max-w-7xl mx-auto relative h-[35vh] md:h-[45vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16">
-        <img src="/images/licensing-hero.jpg" alt="Licensing Hero" className="absolute inset-0 w-full h-full object-cover" />
+        <Image src="/images/licensing-hero.png" alt="licensing-hero.png" fill className="object-cover" referrerPolicy="no-referrer" />
         <div className="absolute inset-0 bg-black/40"></div>
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-bold text-center px-4 max-w-4xl leading-tight drop-shadow-md">
           A Remembrance Day teaching resource +<br />emotional learning experience
@@ -63,7 +64,9 @@ export default function Licensing() {
 
         {/* Right Col: Poster */}
         <div className="flex items-start justify-center md:justify-end">
-          <img src="/images/licensing-poster.jpg" alt="Remember Me" className="w-full max-w-[400px] h-auto rounded-3xl shadow-xl" />
+          <div className="w-full max-w-[400px] aspect-[3/4] relative rounded-3xl shadow-xl overflow-hidden">
+            <Image src="/images/licensing-poster.png" alt="licensing-poster.png" fill className="object-cover" referrerPolicy="no-referrer" />
+          </div>
         </div>
       </section>
     </div>
