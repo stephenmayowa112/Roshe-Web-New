@@ -19,6 +19,7 @@ export default function Home() {
           referrerPolicy="no-referrer"
           priority
         />
+
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center z-10 text-center px-4">
           <h1 className="text-6xl md:text-8xl font-black text-red-500 drop-shadow-lg mb-2">Remember Me</h1>
           <p className="text-sm md:text-xl font-medium text-white tracking-widest uppercase drop-shadow-md">A Roshe Studios Animated Short Film</p>
