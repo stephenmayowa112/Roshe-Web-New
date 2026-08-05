@@ -1,11 +1,27 @@
-import type {Metadata} from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
-  title: 'Roshe Studios',
-  description: 'Roshe Studios Animated Short Films',
+  title: {
+    template: '%s | Roshe Studios',
+    default: 'Roshe Studios | Animated Short Films',
+  },
+  description: 'Roshe Studios is an animation studio creating meaningful, educational, and emotionally honest short films and series like Remember Me, New Age, and Seasonlings.',
+  keywords: ['animation', 'short films', 'Roshe Studios', 'Remember Me', 'New Age', 'Seasonlings'],
+  openGraph: {
+    title: 'Roshe Studios | Animated Short Films',
+    description: 'Roshe Studios is an animation studio creating meaningful, educational, and emotionally honest short films and series.',
+    type: 'website',
+    siteName: 'Roshe Studios',
+  },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

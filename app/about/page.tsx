@@ -1,23 +1,29 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: 'Learn about Roshe Studios Limited, a registered animation company based in England and Wales.',
+};
 
 export default function About() {
   return (
-    <div className="w-full bg-white flex flex-col items-center flex-grow">
+    <main className="w-full bg-white flex flex-col items-center flex-grow">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-8 md:px-24 mb-20 overflow-hidden">
+      <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-8 md:px-24 mb-20 overflow-hidden" aria-label="About Us Header">
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-medium tracking-wide">
           About Us
         </h1>
-        <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80">
-          <Image src="/images/logo.png" alt="Mascot logo" fill className="object-contain" referrerPolicy="no-referrer" />
+        <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80" aria-hidden="true">
+          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill className="object-contain" referrerPolicy="no-referrer" priority />
         </div>
       </section>
 
       <section className="w-full max-w-4xl mx-auto px-4 text-center text-gray-800 text-lg md:text-xl space-y-8 py-10">
         <p>This site is owned and operated by Roshe Studios Limited. Registered in England and Wales.</p>
-        <p>Company Registration Number: 16696126</p>
-        <p>Founded: 2024</p>
+        <p>Company Registration Number: <span className="font-semibold">16696126</span></p>
+        <p>Founded: <span className="font-semibold">2024</span></p>
       </section>
-    </div>
+    </main>
   );
 }

@@ -1,13 +1,19 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Seasonlings',
+  description: 'Seasonlings is a mythic animated drama series by Roshe Studios about immortal siblings governing the natural cycles of Earth.',
+};
 
 export default function Seasonlings() {
   return (
-    <div className="w-full bg-white flex flex-col items-center">
+    <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] flex items-end justify-center pb-12 bg-gray-200 overflow-hidden">
-        <Image src="/images/seasonlings-hero.png" alt="seasonlings-hero.png" fill className="object-cover object-top" referrerPolicy="no-referrer" />
+      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] flex items-end justify-center pb-12 bg-gray-200 overflow-hidden" aria-label="Hero Banner">
+        <Image src="/images/seasonlings-hero.png" alt="Seasonlings - Fantasy landscape hero image" fill className="object-cover object-top" referrerPolicy="no-referrer" priority />
         <div className="relative z-10">
-          <button className="bg-white text-black hover:bg-gray-100 px-10 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg transition-colors">
+          <button className="bg-white text-black hover:bg-gray-100 px-10 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500">
             Invest Now
           </button>
         </div>
@@ -16,7 +22,7 @@ export default function Seasonlings() {
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
         <div className="w-full md:w-[400px] flex-shrink-0 bg-gray-800 p-8 rounded shadow-lg flex items-center justify-center relative min-h-[350px]">
-          <Image src="/images/seasonlings-poster.png" alt="seasonlings-poster.png" fill className="object-contain p-4" referrerPolicy="no-referrer" />
+          <Image src="/images/seasonlings-poster.png" alt="Seasonlings series poster" fill className="object-contain p-4" referrerPolicy="no-referrer" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
           <h1 className="text-4xl font-bold mb-4">Seasonlings Season 1</h1>
@@ -45,29 +51,29 @@ export default function Seasonlings() {
       </section>
 
       {/* Video & Gallery */}
-      <section className="w-full max-w-5xl mx-auto px-4 pb-20">
+      <section className="w-full max-w-5xl mx-auto px-4 pb-20" aria-label="Media Gallery">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex flex-col gap-4">
-            <div className="aspect-video relative cursor-pointer group bg-gray-200 shadow-md">
-              <Image src="/images/seasonlings-teaser.png" alt="seasonlings-teaser.png" fill className="object-cover group-hover:opacity-90 transition-opacity" referrerPolicy="no-referrer" />
+            <button className="aspect-video relative group bg-gray-200 shadow-md rounded overflow-hidden w-full text-left focus:outline-none focus:ring-4 focus:ring-yellow-500" aria-label="Play Teaser">
+              <Image src="/images/seasonlings-teaser.png" alt="Teaser thumbnail for Seasonlings" fill className="object-cover group-hover:opacity-90 transition-opacity" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center">
                   <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[12px] border-l-white border-b-8 border-b-transparent ml-1" />
                 </div>
               </div>
-            </div>
+            </button>
             <p className="text-center font-medium">Watch the Official Teaser</p>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="aspect-video relative cursor-pointer group bg-gray-200 shadow-md overflow-hidden">
-              <Image src="/images/seasonlings-gallery.png" alt="seasonlings-gallery.png" fill className="object-cover group-hover:scale-[1.02] transition-transform duration-500" referrerPolicy="no-referrer" />
-              <div className="absolute inset-y-0 left-4 flex items-center text-white text-2xl font-light cursor-pointer">{'<'}</div>
-              <div className="absolute inset-y-0 right-4 flex items-center text-white text-2xl font-light cursor-pointer">{'>'}</div>
+            <div className="aspect-video relative group bg-gray-200 shadow-md overflow-hidden rounded" aria-label="Image Gallery">
+              <Image src="/images/seasonlings-gallery.png" alt="Gallery image from Seasonlings" fill className="object-cover group-hover:scale-[1.02] transition-transform duration-500" referrerPolicy="no-referrer" />
+              <button className="absolute inset-y-0 left-4 flex items-center text-white text-2xl font-light focus:outline-none focus:ring-4 focus:ring-white rounded-full p-2 h-12 self-center bg-black/20" aria-label="Previous image">{'<'}</button>
+              <button className="absolute inset-y-0 right-4 flex items-center text-white text-2xl font-light focus:outline-none focus:ring-4 focus:ring-white rounded-full p-2 h-12 self-center bg-black/20" aria-label="Next image">{'>'}</button>
             </div>
             <p className="text-center font-medium">Gallery</p>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

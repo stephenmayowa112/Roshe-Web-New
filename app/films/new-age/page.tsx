@@ -1,17 +1,23 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'New Age',
+  description: 'New Age is an African animated short film produced by a worldwide collaboration of creatives.',
+};
 
 export default function NewAge() {
   return (
-    <div className="w-full bg-white flex flex-col items-center">
+    <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] bg-gray-200 overflow-hidden">
-        <Image src="/images/new-age-hero.png" alt="new-age-hero.png" fill className="object-cover" referrerPolicy="no-referrer" />
+      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] bg-gray-200 overflow-hidden" aria-label="Hero Banner">
+        <Image src="/images/new-age-hero.png" alt="New Age - Futuristic 3D animated scene" fill className="object-cover" referrerPolicy="no-referrer" priority />
       </section>
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
         <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
-          <Image src="/images/card-new-age.png" alt="new-age-poster.png" fill className="object-cover shadow-lg rounded" referrerPolicy="no-referrer" />
+          <Image src="/images/new-age-poster.png" alt="New Age movie poster" fill className="object-cover shadow-lg rounded" referrerPolicy="no-referrer" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
           <h1 className="text-4xl font-bold mb-4">New Age</h1>
@@ -41,16 +47,16 @@ export default function NewAge() {
       </section>
 
       {/* Gallery */}
-      <section className="w-full max-w-6xl mx-auto px-4 pb-20">
+      <section className="w-full max-w-6xl mx-auto px-4 pb-20" aria-label="Media Gallery">
         <div className="flex flex-col gap-4">
-          <div className="aspect-[21/9] relative cursor-pointer group bg-gray-200 overflow-hidden shadow-md">
-            <Image src="/images/new-age-gallery.png" alt="new-age-gallery.png" fill className="object-cover group-hover:scale-[1.02] transition-transform duration-500" referrerPolicy="no-referrer" />
-            <div className="absolute inset-y-0 left-4 flex items-center text-white text-3xl font-light drop-shadow-md cursor-pointer hover:scale-110 transition-transform">{'<'}</div>
-            <div className="absolute inset-y-0 right-4 flex items-center text-white text-3xl font-light drop-shadow-md cursor-pointer hover:scale-110 transition-transform">{'>'}</div>
+          <div className="aspect-[21/9] relative group bg-gray-200 overflow-hidden shadow-md rounded" aria-label="Image Gallery">
+            <Image src="/images/new-age-gallery.png" alt="Gallery image from New Age" fill className="object-cover group-hover:scale-[1.02] transition-transform duration-500" referrerPolicy="no-referrer" />
+            <button className="absolute inset-y-0 left-4 flex items-center text-white text-3xl font-light drop-shadow-md focus:outline-none focus:ring-4 focus:ring-white rounded-full h-12 w-12 justify-center self-center bg-black/20" aria-label="Previous image">{'<'}</button>
+            <button className="absolute inset-y-0 right-4 flex items-center text-white text-3xl font-light drop-shadow-md focus:outline-none focus:ring-4 focus:ring-white rounded-full h-12 w-12 justify-center self-center bg-black/20" aria-label="Next image">{'>'}</button>
           </div>
           <p className="text-center font-medium">Gallery</p>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
