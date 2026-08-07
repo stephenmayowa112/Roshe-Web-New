@@ -124,7 +124,7 @@ export default function Licensing() {
 
         {/* Right Col: Poster */}
         <div className="flex items-start justify-center md:justify-end md:pt-0">
-          <div className="w-full max-w-[460px] aspect-[0.87] relative rounded-[28px] shadow-[0_18px_40px_rgba(0,0,0,0.12)] overflow-hidden">
+          <div className="w-full max-w-[410px] aspect-[0.69] relative rounded-[28px] shadow-[0_18px_40px_rgba(0,0,0,0.12)] overflow-hidden">
             <Image src="/images/licensing-poster.png" alt="Licensing promotional poster" fill className="object-cover" referrerPolicy="no-referrer" />
           </div>
         </div>
