@@ -106,7 +106,7 @@ export default function Contact() {
         <div className="flex justify-center md:justify-start">
           <div className="w-full max-w-[450px] aspect-[4/5] relative overflow-hidden rounded-[2rem] shadow-xl">
             <Image
-              src="/images/contact-image.png"
+              src="/images/contactusimage.png"
               alt="A warmly lit room representing Roshe Studios workspace"
               fill
               sizes="(max-width: 768px) 100vw, 450px"
