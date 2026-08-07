@@ -3,7 +3,13 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: 'Learn about Roshe Studios Limited, a registered animation company based in England and Wales.',
+  description: 'Roshe Studios Limited is a registered animation company based in England and Wales, creating purposeful animated short films and series.',
+  alternates: { canonical: 'https://roshestudios.co.uk/about' },
+  openGraph: {
+    title: 'About Us | Roshe Studios',
+    description: 'Roshe Studios Limited is a registered animation company based in England and Wales.',
+    url: 'https://roshestudios.co.uk/about',
+  },
 };
 
 export default function About() {
@@ -15,7 +21,7 @@ export default function About() {
           About Us
         </h1>
         <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80" aria-hidden="true">
-          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill className="object-contain" referrerPolicy="no-referrer" priority />
+          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill sizes="(max-width: 1024px) 192px, 256px" className="object-contain" priority />
         </div>
       </section>
 

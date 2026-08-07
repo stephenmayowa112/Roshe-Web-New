@@ -4,6 +4,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Create With Us',
   description: 'Partner with Roshe Studios to bring your vision to life through feature films, short films, TV series, and animated ads.',
+  alternates: { canonical: 'https://roshestudios.co.uk/create-with-us' },
+  openGraph: {
+    title: 'Create With Us | Roshe Studios',
+    description: 'Partner with Roshe Studios to bring your vision to life through feature films, short films, TV series, and animated ads.',
+    url: 'https://roshestudios.co.uk/create-with-us',
+    images: [{ url: '/images/create-hero.png', width: 1200, height: 630, alt: 'Create With Us — Roshe Studios' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Create With Us | Roshe Studios',
+    images: ['/images/create-hero.png'],
+  },
 };
 
 export default function CreateWithUs() {
@@ -11,7 +23,7 @@ export default function CreateWithUs() {
     <main className="w-full bg-white flex flex-col items-center pb-20">
       {/* Hero Banner */}
       <section className="w-full max-w-7xl mx-auto relative h-[34svh] min-h-[320px] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16 px-4" aria-label="Create With Us Header">
-        <Image src="/images/create-hero.png" alt="Creative abstract banner background" fill className="object-cover object-center mix-blend-multiply opacity-80 bg-green-900" referrerPolicy="no-referrer" priority />
+        <Image src="/images/create-hero.png" alt="Creative abstract banner background" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover object-center mix-blend-multiply opacity-80 bg-green-900" priority />
         <h1 className="relative z-10 text-white text-3xl sm:text-4xl md:text-5xl font-medium text-center drop-shadow-md">
           Create With Us
         </h1>
@@ -29,7 +41,7 @@ export default function CreateWithUs() {
       <section className="w-full max-w-7xl mx-auto flex flex-col mb-24" aria-label="Our Services">
         {/* Feature Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <Image src="/images/create-feature.png" alt="Feature film production showcase" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
+          <Image src="/images/create-feature.png" alt="Feature film production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Feature Film</h2>
             <p className="text-lg">Showcase your story with high-quality animation.</p>
@@ -37,7 +49,7 @@ export default function CreateWithUs() {
         </div>
         {/* Short Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <Image src="/images/create-short.png" alt="Short film production showcase" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
+          <Image src="/images/create-short.png" alt="Short film production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Short Film</h2>
             <p className="text-lg">Perfect for quick narratives that captivate.</p>
@@ -45,7 +57,7 @@ export default function CreateWithUs() {
         </div>
         {/* TV Series */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
-          <Image src="/images/create-series.png" alt="TV series production showcase" fill className="object-cover opacity-80" referrerPolicy="no-referrer" />
+          <Image src="/images/create-series.png" alt="TV series production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
           <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">TV Series</h2>
             <p className="text-lg">Develop an ongoing series that entertains and engages.</p>

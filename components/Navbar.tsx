@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">
-          <Image src="/images/logo.png" alt="Roshe Studios logo" width={160} height={40} className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
+          <Image src="/images/logo.png" alt="Roshe Studios logo" width={160} height={40} className="h-8 w-auto object-contain" />
         </Link>
 
         {/* Mobile Menu Toggle */}

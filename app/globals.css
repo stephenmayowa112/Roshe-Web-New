@@ -1,15 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --font-sans: "Poppins", "Segoe UI", Arial, sans-serif;
+  --font-sans: var(--font-sans, "Segoe UI", Arial, sans-serif);
 }
 
-html {
-  font-family: var(--font-sans);
-}
-
+html,
 body {
   font-family: var(--font-sans);
   margin: 0;
 }
-

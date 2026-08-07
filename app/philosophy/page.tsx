@@ -4,6 +4,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Our Philosophy',
   description: 'The philosophy of Roshe Studios: Story First, Animation as Education, Simplicity with Depth, and Purpose-Driven Creativity.',
+  alternates: { canonical: 'https://roshestudios.co.uk/philosophy' },
+  openGraph: {
+    title: 'Our Philosophy | Roshe Studios',
+    description: 'Story First, Animation as Education, Simplicity with Depth, and Purpose-Driven Creativity.',
+    url: 'https://roshestudios.co.uk/philosophy',
+  },
 };
 
 export default function Philosophy() {
@@ -15,7 +21,7 @@ export default function Philosophy() {
           Roshe Studios Philosophy
         </h1>
         <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80" aria-hidden="true">
-          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill className="object-contain" referrerPolicy="no-referrer" priority />
+          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill sizes="(max-width: 1024px) 192px, 256px" className="object-contain" priority />
         </div>
       </section>
 
