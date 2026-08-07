@@ -34,9 +34,7 @@ export default function Navbar() {
             <div className="absolute left-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
               {/* Yellow top accent bar */}
               <div className="h-3 bg-yellow-400" />
-              {/* First item — yellow highlight */}
-              <Link href="/films/remember-me" className="block px-6 py-4 bg-yellow-400 text-black text-lg font-normal hover:bg-yellow-300 focus:outline-none focus:bg-yellow-300 transition-colors">Remember Me</Link>
-              {/* Remaining items — white on black */}
+              <Link href="/films/remember-me" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Remember Me</Link>
               <Link href="/films/new-age" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">New Age</Link>
               <Link href="/films/seasonlings" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Seasonlings</Link>
             </div>
@@ -53,9 +51,7 @@ export default function Navbar() {
             <div className="absolute right-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
               {/* Yellow top accent bar */}
               <div className="h-3 bg-yellow-400" />
-              {/* First item — yellow highlight */}
-              <Link href="/philosophy" className="block px-6 py-4 bg-yellow-400 text-black text-lg font-normal hover:bg-yellow-300 focus:outline-none focus:bg-yellow-300 transition-colors">Our Philosophy</Link>
-              {/* Remaining items — white on black */}
+              <Link href="/philosophy" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Our Philosophy</Link>
               <Link href="/about" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Leadership</Link>
               <Link href="/contact" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Get in Touch</Link>
             </div>
