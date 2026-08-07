@@ -52,7 +52,7 @@ export default function Navbar() {
               {/* Yellow top accent bar */}
               <div className="h-3 bg-yellow-400" />
               <Link href="/philosophy" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Our Philosophy</Link>
-              <Link href="/about" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Leadership</Link>
+              <Link href="/about" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">About Us</Link>
               <Link href="/contact" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Get in Touch</Link>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function Navbar() {
           <div className="flex flex-col space-y-2 pt-2 pb-4">
             <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">More</span>
             <Link href="/philosophy" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-500">Our Philosophy</Link>
-            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-500">Leadership</Link>
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-500">About Us</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 focus:outline-none focus:ring-2 focus:ring-yellow-500">Get in Touch</Link>
           </div>
         </nav>
