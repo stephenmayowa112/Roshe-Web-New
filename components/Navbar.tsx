@@ -50,10 +50,14 @@ export default function Navbar() {
             <button aria-haspopup="true" className="flex items-center gap-1 hover:text-yellow-500 uppercase pb-8 -mb-8 pt-8 -mt-8 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">
               MORE
             </button>
-            <div className="absolute right-0 top-full mt-0 w-48 bg-black text-white py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-lg">
-              <Link href="/philosophy" className="block px-4 py-2 hover:text-yellow-500 text-sm focus:outline-none focus:bg-gray-800">Our Philosophy</Link>
-              <Link href="/about" className="block px-4 py-2 hover:text-yellow-500 text-sm focus:outline-none focus:bg-gray-800">Leadership</Link>
-              <Link href="/contact" className="block px-4 py-2 hover:text-yellow-500 text-sm focus:outline-none focus:bg-gray-800">Get in Touch</Link>
+            <div className="absolute right-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
+              {/* Yellow top accent bar */}
+              <div className="h-3 bg-yellow-400" />
+              {/* First item — yellow highlight */}
+              <Link href="/philosophy" className="block px-6 py-4 bg-yellow-400 text-black text-lg font-normal hover:bg-yellow-300 focus:outline-none focus:bg-yellow-300 transition-colors">Our Philosophy</Link>
+              {/* Remaining items — white on black */}
+              <Link href="/about" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Leadership</Link>
+              <Link href="/contact" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black focus:outline-none focus:bg-yellow-400 focus:text-black transition-colors">Get in Touch</Link>
             </div>
           </div>
         </nav>
