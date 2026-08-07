@@ -10,12 +10,12 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section */}
-      <section className="w-full h-screen relative bg-gray-100 flex items-center justify-center overflow-hidden">
+      <section className="w-full relative h-[72svh] min-h-[520px] md:h-screen bg-gray-100 flex items-center justify-center overflow-hidden">
         <Image
           src="/images/home-hero.png"
           alt="Remember Me - Animated short film featuring a poppy field"
           fill
-          className="object-contain"
+          className="object-cover object-[center_22%] md:object-contain"
           referrerPolicy="no-referrer"
           priority
         />
