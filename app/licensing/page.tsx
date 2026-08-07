@@ -19,8 +19,11 @@ export default function Licensing() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-24">
 
-      {/* Hero Banner — full width, no side padding */}
-      <section className="w-full relative h-[220px] sm:h-[260px] md:h-[300px] flex items-center justify-center overflow-hidden mb-14" aria-label="Hero Banner">
+      {/* Hero Banner */}
+      <section
+        className="w-full relative h-[220px] sm:h-[260px] md:h-[300px] flex items-center justify-center overflow-hidden mb-14"
+        aria-label="Hero Banner"
+      >
         <Image
           src="/images/licensing-hero.png"
           alt="Licensing banner — classroom educational setting"
@@ -36,31 +39,31 @@ export default function Licensing() {
 
       {/* Pricing + Poster */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start"
+        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-stretch"
         aria-label="Licensing Options"
       >
-        {/* Left: Pricing Cards */}
-        <div className="flex flex-col gap-6">
+        {/* Left: Pricing Cards stacked */}
+        <div className="flex flex-col gap-6 flex-1">
 
           {/* Card 1 */}
-          <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-            <div className="grid grid-cols-1 sm:grid-cols-[280px_1fr]">
-              {/* Left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-6 py-10 text-center sm:border-r border-gray-200">
+          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="flex flex-col sm:flex-row">
+              {/* Cream left panel */}
+              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-8 py-10 text-center sm:w-[260px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
                 <h2 className="text-lg font-bold text-gray-900 mb-3">Single School License</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
                 <p className="text-sm text-gray-500 mb-8">billed annually</p>
-                <button className="w-full max-w-[220px] bg-[#f5bf05] hover:bg-[#e6b100] text-black px-6 py-3 rounded-xl font-bold text-base transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
+                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black px-6 py-3 rounded-xl font-bold text-base transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
                   Buy License
                 </button>
               </div>
-              {/* Right panel */}
-              <div className="bg-white px-6 py-8 sm:px-8 sm:py-10">
-                <p className="text-sm text-gray-500 mb-4">Includes:</p>
+              {/* White right panel */}
+              <div className="bg-white px-6 py-8 sm:px-8 sm:py-10 flex-1">
+                <p className="text-sm text-gray-500 mb-5">Includes:</p>
                 <ul className="space-y-3" aria-label="Single School License includes">
                   {includes.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-gray-700">
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05]" aria-hidden="true" />
+                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
+                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -70,24 +73,24 @@ export default function Licensing() {
           </div>
 
           {/* Card 2 */}
-          <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-            <div className="grid grid-cols-1 sm:grid-cols-[280px_1fr]">
-              {/* Left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-6 py-10 text-center sm:border-r border-gray-200">
+          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="flex flex-col sm:flex-row">
+              {/* Cream left panel */}
+              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-8 py-10 text-center sm:w-[260px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
                 <h2 className="text-lg font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
                 <p className="text-sm text-gray-500 mb-8">billed annually</p>
-                <button className="w-full max-w-[220px] bg-[#f5bf05] hover:bg-[#e6b100] text-black px-6 py-3 rounded-xl font-bold text-base transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
+                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black px-6 py-3 rounded-xl font-bold text-base transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
                   Buy License
                 </button>
               </div>
-              {/* Right panel */}
-              <div className="bg-white px-6 py-8 sm:px-8 sm:py-10">
-                <p className="text-sm text-gray-500 mb-4">Includes:</p>
+              {/* White right panel */}
+              <div className="bg-white px-6 py-8 sm:px-8 sm:py-10 flex-1">
+                <p className="text-sm text-gray-500 mb-5">Includes:</p>
                 <ul className="space-y-3" aria-label="Multi-School License includes">
                   {includes.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-gray-700">
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05]" aria-hidden="true" />
+                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
+                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -98,14 +101,14 @@ export default function Licensing() {
 
         </div>
 
-        {/* Right: Poster */}
-        <div className="flex justify-center lg:justify-end lg:sticky lg:top-24">
-          <div className="w-full max-w-[300px] sm:max-w-[320px] aspect-[0.72] relative rounded-2xl shadow-lg overflow-hidden">
+        {/* Right: Poster — spans full height of both cards */}
+        <div className="flex-shrink-0 flex items-stretch justify-center lg:justify-end">
+          <div className="w-full max-w-[300px] lg:w-[300px] lg:max-w-none relative rounded-2xl shadow-lg overflow-hidden self-stretch min-h-[400px]">
             <Image
               src="/images/licensing-poster.png"
               alt="Remember Me — A Roshe Studios animated short film poster"
               fill
-              className="object-cover"
+              className="object-cover object-top"
             />
           </div>
         </div>
