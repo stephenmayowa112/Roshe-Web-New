@@ -11,10 +11,10 @@ export default function Licensing() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-24">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[35vh] md:h-[45vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16" aria-label="Hero Banner">
-        <Image src="/images/licensing-hero.png" alt="Licensing banner featuring a classroom or educational setting" fill className="object-cover" referrerPolicy="no-referrer" priority />
+      <section className="w-full max-w-7xl mx-auto relative h-[42svh] min-h-[360px] md:h-[45vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16 px-4" aria-label="Hero Banner">
+        <Image src="/images/licensing-hero.png" alt="Licensing banner featuring a classroom or educational setting" fill className="object-cover object-center" referrerPolicy="no-referrer" priority />
         <div className="absolute inset-0 bg-black/40" aria-hidden="true"></div>
-        <h1 className="relative z-10 text-white text-3xl md:text-5xl font-bold text-center px-4 max-w-4xl leading-tight drop-shadow-md">
+        <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-bold text-center max-w-4xl leading-tight drop-shadow-md">
           A Remembrance Day teaching resource +<br />emotional learning experience
         </h1>
       </section>

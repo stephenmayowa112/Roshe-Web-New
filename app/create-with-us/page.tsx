@@ -10,9 +10,9 @@ export default function CreateWithUs() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-20">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16" aria-label="Create With Us Header">
-        <Image src="/images/create-hero.png" alt="Creative abstract banner background" fill className="object-cover mix-blend-multiply opacity-80 bg-green-900" referrerPolicy="no-referrer" priority />
-        <h1 className="relative z-10 text-white text-4xl md:text-5xl font-medium drop-shadow-md">
+      <section className="w-full max-w-7xl mx-auto relative h-[34svh] min-h-[320px] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16 px-4" aria-label="Create With Us Header">
+        <Image src="/images/create-hero.png" alt="Creative abstract banner background" fill className="object-cover object-center mix-blend-multiply opacity-80 bg-green-900" referrerPolicy="no-referrer" priority />
+        <h1 className="relative z-10 text-white text-3xl sm:text-4xl md:text-5xl font-medium text-center drop-shadow-md">
           Create With Us
         </h1>
       </section>
