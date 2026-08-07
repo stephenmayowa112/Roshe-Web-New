@@ -24,13 +24,13 @@ const contacts = [
     title: 'New Business Enquiries',
     description:
       "If you'd like to talk to us about hiring our services to create an animation we'd love to chat!",
-    email: 'peter@roshestudios.co.uk',
+    email: 'omobolaji.moses@roshestudios.co.uk',
   },
   {
     title: 'Admin Enquiries',
     description:
       'Got a question about working at Roshe Studios? Please send your questions to the following email.',
-    email: 'helen@roshestudios.co.uk',
+    email: 'helen.moses@roshestudios.co.uk',
   },
 ];
 
@@ -48,7 +48,7 @@ export default function Contact() {
         </h1>
         <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80" aria-hidden="true">
           <Image
-            src="/images/philosophy-hero.png"
+            src="/images/contactusLogo.png"
             alt="Roshe Studios mascot"
             fill
             sizes="(max-width: 1024px) 192px, 256px"

@@ -21,7 +21,7 @@ export default function Philosophy() {
           Roshe Studios Philosophy
         </h1>
         <div className="hidden md:block relative w-48 h-48 lg:w-64 lg:h-64 opacity-80" aria-hidden="true">
-          <Image src="/images/philosophy-hero.png" alt="Roshe Studios mascot logo" fill sizes="(max-width: 1024px) 192px, 256px" className="object-contain" priority />
+          <Image src="/images/contactusLogo.png" alt="Roshe Studios mascot logo" fill sizes="(max-width: 1024px) 192px, 256px" className="object-contain" priority />
         </div>
       </section>
 

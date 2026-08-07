@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     template: '%s | Roshe Studios',
     default: 'Roshe Studios | Animated Short Films',
   },
-  description: 'Roshe Studios is an animation studio creating meaningful, educational, and emotionally honest short films and series like Remember Me, New Age, and Seasonlings.',
-  keywords: ['animation', 'short films', 'Roshe Studios', 'Remember Me', 'New Age', 'Seasonlings', 'animated films', 'UK animation studio'],
+  description: 'Roshe Studios is an award-aspiring UK animation studio creating meaningful, educational, and emotionally honest animated short films and series — including Remember Me, New Age, and Seasonlings.',
+  keywords: ['animation', 'short films', 'Roshe Studios', 'Remember Me', 'New Age', 'Seasonlings', 'animated films', 'UK animation studio', 'educational animation', 'animated short film UK'],
   authors: [{ name: 'Roshe Studios', url: BASE_URL }],
   creator: 'Roshe Studios',
   publisher: 'Roshe Studios',
@@ -63,7 +63,8 @@ const orgSchema = {
   logo: `${BASE_URL}/images/logo.png`,
   contactPoint: [
     { '@type': 'ContactPoint', email: 'info@roshestudios.co.uk', contactType: 'customer support' },
-    { '@type': 'ContactPoint', email: 'peter@roshestudios.co.uk', contactType: 'sales' },
+    { '@type': 'ContactPoint', email: 'omobolaji.moses@roshestudios.co.uk', contactType: 'sales' },
+    { '@type': 'ContactPoint', email: 'helen.moses@roshestudios.co.uk', contactType: 'administration' },
   ],
   sameAs: [
     'https://www.instagram.com/roshestudios',
