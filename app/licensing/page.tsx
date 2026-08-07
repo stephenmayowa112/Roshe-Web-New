@@ -24,46 +24,100 @@ export default function Licensing() {
         {/* Left Col: Pricing Cards */}
         <div className="flex flex-col gap-8">
           {/* Card 1 */}
-          <div className="bg-orange-50/50 rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm border border-orange-100/50">
-            <div className="flex flex-col items-center text-center md:w-1/2">
-              <h2 className="text-xl font-bold mb-4 text-gray-900">Single School License</h2>
-              <p className="text-5xl font-black mb-2">£200</p>
-              <p className="text-sm text-gray-600 mb-6">billed annually</p>
-              <button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-md font-bold shadow-sm transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-600">
-                Buy License
-              </button>
-            </div>
-            <div className="flex flex-col md:w-1/2">
-              <p className="text-sm text-gray-500 mb-4 font-medium" id="single-school-includes">Includes:</p>
-              <ul className="space-y-4 text-sm text-gray-800" aria-labelledby="single-school-includes">
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> 6 minutes 2D original animation</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Assembly Script</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Teachers guide</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Student Worksheet</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> 24/7 support and consulting</li>
-              </ul>
+          <div className="overflow-hidden rounded-[24px] border border-black/5 bg-white shadow-[0_18px_40px_rgba(0,0,0,0.08)]">
+            <div className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr]">
+              <div className="flex flex-col items-center justify-center bg-[#fbf4de] px-6 py-12 text-center md:px-10 md:py-16 md:border-r md:border-black/5">
+                <h2 className="text-2xl md:text-[1.7rem] font-semibold tracking-tight text-gray-900 mb-8">Single School License</h2>
+                <p className="text-6xl md:text-7xl font-black leading-none text-gray-900 mb-8">£200</p>
+                <p className="text-lg text-gray-700 mb-10">billed annually</p>
+                <button className="min-w-[220px] bg-[#f5bf05] hover:bg-[#e6b100] text-black px-8 py-4 rounded-xl font-extrabold text-xl shadow-[0_8px_18px_rgba(245,191,5,0.2)] transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-600">
+                  Buy License
+                </button>
+              </div>
+              <div className="bg-white px-6 py-10 md:px-10 md:py-12">
+                <p className="text-2xl font-medium text-gray-600 mb-8" id="single-school-includes">Includes:</p>
+                <ul className="space-y-6 text-lg text-gray-600" aria-labelledby="single-school-includes">
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>6 minutes 2D original animation</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Assembly Script</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Teachers guide</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Student Worksheet</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>24/7 support and consulting</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-orange-50/50 rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm border border-orange-100/50">
-            <div className="flex flex-col items-center text-center md:w-1/2">
-              <h2 className="text-xl font-bold mb-4 text-gray-900">Multi-School / Trust Licence</h2>
-              <p className="text-5xl font-black mb-2">£700</p>
-              <p className="text-sm text-gray-600 mb-6">billed annually</p>
-              <button className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-md font-bold shadow-sm transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-600">
-                Buy License
-              </button>
-            </div>
-            <div className="flex flex-col md:w-1/2">
-              <p className="text-sm text-gray-500 mb-4 font-medium" id="multi-school-includes">Includes:</p>
-              <ul className="space-y-4 text-sm text-gray-800" aria-labelledby="multi-school-includes">
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> 6 minutes 2D original animation</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Assembly Script</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Teachers guide</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> Remembrance Day Student Worksheet</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" /> 24/7 support and consulting</li>
-              </ul>
+          <div className="overflow-hidden rounded-[24px] border border-black/5 bg-white shadow-[0_18px_40px_rgba(0,0,0,0.08)]">
+            <div className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr]">
+              <div className="flex flex-col items-center justify-center bg-[#fbf4de] px-6 py-12 text-center md:px-10 md:py-16 md:border-r md:border-black/5">
+                <h2 className="text-2xl md:text-[1.7rem] font-semibold tracking-tight text-gray-900 mb-8">Multi-School / Trust Licence</h2>
+                <p className="text-6xl md:text-7xl font-black leading-none text-gray-900 mb-8">£700</p>
+                <p className="text-lg text-gray-700 mb-10">billed annually</p>
+                <button className="min-w-[220px] bg-[#f5bf05] hover:bg-[#e6b100] text-black px-8 py-4 rounded-xl font-extrabold text-xl shadow-[0_8px_18px_rgba(245,191,5,0.2)] transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-600">
+                  Buy License
+                </button>
+              </div>
+              <div className="bg-white px-6 py-10 md:px-10 md:py-12">
+                <p className="text-2xl font-medium text-gray-600 mb-8" id="multi-school-includes">Includes:</p>
+                <ul className="space-y-6 text-lg text-gray-600" aria-labelledby="multi-school-includes">
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>6 minutes 2D original animation</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Assembly Script</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Teachers guide</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>Remembrance Day Student Worksheet</span>
+                  </li>
+                  <li className="flex items-start gap-5">
+                    <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#f5bf05] text-white shadow-sm" aria-hidden="true">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </span>
+                    <span>24/7 support and consulting</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
