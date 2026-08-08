@@ -26,9 +26,9 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+        <nav className="hidden md:flex items-center gap-8">
           <div className="relative group">
-            <button aria-haspopup="true" className="flex items-center gap-1 hover:text-yellow-500 uppercase pb-8 -mb-8 pt-8 -mt-8 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">
+            <button aria-haspopup="true" className="flex items-center gap-1 font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 pb-8 -mb-8 pt-8 -mt-8 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm tracking-normal">
               FILMS
             </button>
             <div className="absolute left-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
@@ -40,12 +40,12 @@ export default function Navbar() {
             </div>
           </div>
           
-          <Link href="/shop" className="hover:text-yellow-500 uppercase focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">SHOP</Link>
-          <Link href="/create-with-us" className="hover:text-yellow-500 uppercase focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">CREATE WITH US</Link>
-          <Link href="/licensing" className="hover:text-yellow-500 uppercase focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">LICENSING</Link>
+          <Link href="/shop" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm tracking-normal">SHOP</Link>
+          <Link href="/create-with-us" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm tracking-normal">CREATE WITH US</Link>
+          <Link href="/licensing" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm tracking-normal">LICENSING</Link>
           
           <div className="relative group">
-            <button aria-haspopup="true" className="flex items-center gap-1 hover:text-yellow-500 uppercase pb-8 -mb-8 pt-8 -mt-8 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm">
+            <button aria-haspopup="true" className="flex items-center gap-1 font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 pb-8 -mb-8 pt-8 -mt-8 focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-sm tracking-normal">
               MORE
             </button>
             <div className="absolute right-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
