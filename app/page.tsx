@@ -35,7 +35,7 @@ export default function Home() {
       </section>
 
       {/* Cards Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 mb-20" aria-label="Featured Films">
+      <section className="w-full max-w-6xl mx-auto px-4 mt-16 mb-20" aria-label="Featured Films">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {/* Card 1 */}
           <Link href="/films/remember-me" className="flex flex-col group cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-500 rounded-lg overflow-hidden">
