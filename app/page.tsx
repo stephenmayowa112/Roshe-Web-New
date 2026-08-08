@@ -101,7 +101,7 @@ export default function Home() {
         />
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full h-full bg-black/20">
           <Image
-            src="/images/remember-me-logo.png"
+            src="/images/remember-me-logo1.png"
             alt="Remember Me title logo"
             width={200}
             height={100}
@@ -127,7 +127,7 @@ export default function Home() {
       {/* Shop Banner */}
       <section className="w-full max-w-7xl mx-auto mb-20 relative h-[400px] overflow-hidden flex items-center bg-yellow-400" aria-label="Shop">
         <Image
-          src="/images/home-banner-shop.png"
+          src="/images/shopStories.png"
           alt="Shop Roshe Studios merchandise"
           fill
           sizes="(max-width: 1280px) 100vw, 1280px"
