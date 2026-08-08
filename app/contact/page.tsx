@@ -98,27 +98,70 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Image + Address */}
+      {/* Contact Image + Form */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
-        aria-label="Location"
+        className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
+        aria-label="Contact Form"
       >
+        {/* Left: Image */}
         <div className="flex justify-center md:justify-start">
-          <div className="w-full max-w-[450px] aspect-[4/5] relative overflow-hidden shadow-xl rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-none rounded-br-none">
+          <div className="w-full max-w-[380px] aspect-[4/5] relative overflow-hidden shadow-xl rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-none rounded-br-none">
             <Image
               src="/images/contactusimage.png"
-              alt="A warmly lit room representing Roshe Studios workspace"
+              alt="Roshe Studios neighbourhood scene"
               fill
-              sizes="(max-width: 768px) 100vw, 450px"
+              sizes="(max-width: 768px) 100vw, 380px"
               className="object-cover"
             />
           </div>
         </div>
-        <address className="text-gray-900 text-lg not-italic">
-          <p className="font-bold mb-1">Based in</p>
-          <p>Stockport,</p>
-          <p>Manchester, UK.</p>
-        </address>
+
+        {/* Right: Heading + Form + Address */}
+        <div className="flex flex-col pt-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-10">Contact Us</h2>
+
+          <div className="flex gap-12">
+            <form className="flex-1 space-y-8" aria-label="Contact form">
+              <div className="flex flex-col">
+                <label htmlFor="fullName" className="text-gray-400 text-base mb-1">Full Name</label>
+                <input
+                  id="fullName" name="fullName" type="text" required
+                  aria-required="true"
+                  className="border-b-2 border-gray-900 bg-transparent pb-2 focus:outline-none focus:border-yellow-500 transition-colors text-base"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="email" className="text-gray-400 text-base mb-1">E-mail</label>
+                <input
+                  id="email" name="email" type="email" required
+                  aria-required="true"
+                  className="border-b-2 border-gray-900 bg-transparent pb-2 focus:outline-none focus:border-yellow-500 transition-colors text-base"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="message" className="text-gray-400 text-base mb-1">Message</label>
+                <input
+                  id="message" name="message" type="text" required
+                  aria-required="true"
+                  className="border-b-2 border-gray-900 bg-transparent pb-2 focus:outline-none focus:border-yellow-500 transition-colors text-base"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-black text-white py-4 rounded-full font-medium text-base hover:bg-gray-800 transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500 mt-4"
+              >
+                Contact Us
+              </button>
+            </form>
+
+            {/* Address */}
+            <address className="text-gray-900 text-base not-italic shrink-0 pt-1">
+              <p className="font-bold mb-1">Based in</p>
+              <p>Stockport,</p>
+              <p>Manchester, UK.</p>
+            </address>
+          </div>
+        </div>
       </section>
 
     </main>
