@@ -101,7 +101,7 @@ export default function Home() {
         />
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full h-full bg-black/20">
           <Image
-            src="/images/inneRememberme.png"
+            src="/images/remember-me-logo.png"
             alt="Remember Me title logo"
             width={200}
             height={100}
@@ -109,9 +109,14 @@ export default function Home() {
           />
           <h2 className="text-white text-xl md:text-3xl font-medium mb-8 drop-shadow-md">Screening in Cinemas this November</h2>
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500">
-              BOOK TICKETS
-            </button>
+            <a
+                href="https://www.eventbrite.co.uk/e/remember-me-private-remembrance-day-short-film-screening-tickets-1997141906203?aff=oddtdtcreator"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
+              >
+                BOOK TICKETS
+              </a>
             <button className="bg-transparent border border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-yellow-500">
               WATCH TRAILER
             </button>
