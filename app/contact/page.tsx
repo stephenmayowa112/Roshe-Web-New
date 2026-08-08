@@ -104,7 +104,7 @@ export default function Contact() {
         aria-label="Location"
       >
         <div className="flex justify-center md:justify-start">
-          <div className="w-full max-w-[450px] aspect-[4/5] relative overflow-hidden rounded-[2rem] shadow-xl">
+          <div className="w-full max-w-[450px] aspect-[4/5] relative overflow-hidden shadow-xl rounded-tr-[2rem] rounded-bl-[2rem] rounded-tl-none rounded-br-none">
             <Image
               src="/images/contactusimage.png"
               alt="A warmly lit room representing Roshe Studios workspace"
