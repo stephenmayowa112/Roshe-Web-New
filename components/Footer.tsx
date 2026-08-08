@@ -35,11 +35,10 @@ export default function Footer() {
           <Link href="/about" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded px-1">LEADERSHIP</Link>
           <Link href="/contact" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded px-1">GET IN TOUCH</Link>
         </nav>
-      </div>
-
-      <div className="w-full bg-white text-black py-4 text-center text-xs mt-8">
-        <p>Reg No. 16696126 England</p>
-        <p className="mt-1">© Roshe Studios LTD and its related entities. All Rights Reserved.</p>
+        <div className="text-center text-xs text-gray-400 mt-4 pb-4">
+          <p>Reg No. 16696126 England</p>
+          <p className="mt-1">© Roshe Studios LTD and its related entities. All Rights Reserved.</p>
+        </div>
       </div>
     </footer>
   );
