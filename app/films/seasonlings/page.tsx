@@ -58,7 +58,7 @@ export default function Seasonlings() {
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
-        <div className="w-full md:w-[400px] flex-shrink-0 bg-gray-800 p-8 rounded shadow-lg flex items-center justify-center relative min-h-[350px]">
+        <div className="w-full md:w-[400px] flex-shrink-0 relative min-h-[350px]">
           <Image
             src="/images/seasonlings-poster.png"
             alt="Seasonlings series poster"
