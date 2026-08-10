@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-:root {
-  --font-sans: 'Poppins', sans-serif;
+@theme {
+  --font-sans: var(--font-sans, 'Poppins', sans-serif);
 }
 
 html,
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans, 'Poppins', sans-serif);
   margin: 0;
 }

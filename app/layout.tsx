@@ -94,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className="flex flex-col min-h-screen font-sans text-gray-900 bg-gray-50" suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen font-sans text-gray-900 bg-gray-50" style={{ fontFamily: "'Poppins', sans-serif" }} suppressHydrationWarning>
         <Navbar />
         <div className="flex-grow flex flex-col">
           {children}
