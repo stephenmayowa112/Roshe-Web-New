@@ -107,9 +107,9 @@ export default function Home() {
           <Image
             src="/images/nowThatYouRemember.png"
             alt="Remember Me title logo"
-            width={200}
-            height={100}
-            className="h-20 md:h-28 mb-4 w-auto object-contain"
+            width={100}
+            height={75}
+            className="h-12 md:h-16 mb-4 w-auto object-contain"
           />
           <h2 className="text-white text-xl md:text-3xl font-medium mb-8 drop-shadow-md">Screening in Cinemas this November</h2>
           <div className="flex flex-wrap gap-4 justify-center">
@@ -121,9 +121,14 @@ export default function Home() {
               >
                 BOOK TICKETS
               </a>
-            <button className="bg-transparent border border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-yellow-500">
+            <a
+              href="https://youtu.be/OyTX6W5XZDs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-transparent border border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-yellow-500"
+            >
               WATCH TRAILER
-            </button>
+            </a>
           </div>
         </div>
       </section>
