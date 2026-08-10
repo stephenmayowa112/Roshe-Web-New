@@ -22,16 +22,20 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
-      {/* Hero Section */}
-      <section className="w-full relative h-[72svh] min-h-[520px] md:h-screen bg-white flex items-center justify-center overflow-hidden">
-        <Image
-          src="/images/home-hero.png"
-          alt="Remember Me — Roshe Studios animated short film"
-          fill
-          sizes="100vw"
-          className="object-cover object-[center_22%] md:object-contain"
-          priority
-        />
+      {/* Hero Section — Remember Me Trailer */}
+      <section className="w-full bg-black flex items-center justify-center">
+        <div className="w-full max-w-5xl mx-auto px-0">
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=0"
+              title="Remember Me — Official Trailer | Roshe Studios"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+              loading="lazy"
+            />
+          </div>
+        </div>
       </section>
 
       {/* Cards Section */}
