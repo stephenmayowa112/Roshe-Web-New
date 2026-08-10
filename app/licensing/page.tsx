@@ -52,7 +52,7 @@ export default function Licensing() {
 
       {/* Pricing + Poster */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-stretch"
+        className="w-full max-w-6xl mx-auto px-2 sm:px-3 flex flex-col lg:flex-row gap-4 items-stretch"
         aria-label="Licensing Options"
       >
         {/* Left: Pricing Cards stacked */}
