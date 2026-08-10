@@ -55,7 +55,7 @@ export default function NewAge() {
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
         <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
           <Image
-            src="/images/new-age-poster.png"
+            src="/images/card-new-age.png"
             alt="New Age movie poster"
             fill
             sizes="(max-width: 768px) 100vw, 400px"
