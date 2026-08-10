@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section — Remember Me Trailer */}
-      <section className="w-full bg-black flex items-center justify-center">
+      <section className="w-full bg-white flex items-center justify-center">
         <div className="w-full max-w-5xl mx-auto px-0">
           <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
             <iframe
