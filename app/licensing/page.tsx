@@ -116,13 +116,13 @@ export default function Licensing() {
 
         {/* Right: Poster — spans full height of both cards */}
         <div className="flex-shrink-0 flex items-stretch justify-center lg:justify-end">
-          <div className="w-full max-w-[300px] lg:w-[300px] lg:max-w-none relative rounded-2xl shadow-lg overflow-hidden self-stretch min-h-[400px]">
+          <div className="w-full max-w-[300px] lg:w-[320px] lg:max-w-none relative rounded-2xl shadow-lg overflow-hidden self-stretch min-h-[400px] bg-[#f5e6c8]">
             <Image
               src="/images/licensing-poster.png"
               alt="Remember Me — A Roshe Studios animated short film poster"
               fill
               sizes="(max-width: 768px) 300px, 320px"
-              className="object-cover object-top"
+              className="object-contain"
             />
           </div>
         </div>
