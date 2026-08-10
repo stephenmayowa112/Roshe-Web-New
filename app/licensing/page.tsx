@@ -27,35 +27,6 @@ const includes = [
   '24/7 support and consulting',
 ];
 
-function PricingCard({ title, price }: { title: string; price: string }) {
-  return (
-    <div className="bg-[#fffdf0] rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row overflow-hidden">
-      {/* Left: price block */}
-      <div className="flex flex-col items-center justify-center text-center px-8 py-8 sm:w-[240px] shrink-0">
-        <h2 className="text-base font-bold text-gray-900 mb-3">{title}</h2>
-        <p className="text-6xl font-black text-gray-900 leading-none mb-2">{price}</p>
-        <p className="text-sm text-gray-500 mb-6">billed annually</p>
-        <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
-          Buy License
-        </button>
-      </div>
-
-      {/* Right: includes list */}
-      <div className="flex flex-col justify-center px-6 py-8 flex-1">
-        <p className="text-sm text-gray-500 mb-4">Includes:</p>
-        <ul className="space-y-3">
-          {includes.map((item) => (
-            <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
-              <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 export default function Licensing() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-24">
@@ -81,18 +52,71 @@ export default function Licensing() {
 
       {/* Pricing + Poster */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-start"
+        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-stretch"
         aria-label="Licensing Options"
       >
-        {/* Left: stacked pricing cards */}
+        {/* Left: stacked pricing cards — flex-1 so they fill available width */}
         <div className="flex flex-col gap-6 flex-1">
-          <PricingCard title="Single School License" price="£200" />
-          <PricingCard title="Multi-School / Trust Licence" price="£700" />
+
+          {/* Card 1 */}
+          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
+            <div className="flex flex-col sm:flex-row w-full flex-1">
+              {/* Cream left panel */}
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[240px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
+                <h2 className="text-base font-bold text-gray-900 mb-3">Single School License</h2>
+                <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
+                <p className="text-sm text-gray-500 mb-6">billed annually</p>
+                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
+                  Buy License
+                </button>
+              </div>
+              {/* White right panel */}
+              <div className="bg-white px-8 py-8 flex flex-col justify-center flex-1">
+                <p className="text-sm text-gray-500 mb-4">Includes:</p>
+                <ul className="space-y-3" aria-label="Single School License includes">
+                  {includes.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
+                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
+            <div className="flex flex-col sm:flex-row w-full flex-1">
+              {/* Cream left panel */}
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[240px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
+                <h2 className="text-base font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h2>
+                <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
+                <p className="text-sm text-gray-500 mb-6">billed annually</p>
+                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
+                  Buy License
+                </button>
+              </div>
+              {/* White right panel */}
+              <div className="bg-white px-8 py-8 flex flex-col justify-center flex-1">
+                <p className="text-sm text-gray-500 mb-4">Includes:</p>
+                <ul className="space-y-3" aria-label="Multi-School License includes">
+                  {includes.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
+                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Right: Poster */}
-        <div className="flex-shrink-0 w-full lg:w-[320px] flex justify-center lg:justify-end">
-          <div className="w-full max-w-[320px] aspect-[3/4] relative rounded-2xl shadow-lg overflow-hidden">
+        {/* Right: Poster — stretches to match height of both cards */}
+        <div className="flex-shrink-0 w-full lg:w-[320px] flex self-stretch">
+          <div className="w-full relative rounded-2xl shadow-lg overflow-hidden">
             <Image
               src="/images/licensing-poster.png"
               alt="Remember Me — A Roshe Studios animated short film poster"
