@@ -27,6 +27,35 @@ const includes = [
   '24/7 support and consulting',
 ];
 
+function PricingCard({ title, price }: { title: string; price: string }) {
+  return (
+    <div className="bg-[#fffdf0] rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row overflow-hidden">
+      {/* Left: price block */}
+      <div className="flex flex-col items-center justify-center text-center px-8 py-8 sm:w-[240px] shrink-0">
+        <h2 className="text-base font-bold text-gray-900 mb-3">{title}</h2>
+        <p className="text-6xl font-black text-gray-900 leading-none mb-2">{price}</p>
+        <p className="text-sm text-gray-500 mb-6">billed annually</p>
+        <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
+          Buy License
+        </button>
+      </div>
+
+      {/* Right: includes list */}
+      <div className="flex flex-col justify-center px-6 py-8 flex-1">
+        <p className="text-sm text-gray-500 mb-4">Includes:</p>
+        <ul className="space-y-3">
+          {includes.map((item) => (
+            <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 export default function Licensing() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-24">
@@ -52,77 +81,24 @@ export default function Licensing() {
 
       {/* Pricing + Poster */}
       <section
-        className="w-full max-w-6xl mx-auto px-2 sm:px-3 flex flex-col lg:flex-row gap-4 items-stretch"
+        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-start"
         aria-label="Licensing Options"
       >
-        {/* Left: Pricing Cards stacked */}
+        {/* Left: stacked pricing cards */}
         <div className="flex flex-col gap-6 flex-1">
-
-          {/* Card 1 */}
-          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="flex flex-col sm:flex-row">
-              {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-5 py-6 text-center sm:w-[220px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
-                <h2 className="text-base font-bold text-gray-900 mb-2">Single School License</h2>
-                <p className="text-5xl font-black text-gray-900 leading-none mb-1">£200</p>
-                <p className="text-xs text-gray-500 mb-5">billed annually</p>
-                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black px-4 py-2 rounded-xl font-bold text-sm transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
-                  Buy License
-                </button>
-              </div>
-              {/* White right panel */}
-              <div className="bg-white px-4 py-5 sm:px-6 sm:py-6 flex-1">
-                <p className="text-sm text-gray-500 mb-5">Includes:</p>
-                <ul className="space-y-3" aria-label="Single School License includes">
-                  {includes.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="flex flex-col sm:flex-row">
-              {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffbea] px-5 py-6 text-center sm:w-[220px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
-                <h2 className="text-base font-bold text-gray-900 mb-2">Multi-School / Trust Licence</h2>
-                <p className="text-5xl font-black text-gray-900 leading-none mb-1">£700</p>
-                <p className="text-xs text-gray-500 mb-5">billed annually</p>
-                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black px-4 py-2 rounded-xl font-bold text-sm transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-400">
-                  Buy License
-                </button>
-              </div>
-              {/* White right panel */}
-              <div className="bg-white px-4 py-5 sm:px-6 sm:py-6 flex-1">
-                <p className="text-sm text-gray-500 mb-5">Includes:</p>
-                <ul className="space-y-3" aria-label="Multi-School License includes">
-                  {includes.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
-                      <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
+          <PricingCard title="Single School License" price="£200" />
+          <PricingCard title="Multi-School / Trust Licence" price="£700" />
         </div>
 
-        {/* Right: Poster — spans full height of both cards */}
-        <div className="flex-shrink-0 flex items-stretch justify-center lg:justify-end">
-          <div className="w-full max-w-[300px] lg:w-[320px] lg:max-w-none relative rounded-2xl shadow-lg overflow-hidden self-stretch min-h-[400px] bg-[#f5e6c8]">
+        {/* Right: Poster */}
+        <div className="flex-shrink-0 w-full lg:w-[320px] flex justify-center lg:justify-end">
+          <div className="w-full max-w-[320px] aspect-[3/4] relative rounded-2xl shadow-lg overflow-hidden">
             <Image
               src="/images/licensing-poster.png"
               alt="Remember Me — A Roshe Studios animated short film poster"
               fill
-              sizes="(max-width: 768px) 300px, 320px"
-              className="object-contain"
+              sizes="320px"
+              className="object-cover"
             />
           </div>
         </div>
