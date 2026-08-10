@@ -56,7 +56,7 @@ export default function RememberMe() {
             alt="Remember Me title logo"
             width={300}
             height={120}
-            className="h-24 md:h-32 mb-8 w-auto object-contain"
+            className="h-16 md:h-20 mb-8 w-auto object-contain"
             priority
           />
           <div className="flex flex-wrap gap-4 justify-center">
