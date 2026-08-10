@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="text-sm">
       {/* Black section with blue top border */}
-      <div className="bg-black text-white pt-12 pb-10 border-t-4 border-blue-500">
+      <div className="bg-black text-white pt-12 pb-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center text-center">
 
           {/* Follow */}
