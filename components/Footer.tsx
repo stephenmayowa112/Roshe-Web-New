@@ -35,7 +35,7 @@ export default function Footer() {
             <Link href="/create-with-us" className="hover:text-white transition-colors">CREATE WITH US</Link>
             <Link href="/licensing" className="hover:text-white transition-colors">LICENSING</Link>
             <Link href="/philosophy" className="hover:text-white transition-colors">OUR PHILOSOPHY</Link>
-            <Link href="/about" className="hover:text-white transition-colors">LEADERSHIP</Link>
+            <Link href="/about" className="hover:text-white transition-colors">ABOUT US</Link>
             <Link href="/contact" className="hover:text-white transition-colors">GET IN TOUCH</Link>
           </nav>
 
