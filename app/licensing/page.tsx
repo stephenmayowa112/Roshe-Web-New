@@ -62,7 +62,7 @@ export default function Licensing() {
           <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
             <div className="flex flex-col sm:flex-row w-full flex-1">
               {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[240px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[280px] shrink-0">
                 <h2 className="text-base font-bold text-gray-900 mb-3">Single School License</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
@@ -89,7 +89,7 @@ export default function Licensing() {
           <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
             <div className="flex flex-col sm:flex-row w-full flex-1">
               {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[240px] shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200">
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[280px] shrink-0">
                 <h2 className="text-base font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
@@ -115,7 +115,7 @@ export default function Licensing() {
         </div>
 
         {/* Right: Poster — stretches to match height of both cards */}
-        <div className="flex-shrink-0 w-full lg:w-[320px] flex self-stretch">
+        <div className="flex-shrink-0 w-full lg:w-[380px] flex self-stretch">
           <div className="w-full relative rounded-2xl shadow-lg overflow-hidden">
             <Image
               src="/images/licensing-poster.png"
