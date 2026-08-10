@@ -51,14 +51,6 @@ export default function RememberMe() {
           priority
         />
         <div className="relative z-10 flex flex-col items-center justify-center pt-20">
-          <Image
-            src="/images/remember-me-logo.png"
-            alt="Remember Me title logo"
-            width={300}
-            height={120}
-            className="h-24 md:h-32 mb-8 w-auto object-contain"
-            priority
-          />
           <div className="flex flex-wrap gap-4 justify-center">
             <a
               href="https://www.eventbrite.co.uk/e/remember-me-private-remembrance-day-short-film-screening-tickets-1997141906203?aff=oddtdtcreator"
