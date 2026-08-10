@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: 'A 4K animated short film honouring the sacrifices behind every name remembered on Remembrance Day.',
     url: 'https://roshestudios.co.uk/films/remember-me',
     type: 'video.movie',
-    images: [{ url: '/images/remember-me-poster.png', width: 1200, height: 630, alt: 'Remember Me movie poster' }],
+    images: [{ url: '/images/remember-me-poster.png', width: 1200, height: 900, alt: 'Remember Me movie poster' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -77,13 +77,14 @@ export default function RememberMe() {
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
-        <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
+        <div className="w-full md:w-[400px] flex-shrink-0">
           <Image
             src="/images/remember-me-poster.png"
             alt="Remember Me movie poster featuring soldiers"
-            fill
+            width={400}
+            height={600}
+            className="w-full h-auto object-contain shadow-lg rounded"
             sizes="(max-width: 768px) 100vw, 400px"
-            className="object-cover shadow-lg rounded"
           />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
