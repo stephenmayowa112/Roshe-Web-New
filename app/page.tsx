@@ -105,7 +105,7 @@ export default function Home() {
         />
         <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full h-full bg-black/20">
           <Image
-            src="/images/remember-me-logo1.png"
+            src="/images/nowThatYouRemember.png"
             alt="Remember Me title logo"
             width={200}
             height={100}
