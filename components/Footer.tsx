@@ -11,11 +11,11 @@ export default function Footer() {
           {/* Follow */}
           <p className="mb-4 text-yellow-500 font-medium">Follow Roshe Studios on:</p>
           <div className="flex items-center gap-5 mb-10 text-yellow-500">
-            <Link href="#" aria-label="Instagram" className="hover:text-white transition-colors"><Instagram size={20} /></Link>
+            <Link href="https://www.instagram.com/roshe_studios?igsh=MWRpM3k2Zmtwd2xmdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-white transition-colors"><Instagram size={20} /></Link>
             <Link href="#" aria-label="TikTok" className="hover:text-white transition-colors">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
             </Link>
-            <Link href="#" aria-label="LinkedIn" className="hover:text-white transition-colors"><Linkedin size={20} /></Link>
+            <Link href="https://www.linkedin.com/company/roshestudios/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-white transition-colors"><Linkedin size={20} /></Link>
             <Link href="#" aria-label="YouTube" className="hover:text-white transition-colors"><Youtube size={20} /></Link>
             <Link href="#" aria-label="Facebook" className="hover:text-white transition-colors"><Facebook size={20} /></Link>
             <Link href="#" aria-label="Twitter / X" className="hover:text-white transition-colors"><Twitter size={20} /></Link>
