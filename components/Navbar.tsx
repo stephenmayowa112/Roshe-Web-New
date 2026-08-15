@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full bg-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 rounded-sm">
           <Image src="/images/logo.png" alt="Roshe Studios logo" width={160} height={40} className="h-8 w-auto object-contain" />
         </Link>
@@ -33,9 +33,9 @@ export default function Navbar() {
             </button>
             <div className="absolute left-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
               <div className="h-3 bg-yellow-400" />
-              <Link href="/films/remember-me" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Remember Me</Link>
-              <Link href="/films/new-age" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">New Age</Link>
-              <Link href="/films/seasonlings" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Seasonlings</Link>
+              <Link href="/films/remember-me" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Remember Me</Link>
+              <Link href="/films/new-age" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">New Age</Link>
+              <Link href="/films/seasonlings" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Seasonlings</Link>
             </div>
           </div>
 
@@ -49,9 +49,9 @@ export default function Navbar() {
             </button>
             <div className="absolute right-0 top-full mt-0 w-56 bg-black text-white opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 shadow-xl overflow-hidden">
               <div className="h-3 bg-yellow-400" />
-              <Link href="/philosophy" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Our Philosophy</Link>
-              <Link href="/about" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">About Us</Link>
-              <Link href="/contact" className="block px-6 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Get in Touch</Link>
+              <Link href="/philosophy" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Our Philosophy</Link>
+              <Link href="/about" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">About Us</Link>
+              <Link href="/contact" className="block px-5 py-4 text-white text-lg font-normal hover:bg-yellow-400 hover:text-black outline-none focus-visible:bg-yellow-400 focus-visible:text-black transition-colors">Get in Touch</Link>
             </div>
           </div>
         </nav>
@@ -59,7 +59,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <nav className="md:hidden bg-black text-white flex flex-col px-6 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
+        <nav className="md:hidden bg-black text-white flex flex-col px-5 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
           <div className="flex flex-col space-y-2 border-b border-gray-800 pb-4">
             <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Films</span>
             <Link href="/films/remember-me" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Remember Me</Link>

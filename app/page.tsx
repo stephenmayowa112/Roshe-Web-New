@@ -37,7 +37,7 @@ export default function Home() {
       </section>
 
       {/* Cards Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 mt-16 mb-20" aria-label="Featured Films">
+      <section className="w-full max-w-6xl mx-auto px-3 mt-16 mb-20" aria-label="Featured Films">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {/* Card 1 */}
           <Link href="/films/remember-me" className="flex flex-col group cursor-pointer focus:outline-none focus:ring-4 focus:ring-yellow-500 rounded-lg overflow-hidden">
@@ -101,7 +101,7 @@ export default function Home() {
           sizes="(max-width: 1280px) 100vw, 1280px"
           className="object-cover"
         />
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full h-full bg-black/20">
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-3 w-full h-full bg-black/20">
           <Image
             src="/images/nowThatYouRemember.png"
             alt="Remember Me title logo"
@@ -140,7 +140,7 @@ export default function Home() {
           sizes="(max-width: 1280px) 100vw, 1280px"
           className="object-cover mix-blend-multiply opacity-50"
         />
-        <div className="relative z-10 w-full max-w-xl px-12 md:px-20 text-left">
+        <div className="relative z-10 w-full max-w-xl px-10 md:px-16 text-left">
           <h2 className="text-black text-3xl md:text-5xl font-bold leading-tight mb-8">
             Shop the stories you love<br />for you and your family
           </h2>
