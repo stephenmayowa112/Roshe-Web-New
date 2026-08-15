@@ -4,26 +4,26 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Gallery images from rememberMe folder
+// Gallery images from rememberMe folder - using URL encoding for spaces
 const galleryImages = [
-  '/images/rememberMe/bg cityview.png',
-  '/images/rememberMe/bg close up 2.0.png',
-  '/images/rememberMe/bg flashback.3.png',
-  '/images/rememberMe/bg flashback.png',
-  '/images/rememberMe/bg flashback2.png',
-  '/images/rememberMe/bg flashback4.png',
-  '/images/rememberMe/bg flashback5.png',
-  '/images/rememberMe/bg flashback6.png',
-  '/images/rememberMe/bg gorton pub.png',
-  '/images/rememberMe/bg passage 1.png',
-  '/images/rememberMe/bg passage 2.png',
-  '/images/rememberMe/bg passage 3.png',
-  '/images/rememberMe/bg scene 1.png',
-  '/images/rememberMe/bg scene bus stop 2.0.png',
-  '/images/rememberMe/bg top shot.png',
+  '/images/rememberMe/bg%20cityview.png',
+  '/images/rememberMe/bg%20close%20up%202.0.png',
+  '/images/rememberMe/bg%20flashback.3.png',
+  '/images/rememberMe/bg%20flashback.png',
+  '/images/rememberMe/bg%20flashback2.png',
+  '/images/rememberMe/bg%20flashback4.png',
+  '/images/rememberMe/bg%20flashback5.png',
+  '/images/rememberMe/bg%20flashback6.png',
+  '/images/rememberMe/bg%20gorton%20pub.png',
+  '/images/rememberMe/bg%20passage%201.png',
+  '/images/rememberMe/bg%20passage%202.png',
+  '/images/rememberMe/bg%20passage%203.png',
+  '/images/rememberMe/bg%20scene%201.png',
+  '/images/rememberMe/bg%20scene%20bus%20stop%202.0.png',
+  '/images/rememberMe/bg%20top%20shot.png',
   '/images/rememberMe/bg.png',
   '/images/rememberMe/bg1.png',
-  '/images/rememberMe/WhatsApp Image 2026-03-08 at 16.25.13.jpeg'
+  '/images/rememberMe/WhatsApp%20Image%202026-03-08%20at%2016.25.13.jpeg'
 ];
 
 export default function GallerySection() {
