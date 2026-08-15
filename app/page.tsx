@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section — Remember Me Trailer */}
-      <section className="w-full h-screen bg-white flex items-center justify-center">
+      <section className="w-full h-[80vh] bg-white flex items-center justify-center">
         <div className="relative w-full h-full">
           <iframe
             src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=0"
