@@ -23,18 +23,16 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section — Remember Me Trailer */}
-      <section className="w-full bg-white flex items-center justify-center">
-        <div className="w-full max-w-5xl mx-auto px-0">
-          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=0"
-              title="Remember Me — Official Trailer | Roshe Studios"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full"
-              loading="lazy"
-            />
-          </div>
+      <section className="w-full h-screen bg-white flex items-center justify-center">
+        <div className="relative w-full h-full">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=0"
+            title="Remember Me — Official Trailer | Roshe Studios"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+          />
         </div>
       </section>
 
