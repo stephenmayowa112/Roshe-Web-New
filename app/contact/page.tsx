@@ -40,7 +40,7 @@ export default function Contact() {
 
       {/* Hero Banner */}
       <section
-        className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-8 md:px-24 mb-20 overflow-hidden"
+        className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-6 md:px-19 mb-20 overflow-hidden"
         aria-label="Contact Us Header"
       >
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-medium tracking-wide">
@@ -59,7 +59,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Cards */}
-      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-20" aria-label="Contact Enquiries">
+      <section className="w-full max-w-6xl mx-auto px-3 sm:px-5 mb-20" aria-label="Contact Enquiries">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {contacts.map(({ title, description, email }) => (
             <div
@@ -81,7 +81,7 @@ export default function Contact() {
       </section>
 
       {/* IP Development Notice */}
-      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 mb-20" aria-label="IP Development">
+      <section className="w-full max-w-6xl mx-auto px-3 sm:px-5 mb-20" aria-label="IP Development">
         <div className="rounded-2xl border border-gray-200 bg-[#fffbea] p-8 sm:p-10">
           <h2 className="text-lg font-bold text-gray-900 mb-4">IP Development</h2>
           <p className="text-sm text-gray-700 leading-relaxed mb-4">
@@ -100,7 +100,7 @@ export default function Contact() {
 
       {/* Contact Image + Form */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
+        className="w-full max-w-6xl mx-auto px-3 sm:px-5 grid grid-cols-1 md:grid-cols-2 gap-12 items-start"
         aria-label="Contact Form"
       >
         {/* Left: Image */}

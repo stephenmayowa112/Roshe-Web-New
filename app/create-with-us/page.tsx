@@ -22,7 +22,7 @@ export default function CreateWithUs() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-20">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[34svh] min-h-[320px] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16 px-4" aria-label="Create With Us Header">
+      <section className="w-full max-w-7xl mx-auto relative h-[34svh] min-h-[320px] md:h-[40vh] flex items-center justify-center bg-gray-200 overflow-hidden mb-16 px-3" aria-label="Create With Us Header">
         <Image src="/images/create-hero.png" alt="Creative abstract banner background" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover object-center mix-blend-multiply opacity-80 bg-green-900" priority />
         <h1 className="relative z-10 text-white text-3xl sm:text-4xl md:text-5xl font-medium text-center drop-shadow-md">
           Create With Us
@@ -30,7 +30,7 @@ export default function CreateWithUs() {
       </section>
 
       {/* Intro text */}
-      <section className="w-full max-w-4xl mx-auto px-4 text-center mb-16" aria-label="Introduction">
+      <section className="w-full max-w-4xl mx-auto px-3 text-center mb-16" aria-label="Introduction">
         <p className="text-xl md:text-2xl text-gray-900 leading-relaxed font-medium">
           Let’s bring your vision to life with our animation expertise.<br className="hidden md:block"/>
           From feature films, to series, explainers, animated ads, and brand storytelling.
@@ -42,7 +42,7 @@ export default function CreateWithUs() {
         {/* Feature Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
           <Image src="/images/create-feature.png" alt="Feature film production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
-          <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
+          <div className="relative z-10 px-6 md:px-16 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Feature Film</h2>
             <p className="text-lg">Showcase your story with high-quality animation.</p>
           </div>
@@ -50,7 +50,7 @@ export default function CreateWithUs() {
         {/* Short Film */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
           <Image src="/images/create-short.png" alt="Short film production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
-          <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
+          <div className="relative z-10 px-6 md:px-16 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">Short Film</h2>
             <p className="text-lg">Perfect for quick narratives that captivate.</p>
           </div>
@@ -58,7 +58,7 @@ export default function CreateWithUs() {
         {/* TV Series */}
         <div className="relative h-48 md:h-64 w-full flex items-center bg-gray-300 overflow-hidden">
           <Image src="/images/create-series.png" alt="TV series production showcase" fill sizes="(max-width: 1280px) 100vw, 1280px" className="object-cover opacity-80" />
-          <div className="relative z-10 px-8 md:px-20 text-white drop-shadow-md">
+          <div className="relative z-10 px-6 md:px-16 text-white drop-shadow-md">
             <h2 className="text-3xl font-bold mb-2">TV Series</h2>
             <p className="text-lg">Develop an ongoing series that entertains and engages.</p>
           </div>
@@ -66,7 +66,7 @@ export default function CreateWithUs() {
       </section>
 
       {/* Form and Why Partner */}
-      <section className="w-full max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-16" aria-label="Contact and Partnership Details">
+      <section className="w-full max-w-6xl mx-auto px-3 grid grid-cols-1 md:grid-cols-2 gap-16" aria-label="Contact and Partnership Details">
         {/* Form */}
         <div>
           <h2 className="text-xl font-bold mb-8 pr-12 text-gray-900 leading-tight">
@@ -91,7 +91,7 @@ export default function CreateWithUs() {
               <label htmlFor="projectDetails" className="sr-only">Tell us about your project</label>
               <textarea id="projectDetails" name="projectDetails" placeholder="Tell us about your project" rows={6} required aria-required="true" className="w-full border border-gray-300 p-3 rounded-sm focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 resize-y"></textarea>
             </div>
-            <button type="submit" className="bg-yellow-500 hover:bg-yellow-400 text-black px-10 py-3 rounded-sm font-semibold transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-yellow-600">
+            <button type="submit" className="bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-3 rounded-sm font-semibold transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-yellow-600">
               Send
             </button>
           </form>

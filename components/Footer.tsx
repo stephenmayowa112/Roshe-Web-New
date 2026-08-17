@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="text-sm">
       {/* Black section with blue top border */}
       <div className="bg-black text-white pt-12 pb-10">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center text-center">
+        <div className="max-w-7xl mx-auto px-3 flex flex-col items-center text-center">
 
           {/* Follow */}
           <p className="mb-4 text-yellow-500 font-medium">Follow Roshe Studios on:</p>

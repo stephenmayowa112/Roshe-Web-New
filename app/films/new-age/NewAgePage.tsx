@@ -72,7 +72,7 @@ export default function NewAgePage() {
       </section>
 
       {/* Details Section */}
-      <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
+      <section className="w-full max-w-5xl mx-auto px-3 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
         <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
           <Image
             src="/images/card-new-age.png"
@@ -107,7 +107,7 @@ export default function NewAgePage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="w-full max-w-7xl mx-auto px-3 pb-20" aria-label="Media Gallery">
+      <section className="w-full max-w-7xl mx-auto px-2 pb-20" aria-label="Media Gallery">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Gallery</h2>
           <p className="text-gray-600">Explore behind-the-scenes images from New Age</p>

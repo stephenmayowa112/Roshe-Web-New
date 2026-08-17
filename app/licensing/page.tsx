@@ -45,14 +45,14 @@ export default function Licensing() {
           priority
         />
         <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
-        <h1 className="relative z-10 text-white text-xl sm:text-2xl md:text-4xl font-bold text-center max-w-3xl px-4 leading-snug drop-shadow">
+        <h1 className="relative z-10 text-white text-xl sm:text-2xl md:text-4xl font-bold text-center max-w-3xl px-3 leading-snug drop-shadow">
           A Remembrance Day teaching resource +<br />emotional learning experience
         </h1>
       </section>
 
       {/* Pricing + Poster */}
       <section
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 items-stretch"
+        className="w-full max-w-6xl mx-auto px-3 sm:px-5 flex flex-col lg:flex-row gap-8 items-stretch"
         aria-label="Licensing Options"
       >
         {/* Left: stacked pricing cards — flex-1 so they fill available width */}
@@ -62,7 +62,7 @@ export default function Licensing() {
           <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
             <div className="flex flex-col sm:flex-row w-full flex-1">
               {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[280px] shrink-0">
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-6 py-8 text-center sm:w-[280px] shrink-0">
                 <h2 className="text-base font-bold text-gray-900 mb-3">Single School License</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
@@ -71,7 +71,7 @@ export default function Licensing() {
                 </button>
               </div>
               {/* White right panel */}
-              <div className="bg-white px-8 py-8 flex flex-col justify-center flex-1">
+              <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
                 <p className="text-sm text-gray-500 mb-4">Includes:</p>
                 <ul className="space-y-3" aria-label="Single School License includes">
                   {includes.map((item) => (
@@ -89,7 +89,7 @@ export default function Licensing() {
           <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
             <div className="flex flex-col sm:flex-row w-full flex-1">
               {/* Cream left panel */}
-              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-8 py-8 text-center sm:w-[280px] shrink-0">
+              <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-6 py-8 text-center sm:w-[280px] shrink-0">
                 <h2 className="text-base font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
@@ -98,7 +98,7 @@ export default function Licensing() {
                 </button>
               </div>
               {/* White right panel */}
-              <div className="bg-white px-8 py-8 flex flex-col justify-center flex-1">
+              <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
                 <p className="text-sm text-gray-500 mb-4">Includes:</p>
                 <ul className="space-y-3" aria-label="Multi-School License includes">
                   {includes.map((item) => (

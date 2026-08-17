@@ -16,7 +16,7 @@ export default function Philosophy() {
   return (
     <main className="w-full bg-white flex flex-col items-center pb-24">
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-8 md:px-24 mb-20 overflow-hidden" aria-label="Philosophy Header">
+      <section className="w-full max-w-7xl mx-auto relative h-[30vh] md:h-[40vh] bg-black flex items-center justify-between px-6 md:px-19 mb-20 overflow-hidden" aria-label="Philosophy Header">
         <h1 className="relative z-10 text-white text-3xl md:text-5xl font-medium tracking-wide">
           Roshe Studios Philosophy
         </h1>
@@ -26,7 +26,7 @@ export default function Philosophy() {
       </section>
 
       {/* Grid */}
-      <section className="w-full max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16" aria-label="Our Core Values">
+      <section className="w-full max-w-6xl mx-auto px-3 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16" aria-label="Our Core Values">
         
         <div className="flex flex-col text-gray-900">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
