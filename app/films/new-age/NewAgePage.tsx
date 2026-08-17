@@ -7,39 +7,26 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 const filmSchema = {
   '@context': 'https://schema.org',
   '@type': 'Movie',
-  name: 'Remember Me',
-  description: 'A 4K animated short film created to honour the sacrifices behind every name remembered on Remembrance Day.',
-  image: 'https://roshestudios.co.uk/images/remember-me-poster.png',
-  dateCreated: '2026-11-10',
+  name: 'New Age',
+  description: 'An African animated short film produced by a worldwide collaboration of over 200 creatives from 30+ countries.',
+  image: 'https://roshestudios.co.uk/images/new-age-hero.png',
   director: { '@type': 'Person', name: 'Omobolaji Peter Moses' },
   productionCompany: { '@type': 'Organization', name: 'Roshe Studios' },
-  genre: ['Animation', 'Short Film', 'Historical'],
-  duration: 'PT6M',
+  genre: ['Animation', 'Short Film', 'Sci-fi'],
+  duration: 'PT15M',
 };
 
-// Gallery images from rememberMe folder - using URL encoding for spaces
+// Gallery images from newAge folder
 const galleryImages = [
-  '/images/rememberMe/bg%20cityview.png',
-  '/images/rememberMe/bg%20close%20up%202.0.png',
-  '/images/rememberMe/bg%20flashback.3.png',
-  '/images/rememberMe/bg%20flashback.png',
-  '/images/rememberMe/bg%20flashback2.png',
-  '/images/rememberMe/bg%20flashback4.png',
-  '/images/rememberMe/bg%20flashback5.png',
-  '/images/rememberMe/bg%20flashback6.png',
-  '/images/rememberMe/bg%20gorton%20pub.png',
-  '/images/rememberMe/bg%20passage%201.png',
-  '/images/rememberMe/bg%20passage%202.png',
-  '/images/rememberMe/bg%20passage%203.png',
-  '/images/rememberMe/bg%20scene%201.png',
-  '/images/rememberMe/bg%20scene%20bus%20stop%202.0.png',
-  '/images/rememberMe/bg%20top%20shot.png',
-  '/images/rememberMe/bg.png',
-  '/images/rememberMe/bg1.png',
-  '/images/rememberMe/WhatsApp%20Image%202026-03-08%20at%2016.25.13.jpeg'
+  '/images/newAge/dwedfge.jpg.jpeg',
+  '/images/newAge/dwedfgg.jpg.jpeg',
+  '/images/newAge/WhatsApp%20Image%202025-01-22%20at%2019.04.12_3502f035.jpg.jpeg',
+  '/images/newAge/WhatsApp%20Image%202025-01-24%20at%2012.44.40_35ea518d.jpg.jpeg',
+  '/images/newAge/WhatsApp%20Image%202025-02-17%20at%2019.06.46_c425e72d.jpg.jpeg',
+  '/images/newAge/WhatsApp%20Image%202025-02-17%20at%2022.56.06_7630ab65.jpg.jpeg',
 ];
 
-export default function RememberMePage() {
+export default function NewAgePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -73,63 +60,38 @@ export default function RememberMePage() {
       />
 
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-gray-200 overflow-hidden" aria-label="Hero Banner">
+      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] bg-gray-200 overflow-hidden" aria-label="Hero Banner">
         <Image
-          src="/images/remember-me-hero.png"
-          alt="Remember Me — poppy field hero image"
+          src="/images/new-age-hero.png"
+          alt="New Age — futuristic 3D animated scene"
           fill
           sizes="(max-width: 1280px) 100vw, 1280px"
           className="object-cover"
           priority
         />
-        <div className="relative z-10 flex flex-col items-center justify-center pt-20">
-          <Image
-            src="/images/nowThatYouRemember.png"
-            alt="Remember Me title logo"
-            width={300}
-            height={120}
-            className="h-16 md:h-20 mb-8 w-auto object-contain"
-            priority
-          />
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="https://www.eventbrite.co.uk/e/remember-me-private-remembrance-day-short-film-screening-tickets-1997141906203?aff=oddtdtcreator"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide shadow-md transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
-            >
-              BOOK TICKETS
-            </a>
-            <a href="/licensing" className="bg-white/80 backdrop-blur-sm border border-white text-black hover:bg-white px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide shadow-md transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500">
-              BUY LICENSE
-            </a>
-          </div>
-        </div>
       </section>
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
-        <div className="w-full md:w-[400px] flex-shrink-0">
+        <div className="w-full md:w-[400px] aspect-[3/4] relative flex-shrink-0">
           <Image
-            src="/images/remember-me-poster.png"
-            alt="Remember Me movie poster featuring soldiers"
-            width={400}
-            height={600}
-            className="w-full h-auto object-contain shadow-lg rounded"
+            src="/images/card-new-age.png"
+            alt="New Age movie poster"
+            fill
             sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover shadow-lg rounded"
           />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
-          <h1 className="text-4xl font-bold mb-4">Remember Me</h1>
-          <div className="mb-6 space-y-1 text-sm">
-            <p><span className="font-semibold">Runtime:</span> 6 minutes</p>
-            <p><span className="font-semibold">Release Date:</span> 10th November 2026</p>
-            <p><span className="font-semibold">Genre:</span> Emotional, Animated Short Film</p>
+          <h1 className="text-4xl font-bold mb-4">New Age</h1>
+          <div className="mb-8 space-y-1 text-sm">
+            <p><span className="font-semibold">Runtime:</span> 15 minutes</p>
+            <p><span className="font-semibold">Status:</span> In Production</p>
+            <p><span className="font-semibold">Genre:</span> Sci-fi, Animated Short Film</p>
           </div>
+          <h2 className="text-2xl font-bold mb-4">A Worldwide Collaboration</h2>
           <div className="space-y-4 text-sm leading-relaxed mb-8">
-            <p>Remember Me is a 4K animated short film created to honour the sacrifices behind every name remembered on Remembrance Day.</p>
-            <p>Through a powerful, accessible story, the film connects younger audiences with history in a way that is emotional, educational, and lasting.</p>
-            <p>We are partnering with sponsors to bring this project to wider audiences through private screenings, school engagement, and community events — ensuring the message of remembrance continues for future generations.</p>
+            <p>New Age is produced by the brave effort and voluntary collaboration of a team of creatives. New Age shows the power of what is possible when a team of creatives come together to champion a selfless course. Through a unique worldwide collaboration that includes scores of volunteers we are able to produce a world class African animation story.</p>
           </div>
           <div className="space-y-4 text-sm">
             <div>
@@ -138,7 +100,7 @@ export default function RememberMePage() {
             </div>
             <div>
               <p className="font-bold">Produced By</p>
-              <p>Roshe Studios</p>
+              <p>200+ Artists from over 30+ Countries</p>
             </div>
           </div>
         </div>
@@ -148,7 +110,7 @@ export default function RememberMePage() {
       <section className="w-full max-w-7xl mx-auto px-3 pb-20" aria-label="Media Gallery">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Gallery</h2>
-          <p className="text-gray-600"></p>
+          <p className="text-gray-600">Explore behind-the-scenes images from New Age</p>
         </div>
         
         {/* Single Large Image with Navigation */}
@@ -163,7 +125,7 @@ export default function RememberMePage() {
             >
               <Image
                 src={galleryImages[currentIndex]}
-                alt={`Remember Me gallery image ${currentIndex + 1}`}
+                alt={`New Age gallery image ${currentIndex + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 className="object-cover group-hover:opacity-90 transition-opacity"
@@ -249,7 +211,7 @@ export default function RememberMePage() {
             <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
               <Image
                 src={galleryImages[currentIndex]}
-                alt={`Remember Me gallery image ${currentIndex + 1}`}
+                alt={`New Age gallery image ${currentIndex + 1}`}
                 width={1200}
                 height={800}
                 className="max-w-full max-h-full object-contain"

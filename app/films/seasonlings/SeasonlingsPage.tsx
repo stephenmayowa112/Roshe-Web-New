@@ -4,42 +4,47 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const filmSchema = {
+const seriesSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Movie',
-  name: 'Remember Me',
-  description: 'A 4K animated short film created to honour the sacrifices behind every name remembered on Remembrance Day.',
-  image: 'https://roshestudios.co.uk/images/remember-me-poster.png',
-  dateCreated: '2026-11-10',
+  '@type': 'TVSeries',
+  name: 'Seasonlings',
+  description: 'A mythic animated drama that reimagines Spring, Summer, Autumn, and Winter as immortal siblings tasked with maintaining the balance between the divine realm and the human world.',
+  image: 'https://roshestudios.co.uk/images/seasonlings-poster.png',
+  numberOfEpisodes: 7,
   director: { '@type': 'Person', name: 'Omobolaji Peter Moses' },
   productionCompany: { '@type': 'Organization', name: 'Roshe Studios' },
-  genre: ['Animation', 'Short Film', 'Historical'],
-  duration: 'PT6M',
+  genre: ['Animation', 'Fantasy', 'Drama', 'Action', 'Adventure'],
 };
 
-// Gallery images from rememberMe folder - using URL encoding for spaces
+// Gallery images from SEASONLINNGS folder - only image files, excluding videos
 const galleryImages = [
-  '/images/rememberMe/bg%20cityview.png',
-  '/images/rememberMe/bg%20close%20up%202.0.png',
-  '/images/rememberMe/bg%20flashback.3.png',
-  '/images/rememberMe/bg%20flashback.png',
-  '/images/rememberMe/bg%20flashback2.png',
-  '/images/rememberMe/bg%20flashback4.png',
-  '/images/rememberMe/bg%20flashback5.png',
-  '/images/rememberMe/bg%20flashback6.png',
-  '/images/rememberMe/bg%20gorton%20pub.png',
-  '/images/rememberMe/bg%20passage%201.png',
-  '/images/rememberMe/bg%20passage%202.png',
-  '/images/rememberMe/bg%20passage%203.png',
-  '/images/rememberMe/bg%20scene%201.png',
-  '/images/rememberMe/bg%20scene%20bus%20stop%202.0.png',
-  '/images/rememberMe/bg%20top%20shot.png',
-  '/images/rememberMe/bg.png',
-  '/images/rememberMe/bg1.png',
-  '/images/rememberMe/WhatsApp%20Image%202026-03-08%20at%2016.25.13.jpeg'
+  '/images/SEASONLINNGS/2%20Market%20street%20BG%20(1).png',
+  '/images/SEASONLINNGS/2%20Market%20street%20top.png',
+  '/images/SEASONLINNGS/9uygfdsf.jpeg',
+  '/images/SEASONLINNGS/cavemen%20xter%20(1).jpg.jpeg',
+  '/images/SEASONLINNGS/cdrtghn.jpeg',
+  '/images/SEASONLINNGS/IMG_0858.JPG.jpeg',
+  '/images/SEASONLINNGS/market%20scene.png',
+  '/images/SEASONLINNGS/mjuytfv.jpeg',
+  '/images/SEASONLINNGS/mngr.jpeg',
+  '/images/SEASONLINNGS/okjhgf.jpeg',
+  '/images/SEASONLINNGS/Picture1.png',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202022-03-04%20at%203.10.03%20PM.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202024-08-08%20at%2018.56.59.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202024-12-12%20at%2017.30.20_3e4803cc.jpg.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202024-12-12%20at%2017.30.24_935aa4ef.jpg.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-01-16%20at%2016.37.09%20(1).jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-01-23%20at%2017.19.26.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-01-29%20at%2017.09.29%20(2).jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-02-01%20at%2015.43.29.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-05-09%20at%2017.49.40.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-07-14%20at%2019.31.51.jpeg',
+  '/images/SEASONLINNGS/WhatsApp%20Image%202026-08-06%20at%2012.49.25.jpeg',
+  '/images/SEASONLINNGS/wise%20men.png',
+  '/images/SEASONLINNGS/wisemen.png',
 ];
 
-export default function RememberMePage() {
+export default function SeasonlingsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -69,67 +74,46 @@ export default function RememberMePage() {
     <main className="w-full bg-white flex flex-col items-center">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(filmSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seriesSchema) }}
       />
 
       {/* Hero Banner */}
-      <section className="w-full max-w-7xl mx-auto relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-gray-200 overflow-hidden" aria-label="Hero Banner">
+      <section className="w-full max-w-7xl mx-auto relative h-[40vh] md:h-[50vh] flex items-end justify-center pb-12 bg-gray-200 overflow-hidden" aria-label="Hero Banner">
         <Image
-          src="/images/remember-me-hero.png"
-          alt="Remember Me — poppy field hero image"
+          src="/images/seasonlings-hero.png"
+          alt="Seasonlings — fantasy landscape hero image"
           fill
           sizes="(max-width: 1280px) 100vw, 1280px"
-          className="object-cover"
+          className="object-cover object-top"
           priority
         />
-        <div className="relative z-10 flex flex-col items-center justify-center pt-20">
-          <Image
-            src="/images/nowThatYouRemember.png"
-            alt="Remember Me title logo"
-            width={300}
-            height={120}
-            className="h-16 md:h-20 mb-8 w-auto object-contain"
-            priority
-          />
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
-              href="https://www.eventbrite.co.uk/e/remember-me-private-remembrance-day-short-film-screening-tickets-1997141906203?aff=oddtdtcreator"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide shadow-md transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
-            >
-              BOOK TICKETS
-            </a>
-            <a href="/licensing" className="bg-white/80 backdrop-blur-sm border border-white text-black hover:bg-white px-8 py-3 rounded-full font-semibold text-sm uppercase tracking-wide shadow-md transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500">
-              BUY LICENSE
-            </a>
-          </div>
+        <div className="relative z-10">
+          <button className="bg-white text-black hover:bg-gray-100 px-10 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500">
+            Invest Now
+          </button>
         </div>
       </section>
 
       {/* Details Section */}
       <section className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12 md:gap-20">
-        <div className="w-full md:w-[400px] flex-shrink-0">
+        <div className="w-full md:w-[400px] flex-shrink-0 relative min-h-[350px]">
           <Image
-            src="/images/remember-me-poster.png"
-            alt="Remember Me movie poster featuring soldiers"
-            width={400}
-            height={600}
-            className="w-full h-auto object-contain shadow-lg rounded"
+            src="/images/seasonlings-poster.png"
+            alt="Seasonlings series poster"
+            fill
             sizes="(max-width: 768px) 100vw, 400px"
+            className="object-contain p-4"
           />
         </div>
         <div className="flex-1 flex flex-col justify-center text-gray-900">
-          <h1 className="text-4xl font-bold mb-4">Remember Me</h1>
+          <h1 className="text-4xl font-bold mb-4">Seasonlings Season 1</h1>
           <div className="mb-6 space-y-1 text-sm">
-            <p><span className="font-semibold">Runtime:</span> 6 minutes</p>
-            <p><span className="font-semibold">Release Date:</span> 10th November 2026</p>
-            <p><span className="font-semibold">Genre:</span> Emotional, Animated Short Film</p>
+            <p><span className="font-semibold">Episodes:</span> 7 Episodes</p>
+            <p><span className="font-semibold">Status:</span> In development</p>
+            <p><span className="font-semibold">Genre:</span> Fantasy, Action, Adventure, Drama, Cli-fi</p>
           </div>
           <div className="space-y-4 text-sm leading-relaxed mb-8">
-            <p>Remember Me is a 4K animated short film created to honour the sacrifices behind every name remembered on Remembrance Day.</p>
-            <p>Through a powerful, accessible story, the film connects younger audiences with history in a way that is emotional, educational, and lasting.</p>
-            <p>We are partnering with sponsors to bring this project to wider audiences through private screenings, school engagement, and community events — ensuring the message of remembrance continues for future generations.</p>
+            <p>Seasonlings is a mythic animated drama that reimagines Spring, Summer, Autumn, and Winter as immortal siblings tasked with maintaining the balance between the divine realm, Ecos and the human world. Created by Mother Nature herself, the Seasonlings govern the natural cycles that sustain life on Earth. Beneath their divine purpose lies centuries of resentment, jealousy, and emotional neglect. When Aurelia, the embodiment of Autumn, receives a vision of impending doom for both worlds, the cracks beneath the surface of her relationships begin to reemerge. Sibling rivalries turn into open war, and power-hungry alliances threaten life. The world as they know it is falling apart, and their war is not the only enemy. The series examines love, identity, and the complexity of relationships through the eyes of painfully human immortals.</p>
           </div>
           <div className="space-y-4 text-sm">
             <div>
@@ -148,7 +132,7 @@ export default function RememberMePage() {
       <section className="w-full max-w-7xl mx-auto px-3 pb-20" aria-label="Media Gallery">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Gallery</h2>
-          <p className="text-gray-600"></p>
+          <p className="text-gray-600">Explore behind-the-scenes images from Seasonlings</p>
         </div>
         
         {/* Single Large Image with Navigation */}
@@ -163,7 +147,7 @@ export default function RememberMePage() {
             >
               <Image
                 src={galleryImages[currentIndex]}
-                alt={`Remember Me gallery image ${currentIndex + 1}`}
+                alt={`Seasonlings gallery image ${currentIndex + 1}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 className="object-cover group-hover:opacity-90 transition-opacity"
@@ -249,7 +233,7 @@ export default function RememberMePage() {
             <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
               <Image
                 src={galleryImages[currentIndex]}
-                alt={`Remember Me gallery image ${currentIndex + 1}`}
+                alt={`Seasonlings gallery image ${currentIndex + 1}`}
                 width={1200}
                 height={800}
                 className="max-w-full max-h-full object-contain"
