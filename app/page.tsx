@@ -26,7 +26,7 @@ export default function Home() {
       <section className="w-full h-[80vh] bg-white flex items-center justify-center">
         <div className="relative w-full h-full">
           <iframe
-            src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=0"
+            src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=OyTX6W5XZDs"
             title="Remember Me — Official Trailer | Roshe Studios"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -128,25 +128,6 @@ export default function Home() {
               WATCH TRAILER
             </a>
           </div>
-        </div>
-      </section>
-
-      {/* Shop Banner */}
-      <section className="w-full max-w-7xl mx-auto mb-20 relative h-[400px] overflow-hidden flex items-center bg-yellow-400" aria-label="Shop">
-        <Image
-          src="/images/shopStories.png"
-          alt="Shop Roshe Studios merchandise"
-          fill
-          sizes="(max-width: 1280px) 100vw, 1280px"
-          className="object-cover mix-blend-multiply opacity-50"
-        />
-        <div className="relative z-10 w-full max-w-xl px-8 md:px-12 text-left">
-          <h2 className="text-black text-3xl md:text-5xl font-bold leading-tight mb-8">
-            Shop the stories you love<br />for you and your family
-          </h2>
-          <Link href="/shop" className="inline-block bg-white text-black hover:bg-gray-100 px-10 py-3 rounded-full font-semibold text-sm uppercase tracking-wide transition-colors shadow-sm focus:outline-none focus:ring-4 focus:ring-black">
-            Shop now
-          </Link>
         </div>
       </section>
     </main>

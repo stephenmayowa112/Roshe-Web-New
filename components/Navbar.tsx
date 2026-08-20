@@ -39,7 +39,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link href="/shop" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 rounded-sm tracking-normal">SHOP</Link>
           <Link href="/create-with-us" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 rounded-sm tracking-normal">CREATE WITH US</Link>
           <Link href="/licensing" className="font-normal text-base leading-6 uppercase text-black hover:text-yellow-500 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 rounded-sm tracking-normal">LICENSING</Link>
 
@@ -67,7 +66,6 @@ export default function Navbar() {
             <Link href="/films/seasonlings" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Seasonlings</Link>
           </div>
 
-          <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Shop</Link>
           <Link href="/create-with-us" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Create With Us</Link>
           <Link href="/licensing" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 border-b border-gray-800 pb-4 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Licensing</Link>
 
