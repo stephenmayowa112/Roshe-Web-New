@@ -1,0 +1,38 @@
+import { loadStripe } from '@stripe/stripe-js';
+import Stripe from 'stripe';
+
+// Client-side Stripe instance
+export const getStripe = () => {
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  );
+  return stripePromise;
+};
+
+// Server-side Stripe instance
+export const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY!,
+  {
+    apiVersion: '2024-06-20',
+    appInfo: {
+      name: 'Roshe Studios',
+      version: '1.0.0',
+    },
+  }
+);
+
+// License products configuration
+export const STRIPE_PRODUCTS = {
+  SINGLE_SCHOOL: {
+    priceId: process.env.STRIPE_SINGLE_SCHOOL_PRICE_ID!,
+    name: 'Remember Me - Single School License',
+    price: 20000, // £200.00 in pence
+    description: '6-minute 2D animation, assembly script, teacher\'s guide, student worksheet, 24/7 support',
+  },
+  MULTI_SCHOOL: {
+    priceId: process.env.STRIPE_MULTI_SCHOOL_PRICE_ID!,
+    name: 'Remember Me - Multi-School Trust License',
+    price: 70000, // £700.00 in pence
+    description: 'Same as single school license but for multiple schools within a trust',
+  },
+} as const;

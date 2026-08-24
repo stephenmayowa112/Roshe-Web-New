@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import type { Metadata } from 'next';
+import CheckoutButton from '@/components/CheckoutButton';
 
 export const metadata: Metadata = {
   title: 'Licensing',
@@ -66,9 +67,12 @@ export default function Licensing() {
                 <h2 className="text-base font-bold text-gray-900 mb-3">Single School License</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
-                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
+                <CheckoutButton 
+                  licenseType="single"
+                  className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none"
+                >
                   Buy License
-                </button>
+                </CheckoutButton>
               </div>
               {/* White right panel */}
               <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
@@ -93,9 +97,12 @@ export default function Licensing() {
                 <h2 className="text-base font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h2>
                 <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
                 <p className="text-sm text-gray-500 mb-6">billed annually</p>
-                <button className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none">
+                <CheckoutButton 
+                  licenseType="multi"
+                  className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none"
+                >
                   Buy License
-                </button>
+                </CheckoutButton>
               </div>
               {/* White right panel */}
               <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
