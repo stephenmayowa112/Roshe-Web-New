@@ -23,7 +23,7 @@ function SuccessContent() {
         </div>
 
         <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold text-green-800 mb-3">What's Next?</h2>
+          <h2 className="text-xl font-semibold text-green-800 mb-3">What&apos;s Next?</h2>
           <div className="text-left space-y-2 text-green-700">
             <p>• Check your email for license confirmation and download links</p>
             <p>• Download your educational resources and assembly materials</p>
@@ -34,7 +34,7 @@ function SuccessContent() {
 
         <div className="space-y-4">
           <p className="text-sm text-gray-600">
-            If you don't receive your email within 10 minutes, please check your spam folder or contact us.
+            If you don&apos;t receive your email within 10 minutes, please check your spam folder or contact us.
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">

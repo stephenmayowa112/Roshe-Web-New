@@ -3,9 +3,14 @@ import Stripe from 'stripe';
 
 // Client-side Stripe instance
 export const getStripe = () => {
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-  );
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  
+  if (!publishableKey || publishableKey === 'pk_test_your_publishable_key_here') {
+    console.error('Stripe publishable key not configured properly');
+    return null;
+  }
+  
+  const stripePromise = loadStripe(publishableKey);
   return stripePromise;
 };
 
@@ -13,7 +18,7 @@ export const getStripe = () => {
 export const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY!,
   {
-    apiVersion: '2024-06-20',
+    apiVersion: '2026-07-29.dahlia',
     appInfo: {
       name: 'Roshe Studios',
       version: '1.0.0',

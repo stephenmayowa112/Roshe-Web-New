@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { getStripe } from '@/lib/stripe';
 
 interface CheckoutButtonProps {
   licenseType: 'single' | 'multi';
@@ -16,12 +15,6 @@ export default function CheckoutButton({ licenseType, className, children }: Che
     setLoading(true);
     
     try {
-      // Get Stripe instance
-      const stripe = await getStripe();
-      if (!stripe) {
-        throw new Error('Stripe failed to load');
-      }
-
       // Create checkout session
       const response = await fetch('/api/checkout', {
         method: 'POST',
@@ -41,17 +34,16 @@ export default function CheckoutButton({ licenseType, className, children }: Che
         throw new Error(data.error || 'Failed to create checkout session');
       }
 
-      // Redirect to Stripe checkout
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: data.sessionId,
-      });
-
-      if (error) {
-        throw error;
+      // Redirect to Stripe checkout using the session URL
+      if (data.sessionUrl) {
+        window.location.href = data.sessionUrl;
+      } else {
+        throw new Error('No session URL returned');
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      alert('Failed to start checkout process. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to start checkout process. Please try again.';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

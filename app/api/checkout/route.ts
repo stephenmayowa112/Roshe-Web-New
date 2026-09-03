@@ -45,7 +45,10 @@ export async function POST(request: NextRequest) {
       allow_promotion_codes: true,
     });
 
-    return NextResponse.json({ sessionId: session.id });
+    return NextResponse.json({ 
+      sessionId: session.id,
+      sessionUrl: session.url 
+    });
   } catch (error) {
     console.error('Stripe checkout error:', error);
     return NextResponse.json(

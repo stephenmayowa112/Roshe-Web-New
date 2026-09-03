@@ -23,17 +23,28 @@ export default function Home() {
   return (
     <main className="w-full bg-white flex flex-col items-center">
       {/* Hero Section — Remember Me Trailer */}
-      <section className="w-full h-[80vh] bg-black">
+      <section className="w-full h-screen bg-black">
         <div className="w-full h-full relative">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/OyTX6W5XZDs?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=OyTX6W5XZDs"
-            title="Remember Me — Official Trailer | Roshe Studios"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full"
-            style={{ border: 'none', objectFit: 'cover' }}
-            loading="lazy"
-          />
+          <video
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label="Remember Me — Official Trailer | Roshe Studios"
+          >
+            <source 
+              src="https://res.cloudinary.com/dkkyvnhhg/video/upload/v1788444645/REMEMBER_ME___Official_Trailer_Remembrance_Day_Animation_1_uwgi0u.mp4" 
+              type="video/mp4" 
+            />
+            <p className="text-white text-center p-8">
+              Your browser does not support the video tag. 
+              <a href="https://youtu.be/OyTX6W5XZDs" className="underline text-blue-400 ml-2">
+                Watch the trailer on YouTube
+              </a>
+            </p>
+          </video>
         </div>
       </section>
 
