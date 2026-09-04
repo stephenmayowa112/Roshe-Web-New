@@ -272,7 +272,7 @@ export default function LicensingPage() {
             {/* Multi-School License Row */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Multi-School License Card */}
-              <div className="bg-[#FFF9E4] rounded-2xl p-8 md:w-64 flex-shrink-0 border-4 border-[#66ccff]">
+              <div className="bg-[#FFF9E4] rounded-2xl p-8 md:w-64 flex-shrink-0">
                 <div className="text-center">
                   <h3 className="text-lg font-bold text-black mb-2">Multi-School /</h3>
                   <h3 className="text-lg font-bold text-black mb-4">Trust Licence</h3>
