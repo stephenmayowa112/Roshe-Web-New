@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import CheckoutButton from '@/components/CheckoutButton';
 import Link from 'next/link';
 
@@ -39,14 +39,14 @@ export default function LicensingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link 
                 href="#pricing"
-                className="bg-[#F6BF02] text-black px-6 py-3 rounded font-semibold hover:bg-[#e6b100] transition-colors inline-flex items-center justify-center gap-2"
+                className="w-full sm:w-[248px] h-14 bg-black border-2 border-[#F6BF02] text-[#F6BF02] px-6 rounded-md font-bold hover:bg-[#F6BF02] hover:text-black transition-colors inline-flex items-center justify-center gap-3 whitespace-nowrap"
               >
                 Select a license
-                <span className="text-lg">→</span>
+                <ArrowRight className="h-6 w-6" aria-hidden="true" />
               </Link>
               <Link 
                 href="/studio/signup"
-                className="bg-[#F6BF02] text-black px-6 py-3 rounded font-semibold hover:bg-[#e6b100] transition-colors text-center"
+                className="w-full sm:w-[151px] h-14 bg-black border-2 border-[#F6BF02] text-[#F6BF02] px-6 rounded-md font-bold hover:bg-[#F6BF02] hover:text-black transition-colors inline-flex items-center justify-center whitespace-nowrap"
               >
                 Register
               </Link>
