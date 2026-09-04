@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import CheckoutButton from '@/components/CheckoutButton';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 const includes = [
   '6 minutes 2D original animation',
@@ -15,16 +14,6 @@ const includes = [
 ];
 
 export default function LicensingPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <main className="w-full bg-white flex flex-col">
       
