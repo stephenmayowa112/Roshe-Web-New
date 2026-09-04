@@ -29,10 +29,10 @@ export default function LicensingPage() {
         <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center gap-16">
           {/* Left Content */}
           <div className="lg:w-1/2">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6">
-              A Remembrance Day teaching<br />
-              resource + emotional learning<br />
-              experience
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight">
+              <span className="block">A Remembrance Day teaching</span>
+              <span className="block">resource + emotional learning</span>
+              <span className="block">experience</span>
             </h1>
             <div className="text-lg text-black mb-8 leading-relaxed max-w-lg">
               <div>Curriculum-aligned animation with ready-to-use</div>
