@@ -168,7 +168,7 @@ export default function LicensingPage() {
           <div className="lg:w-1/2">
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
               <Image
-                src="/images/licensing-poster.png"
+                src="/images/Rectanglelicenses.png"
                 alt="Remember Me animated character in educational setting"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
