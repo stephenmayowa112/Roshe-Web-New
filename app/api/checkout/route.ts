@@ -3,6 +3,14 @@ import { stripe, STRIPE_PRODUCTS } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Stripe is configured
+    if (!stripe) {
+      return NextResponse.json(
+        { error: 'Payment system is not configured. Please contact support.' },
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
     const { licenseType, customerEmail, schoolName } = body;
 

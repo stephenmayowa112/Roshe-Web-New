@@ -29,23 +29,26 @@ export default function LicensingPage() {
         <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center gap-16">
           {/* Left Content */}
           <div className="lg:w-1/2">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight">
-              A Remembrance Day teaching resource + emotional learning experience
-            </h1>
-            <p className="text-lg text-black mb-8 leading-relaxed max-w-lg">
-              Curriculum-aligned animation with ready-to-use resources to inspire and engage primary pupils.
-            </p>
+            <div className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6">
+              <div className="leading-tight mb-1">A Remembrance Day teaching</div>
+              <div className="leading-tight mb-1">resource + emotional learning</div>
+              <div className="leading-tight">experience</div>
+            </div>
+            <div className="text-lg text-black mb-8 leading-relaxed max-w-lg">
+              <div>Curriculum-aligned animation with ready-to-use</div>
+              <div>resources to inspire and engage primary pupils.</div>
+            </div>
             <div className="flex gap-4">
               <Link 
                 href="#pricing"
-                className="bg-black text-white px-6 py-3 rounded font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
+                className="bg-[#F6BF02] text-black px-6 py-3 rounded font-semibold hover:bg-[#e6b100] transition-colors inline-flex items-center gap-2"
               >
                 Select a license
                 <span className="text-lg">→</span>
               </Link>
               <Link 
                 href="/studio/signup"
-                className="bg-black text-white px-6 py-3 rounded font-semibold hover:bg-gray-800 transition-colors"
+                className="bg-[#F6BF02] text-black px-6 py-3 rounded font-semibold hover:bg-[#e6b100] transition-colors"
               >
                 Register
               </Link>

@@ -3,6 +3,14 @@ import { stripe } from '@/lib/stripe';
 import { headers } from 'next/headers';
 
 export async function POST(request: NextRequest) {
+  // Check if Stripe is configured
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Payment system is not configured' },
+      { status: 503 }
+    );
+  }
+
   const body = await request.text();
   const headersList = await headers();
   const signature = headersList.get('stripe-signature');
@@ -11,13 +19,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'No signature' }, { status: 400 });
   }
 
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error('Stripe webhook secret not configured');
+    return NextResponse.json({ error: 'Webhook not configured' }, { status: 503 });
+  }
+
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      webhookSecret
     );
   } catch (error) {
     console.error('Webhook signature verification failed:', error);
