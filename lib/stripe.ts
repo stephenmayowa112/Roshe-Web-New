@@ -24,7 +24,7 @@ const createStripeInstance = () => {
   }
   
   return new Stripe(secretKey, {
-    apiVersion: '2024-12-18.acacia',
+    apiVersion: '2026-07-29.dahlia',
     appInfo: {
       name: 'Roshe Studios',
       version: '1.0.0',

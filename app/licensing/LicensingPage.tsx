@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import CheckoutButton from '@/components/CheckoutButton';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const includes = [
   '6 minutes 2D original animation',
@@ -14,6 +15,16 @@ const includes = [
 ];
 
 export default function LicensingPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <main className="w-full bg-white flex flex-col">
       
@@ -30,9 +41,9 @@ export default function LicensingPage() {
           {/* Left Content */}
           <div className="lg:w-1/2">
             <div className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6">
-              <div className="leading-tight mb-1">A Remembrance Day teaching</div>
-              <div className="leading-tight mb-1">resource + emotional learning</div>
-              <div className="leading-tight">experience</div>
+              <span className="inline-block w-full">A Remembrance Day teaching</span>
+              <span className="inline-block w-full">resource + emotional learning</span>
+              <span className="inline-block w-full">experience</span>
             </div>
             <div className="text-lg text-black mb-8 leading-relaxed max-w-lg">
               <div>Curriculum-aligned animation with ready-to-use</div>
