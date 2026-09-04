@@ -181,7 +181,7 @@ export default function StudioSignUpPage() {
           </form>
 
           <div className="text-center text-sm text-gray-500 mt-6">
-            By submitting your information, you agree to Roshe's{' '}
+            By submitting your information, you agree to Roshe&apos;s{' '}
             <Link href="/terms" className="text-[#f5bf05] hover:underline">
               Terms of service
             </Link>{' '}

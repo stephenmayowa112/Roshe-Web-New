@@ -79,7 +79,7 @@ export default function VerifyEmailPage() {
           </div>
           
           <div className="text-sm text-gray-600">
-            Didn't receive a link?{' '}
+            Didn&apos;t receive a link?{' '}
             <button
               onClick={handleResend}
               disabled={isResending}

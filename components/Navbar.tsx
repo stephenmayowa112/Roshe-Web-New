@@ -13,7 +13,8 @@ export default function Navbar() {
   
   // Ensure component is mounted before checking pathname to avoid hydration mismatch
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const isLicensingPage = mounted && pathname === '/licensing';
