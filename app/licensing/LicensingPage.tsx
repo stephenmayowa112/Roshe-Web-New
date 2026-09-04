@@ -29,11 +29,11 @@ export default function LicensingPage() {
         <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center gap-16">
           {/* Left Content */}
           <div className="lg:w-1/2">
-            <div className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6">
-              <span className="inline-block w-full">A Remembrance Day teaching</span>
-              <span className="inline-block w-full">resource + emotional learning</span>
-              <span className="inline-block w-full">experience</span>
-            </div>
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6">
+              A Remembrance Day teaching<br />
+              resource + emotional learning<br />
+              experience
+            </h1>
             <div className="text-lg text-black mb-8 leading-relaxed max-w-lg">
               <div>Curriculum-aligned animation with ready-to-use</div>
               <div>resources to inspire and engage primary pupils.</div>
@@ -150,7 +150,7 @@ export default function LicensingPage() {
           <div className="lg:w-1/2">
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
               <Image
-                src="/images/licensing-poster.png"
+                src="/images/Rectanglelicen.png"
                 alt="Students in classroom learning environment"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

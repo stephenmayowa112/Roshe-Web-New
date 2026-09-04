@@ -3,5 +3,8 @@
         "cityview",
         "Omobolaji",
         "Roshe"
-    ]
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "npx eslint": true
+    }
 }
