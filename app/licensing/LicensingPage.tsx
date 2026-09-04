@@ -80,9 +80,13 @@ export default function LicensingPage() {
             {/* Animated short film */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                </svg>
+                <Image
+                  src="/images/icon1.png"
+                  alt="Animated short film icon"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <h3 className="font-semibold text-sm text-black leading-tight">Animated<br />short film</h3>
             </div>
@@ -90,9 +94,13 @@ export default function LicensingPage() {
             {/* Assembly script */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="currentColor"/>
-                </svg>
+                <Image
+                  src="/images/icon2.png"
+                  alt="Assembly script icon"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <h3 className="font-semibold text-sm text-black leading-tight">Assembly<br />script</h3>
             </div>
@@ -100,9 +108,13 @@ export default function LicensingPage() {
             {/* Teachers guide */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <path d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12S12 10.2 12 8S13.8 4 16 4ZM16 14C20.42 14 24 15.79 24 18V20H8V18C8 15.79 11.58 14 16 14Z" fill="currentColor"/>
-                </svg>
+                <Image
+                  src="/images/icon3.png"
+                  alt="Teachers guide icon"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <h3 className="font-semibold text-sm text-black leading-tight">Teachers<br />guide</h3>
             </div>
@@ -110,20 +122,27 @@ export default function LicensingPage() {
             {/* Student worksheet */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <path d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM12 3C12.55 3 13 3.45 13 4S12.55 5 12 5S11 4.55 11 4S11.45 3 12 3ZM19 19H5V5H7V7H17V5H19V19Z" fill="currentColor"/>
-                </svg>
+                <Image
+                  src="/images/icon4.png"
+                  alt="Student worksheet icon"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <h3 className="font-semibold text-sm text-black leading-tight">Student<br />worksheet</h3>
             </div>
 
-            {/* Student worksheet (duplicate) */}
+            {/* Student worksheet (second one) */}
             <div className="flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 shadow-sm">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
-                  <path d="M19.4 15C18.8 16.9 17.1 18.5 15 19.1L16.4 21.5C16.8 22.2 16.5 23.1 15.8 23.5C15.1 23.9 14.2 23.6 13.8 22.9L12.4 20.5C12.3 20.5 12.2 20.5 12.1 20.5C11.9 20.5 11.8 20.5 11.6 20.5L10.2 22.9C9.8 23.6 8.9 23.9 8.2 23.5C7.5 23.1 7.2 22.2 7.6 21.5L9 19.1C6.9 18.5 5.2 16.9 4.6 15H2C1.4 15 1 14.6 1 14S1.4 13 2 13H4.6C5.2 11.1 6.9 9.5 9 8.9L7.6 6.5C7.2 5.8 7.5 4.9 8.2 4.5C8.9 4.1 9.8 4.4 10.2 5.1L11.6 7.5C11.8 7.5 11.9 7.5 12.1 7.5C12.2 7.5 12.3 7.5 12.4 7.5L13.8 5.1C14.2 4.4 15.1 4.1 15.8 4.5C16.5 4.9 16.8 5.8 16.4 6.5L15 8.9C17.1 9.5 18.8 11.1 19.4 13H22C22.6 13 23 13.4 23 14S22.6 15 22 15H19.4Z" fill="currentColor"/>
-                </svg>
+                <Image
+                  src="/images/icon5.png"
+                  alt="Student worksheet icon"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
               </div>
               <h3 className="font-semibold text-sm text-black leading-tight">Student<br />worksheet</h3>
             </div>
