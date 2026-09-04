@@ -26,13 +26,13 @@ export default function LicensingPage() {
 
       {/* Hero Section */}
       <section className="w-full bg-[#f5d461]">
-        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center gap-16">
+        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col lg:flex-row items-center gap-12">
           {/* Left Content */}
           <div className="lg:w-1/2">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight">
-              <span className="block">A Remembrance Day teaching</span>
-              <span className="block">resource + emotional learning</span>
-              <span className="block">experience</span>
+            <h1 className="text-4xl lg:text-[2.25rem] xl:text-[2.5rem] font-bold text-black mb-6 leading-tight">
+              <span className="block lg:whitespace-nowrap">A Remembrance Day teaching</span>
+              <span className="block lg:whitespace-nowrap">resource + emotional learning</span>
+              <span className="block lg:whitespace-nowrap">experience</span>
             </h1>
             <div className="text-lg text-black mb-8 leading-relaxed max-w-lg">
               <div>Curriculum-aligned animation with ready-to-use</div>
@@ -201,84 +201,140 @@ export default function LicensingPage() {
             Pick up the best plan
           </h2>
           
-          <div className="flex flex-col lg:flex-row gap-8 items-stretch">
-            <div className="flex flex-col gap-6 lg:flex-1">
-
-              {/* Card 1 */}
-              <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
-                <div className="flex flex-col sm:flex-row w-full flex-1">
-                  {/* Cream left panel */}
-                  <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-6 py-8 text-center sm:w-[280px] shrink-0">
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Single School License</h3>
-                    <p className="text-6xl font-black text-gray-900 leading-none mb-2">£200</p>
-                    <p className="text-sm text-gray-500 mb-6">billed annually</p>
-                    <CheckoutButton 
-                      licenseType="single"
-                      className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none"
-                    >
-                      Buy License
-                    </CheckoutButton>
-                  </div>
-                  {/* White right panel */}
-                  <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
-                    <p className="text-sm text-gray-500 mb-4">Includes:</p>
-                    <ul className="space-y-3" aria-label="Single School License includes">
-                      {includes.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
-                          <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+            
+            {/* Single School License Row */}
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Single School License Card */}
+              <div className="bg-[#FFF9E4] rounded-2xl p-8 md:w-64 flex-shrink-0">
+                <div className="text-center">
+                  <h3 className="text-lg font-bold text-black mb-2">Single School</h3>
+                  <h3 className="text-lg font-bold text-black mb-4">License</h3>
+                  <div className="text-5xl font-black text-black mb-2">£200</div>
+                  <p className="text-sm text-gray-600 mb-6">billed annually</p>
+                  <CheckoutButton 
+                    licenseType="single"
+                    className="w-full bg-[#F6BF02] hover:bg-[#e6b100] text-black py-3 rounded-lg font-bold text-sm transition-colors"
+                  >
+                    Buy License
+                  </CheckoutButton>
                 </div>
               </div>
+              
+              {/* Single School Includes */}
+              <div className="flex-1 py-4">
+                <p className="text-sm text-gray-600 mb-4 font-medium">Includes:</p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>6 minutes 2D original animation</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Assembly Script</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Teachers guide</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Student Worksheet</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>24/7 support and consulting</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-              {/* Card 2 */}
-              <div className="rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-1">
-                <div className="flex flex-col sm:flex-row w-full flex-1">
-                  {/* Cream left panel */}
-                  <div className="flex flex-col items-center justify-center bg-[#fffdf0] px-6 py-8 text-center sm:w-[280px] shrink-0">
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Multi-School / Trust Licence</h3>
-                    <p className="text-6xl font-black text-gray-900 leading-none mb-2">£700</p>
-                    <p className="text-sm text-gray-500 mb-6">billed annually</p>
-                    <CheckoutButton 
-                      licenseType="multi"
-                      className="w-full bg-[#f5bf05] hover:bg-[#e6b100] text-black py-3 rounded-xl font-bold text-base transition-colors focus:outline-none"
-                    >
-                      Buy License
-                    </CheckoutButton>
-                  </div>
-                  {/* White right panel */}
-                  <div className="bg-white px-6 py-8 flex flex-col justify-center flex-1">
-                    <p className="text-sm text-gray-500 mb-4">Includes:</p>
-                    <ul className="space-y-3" aria-label="Multi-School License includes">
-                      {includes.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-gray-800">
-                          <CheckCircle2 className="h-5 w-5 shrink-0 text-[#f5bf05] fill-[#f5bf05] stroke-white" aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            {/* Multi-School License Row */}
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Multi-School License Card */}
+              <div className="bg-[#FFF9E4] rounded-2xl p-8 md:w-64 flex-shrink-0 border-4 border-[#66ccff]">
+                <div className="text-center">
+                  <h3 className="text-lg font-bold text-black mb-2">Multi-School /</h3>
+                  <h3 className="text-lg font-bold text-black mb-4">Trust Licence</h3>
+                  <div className="text-5xl font-black text-black mb-2">£700</div>
+                  <p className="text-sm text-gray-600 mb-6">billed annually</p>
+                  <CheckoutButton 
+                    licenseType="multi"
+                    className="w-full bg-[#F6BF02] hover:bg-[#e6b100] text-black py-3 rounded-lg font-bold text-sm transition-colors"
+                  >
+                    Buy License
+                  </CheckoutButton>
                 </div>
               </div>
-
-            </div>
-
-            {/* Right: Poster — stretches to match height of both cards */}
-            <div className="flex-shrink-0 w-full lg:w-[380px] flex self-stretch">
-              <div className="w-full relative rounded-2xl shadow-lg overflow-hidden">
-                <Image
-                  src="/images/licensing-poster.png"
-                  alt="Remember Me educational poster featuring soldiers in a classroom setting"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 380px"
-                  className="object-contain"
-                  priority
-                />
+              
+              {/* Multi-School Includes */}
+              <div className="flex-1 py-4">
+                <p className="text-sm text-gray-600 mb-4 font-medium">Includes:</p>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>6 minutes 2D original animation</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Assembly Script</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Teachers guide</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>Remembrance Day Student Worksheet</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-black">
+                    <div className="w-5 h-5 bg-[#F6BF02] rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span>24/7 support and consulting</span>
+                  </li>
+                </ul>
               </div>
             </div>
+            
           </div>
         </div>
       </section>
