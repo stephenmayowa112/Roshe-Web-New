@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import LayoutWrapper from '@/components/LayoutWrapper';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -71,6 +70,7 @@ const orgSchema = {
     'https://www.youtube.com/@roshestudios',
     'https://www.linkedin.com/company/roshestudios',
     'https://www.facebook.com/roshestudios',
+    'https://www.facebook.com/roshestudios',
   ],
 };
 
@@ -94,12 +94,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className="flex flex-col min-h-screen font-sans text-gray-900 bg-gray-50" style={{ fontFamily: "'Poppins', sans-serif" }} suppressHydrationWarning>
-        <Navbar />
-        <div className="flex-grow flex flex-col">
+      <body className="font-sans text-gray-900 bg-gray-50" style={{ fontFamily: "'Poppins', sans-serif" }} suppressHydrationWarning>
+        <LayoutWrapper>
           {children}
-        </div>
-        <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );

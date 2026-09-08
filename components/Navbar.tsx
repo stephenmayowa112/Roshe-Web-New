@@ -96,29 +96,29 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <nav className="md:hidden bg-black text-white flex flex-col px-5 py-4 space-y-4 max-h-[80vh] overflow-y-auto">
+        <nav className="md:hidden bg-black text-white flex flex-col px-5 py-6 space-y-6 max-h-[80vh] overflow-y-auto">
           {isLicensingPage ? (
-            <div className="space-y-4">
-              <Link href="/studio" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Studio</Link>
-              <Link href="/studio/signin" onClick={() => setIsMobileMenuOpen(false)} className="bg-white text-black px-4 py-2 rounded font-medium">Sign In</Link>
+            <div className="space-y-6">
+              <Link href="/studio" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-3 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Studio</Link>
+              <Link href="/studio/signin" onClick={() => setIsMobileMenuOpen(false)} className="bg-white text-black px-4 py-3 rounded font-medium inline-block">Sign In</Link>
             </div>
           ) : (
             <>
-              <div className="flex flex-col space-y-2 border-b border-gray-800 pb-4">
+              <div className="flex flex-col space-y-4 border-b border-gray-800 pb-6">
                 <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Films</span>
-                <Link href="/films/remember-me" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Remember Me</Link>
-                <Link href="/films/new-age" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">New Age</Link>
-                <Link href="/films/seasonlings" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Seasonlings</Link>
+                <Link href="/films/remember-me" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Remember Me</Link>
+                <Link href="/films/new-age" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">New Age</Link>
+                <Link href="/films/seasonlings" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Seasonlings</Link>
               </div>
 
-              <Link href="/create-with-us" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Create With Us</Link>
-              <Link href="/licensing" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 border-b border-gray-800 pb-4 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Licensing</Link>
+              <Link href="/create-with-us" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-3 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Create With Us</Link>
+              <Link href="/licensing" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-3 border-b border-gray-800 pb-6 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Licensing</Link>
 
-              <div className="flex flex-col space-y-2 pt-2 pb-4">
+              <div className="flex flex-col space-y-4 pt-2 pb-4">
                 <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">More</span>
-                <Link href="/philosophy" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Our Philosophy</Link>
-                <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">About Us</Link>
-                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-1 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500">Get in Touch</Link>
+                <Link href="/philosophy" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Our Philosophy</Link>
+                <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">About Us</Link>
+                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-2 outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Get in Touch</Link>
               </div>
             </>
           )}
