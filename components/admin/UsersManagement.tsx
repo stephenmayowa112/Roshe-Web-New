@@ -1,87 +1,160 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Search, 
   Filter, 
   Plus, 
   MoreHorizontal, 
-  Edit, 
+  Edit3, 
   Trash2, 
+  Eye,
   Shield,
+  Building2,
   Mail,
-  Phone,
-  Building2
+  Calendar,
+  User,
+  AlertCircle,
+  RefreshCw,
+  CheckCircle,
+  XCircle,
+  Clock
 } from 'lucide-react';
 
-// Mock data - will be replaced with real API calls
-const mockUsers = [
-  {
-    id: '1',
-    name: 'John Smith',
-    email: 'john.smith@stmarys.edu',
-    role: 'SCHOOL_ADMIN',
-    school: 'St. Mary\'s Primary School',
-    phone: '+44 7700 900123',
-    status: 'active',
-    emailVerified: true,
-    createdAt: '2024-01-15',
-    lastActive: '2 hours ago',
-  },
-  {
-    id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah.j@greenfield.ac.uk',
-    role: 'TEACHER',
-    school: 'Greenfield Academy',
-    phone: '+44 7700 900456',
-    status: 'active',
-    emailVerified: true,
-    createdAt: '2024-01-10',
-    lastActive: '1 day ago',
-  },
-  {
-    id: '3',
-    name: 'Michael Brown',
-    email: 'mbrown@riverside.edu',
-    role: 'SCHOOL_ADMIN',
-    school: 'Riverside Primary',
-    phone: null,
-    status: 'pending',
-    emailVerified: false,
-    createdAt: '2024-01-20',
-    lastActive: 'Never',
-  },
-];
+interface UserData {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string;
+  role: string;
+  isEmailVerified: boolean;
+  createdAt: string;
+  school: {
+    name: string;
+    id: string;
+  } | null;
+  _count: {
+    licenses: number;
+  };
+}
 
-const roleColors = {
-  SUPER_ADMIN: 'bg-purple-100 text-purple-800',
-  SCHOOL_ADMIN: 'bg-blue-100 text-blue-800',
-  TEACHER: 'bg-green-100 text-green-800',
-};
-
-const statusColors = {
-  active: 'bg-green-100 text-green-800',
-  pending: 'bg-yellow-100 text-yellow-800',
-  suspended: 'bg-red-100 text-red-800',
-};
+interface UsersResponse {
+  users: UserData[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+}
 
 export default function UsersManagement() {
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const [showUserForm, setShowUserForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const filteredUsers = mockUsers.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.school.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesRole = selectedRole === 'all' || user.role === selectedRole;
-    const matchesStatus = selectedStatus === 'all' || user.status === selectedStatus;
-    
-    return matchesSearch && matchesRole && matchesStatus;
-  });
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: '10',
+        search: searchTerm,
+        role: selectedRole,
+        status: selectedStatus,
+      });
+
+      const response = await fetch(`/api/admin/users?${params}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch users');
+      }
+      
+      const data: UsersResponse = await response.json();
+      setUsers(data.users);
+      setTotalPages(data.totalPages);
+      setTotalCount(data.totalCount);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching users:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [currentPage, selectedRole, selectedStatus]);
+
+  useEffect(() => {
+    // Debounce search
+    const timer = setTimeout(() => {
+      setCurrentPage(1);
+      fetchUsers();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const handleDeleteUser = async (userId: string) => {
+    if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete user');
+      }
+
+      // Refresh the users list
+      fetchUsers();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to delete user');
+    }
+  };
+
+  const formatDateTime = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  const getUserName = (user: UserData) => {
+    if (user.firstName && user.lastName) {
+      return `${user.firstName} ${user.lastName}`;
+    }
+    if (user.firstName) return user.firstName;
+    if (user.lastName) return user.lastName;
+    return user.email.split('@')[0];
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'SUPER_ADMIN':
+        return 'bg-red-100 text-red-800';
+      case 'SCHOOL_ADMIN':
+        return 'bg-blue-100 text-blue-800';
+      case 'TEACHER':
+        return 'bg-green-100 text-green-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -119,41 +192,73 @@ export default function UsersManagement() {
               className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
             >
               <option value="all">All Status</option>
-              <option value="active">Active</option>
+              <option value="verified">Verified</option>
               <option value="pending">Pending</option>
-              <option value="suspended">Suspended</option>
             </select>
           </div>
         </div>
 
-        <button
-          onClick={() => setShowUserForm(true)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          Add User
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={fetchUsers}
+            className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Refresh
+          </button>
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors">
+            <Plus className="w-4 h-4" />
+            Add User
+          </button>
+        </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-gray-900">{mockUsers.length}</div>
-          <div className="text-sm text-gray-600">Total Users</div>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-2xl font-bold text-gray-900">{totalCount}</div>
+              <div className="text-sm text-gray-600">Total Users</div>
+            </div>
+            <User className="w-8 h-8 text-blue-500" />
+          </div>
         </div>
+        
         <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-green-600">{mockUsers.filter(u => u.status === 'active').length}</div>
-          <div className="text-sm text-gray-600">Active Users</div>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-2xl font-bold text-green-600">
+                {users.filter(u => u.isEmailVerified).length}
+              </div>
+              <div className="text-sm text-gray-600">Verified Users</div>
+            </div>
+            <CheckCircle className="w-8 h-8 text-green-500" />
+          </div>
         </div>
+        
         <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-yellow-600">{mockUsers.filter(u => u.status === 'pending').length}</div>
-          <div className="text-sm text-gray-600">Pending Verification</div>
-        </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="text-2xl font-bold text-blue-600">{mockUsers.filter(u => u.role === 'SCHOOL_ADMIN').length}</div>
-          <div className="text-sm text-gray-600">School Admins</div>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-2xl font-bold text-yellow-600">
+                {users.filter(u => !u.isEmailVerified).length}
+              </div>
+              <div className="text-sm text-gray-600">Pending Verification</div>
+            </div>
+            <Clock className="w-8 h-8 text-yellow-500" />
+          </div>
         </div>
       </div>
+
+      {/* Error State */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-5 h-5 text-red-500" />
+            <p className="text-red-700">{error}</p>
+          </div>
+        </div>
+      )}
 
       {/* Users Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -165,99 +270,144 @@ export default function UsersManagement() {
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Role</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900">School</th>
                 <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-900">Last Active</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-900">Joined</th>
                 <th className="text-right py-3 px-4 font-medium text-gray-900">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="py-4 px-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-gray-700">
-                          {user.name.split(' ').map(n => n[0]).join('')}
-                        </span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">{user.name}</div>
-                        <div className="text-sm text-gray-500 flex items-center gap-1">
-                          <Mail className="w-3 h-3" />
-                          {user.email}
-                          {!user.emailVerified && <span className="text-red-500">*</span>}
+              {loading ? (
+                // Loading skeleton
+                [...Array(5)].map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+                        <div>
+                          <div className="h-4 bg-gray-200 rounded w-32 mb-1"></div>
+                          <div className="h-3 bg-gray-200 rounded w-24"></div>
                         </div>
-                        {user.phone && (
-                          <div className="text-sm text-gray-500 flex items-center gap-1">
-                            <Phone className="w-3 h-3" />
-                            {user.phone}
-                          </div>
-                        )}
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      roleColors[user.role as keyof typeof roleColors]
-                    }`}>
-                      <Shield className="w-3 h-3 mr-1" />
-                      {user.role.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <div className="flex items-center gap-1">
-                      <Building2 className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm text-gray-900">{user.school}</span>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      statusColors[user.status as keyof typeof statusColors]
-                    }`}>
-                      {user.status}
-                    </span>
-                  </td>
-                  <td className="py-4 px-4 text-sm text-gray-500">
-                    {user.lastActive}
-                  </td>
-                  <td className="py-4 px-4 text-right">
-                    <div className="flex items-center gap-2 justify-end">
-                      <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button className="p-1 text-gray-400 hover:text-red-600 rounded">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                      <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </button>
-                    </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="h-4 bg-gray-200 rounded w-20"></div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="h-4 bg-gray-200 rounded w-32"></div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="h-4 bg-gray-200 rounded w-16"></div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="h-4 bg-gray-200 rounded w-20"></div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="h-4 bg-gray-200 rounded w-16"></div>
+                    </td>
+                  </tr>
+                ))
+              ) : users.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 px-4 text-center text-gray-500">
+                    No users found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                users.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <User className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-900">{getUserName(user)}</div>
+                          <div className="text-sm text-gray-500">{user.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
+                        {user.role.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2 text-sm text-gray-900">
+                        <Building2 className="w-4 h-4 text-gray-400" />
+                        {user.school?.name || 'No School'}
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        {user.isEmailVerified ? (
+                          <>
+                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            <span className="text-sm text-green-700">Verified</span>
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="w-4 h-4 text-red-500" />
+                            <span className="text-sm text-red-700">Pending</span>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-sm text-gray-900">
+                      {formatDateTime(user.createdAt)}
+                    </td>
+                    <td className="py-4 px-4 text-right">
+                      <div className="flex items-center gap-2 justify-end">
+                        <button className="p-1 text-gray-400 hover:text-gray-600 rounded" title="View Details">
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button className="p-1 text-gray-400 hover:text-gray-600 rounded" title="Edit User">
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(user.id)}
+                          className="p-1 text-gray-400 hover:text-red-600 rounded"
+                          title="Delete User"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                        <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-gray-500">
-          Showing {filteredUsers.length} of {mockUsers.length} users
-        </div>
-        <div className="flex gap-2">
-          <button className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-            Previous
-          </button>
-          <button className="px-3 py-2 text-sm bg-yellow-500 text-black rounded-lg">
-            1
-          </button>
-          <button className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-            2
-          </button>
-          <button className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-            Next
-          </button>
-        </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              Showing {((currentPage - 1) * 10) + 1} to {Math.min(currentPage * 10, totalCount)} of {totalCount} users
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Previous
+              </button>
+              <span className="text-sm text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
