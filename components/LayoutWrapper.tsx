@@ -11,8 +11,8 @@ interface LayoutWrapperProps {
 export default function LayoutWrapper({ children }: LayoutWrapperProps) {
   const pathname = usePathname();
 
-  // Check if current route is dashboard
-  const isDashboard = pathname.startsWith('/studio/dashboard');
+  // Keep app dashboards outside the public site chrome.
+  const isDashboard = pathname.startsWith('/studio/dashboard') || pathname.startsWith('/admin');
 
   if (isDashboard) {
     // Dashboard layout - no navbar/footer, full height
