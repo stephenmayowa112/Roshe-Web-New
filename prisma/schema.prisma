@@ -7,133 +7,10 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  role      Role     @default(SCHOOL_ADMIN)
-  
-  // Profile information
-  title     String?
-  phone     String?
-  
-  // Verification
-  emailVerified DateTime?
-  verificationToken String?
-  
-  // Password reset
-  resetToken String?
-  resetTokenExpiry DateTime?
-  
-  // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  // Relations
-  school    School?  @relation(fields: [schoolId], references: [id])
-  schoolId  String?
-  
-  // NextAuth relations
-  accounts Account[]
-  sessions Session[]
-  
-  @@map("users")
-}
-
-model School {
-  id          String   @id @default(cuid())
-  name        String
-  address     String?
-  city        String?
-  postcode    String?
-  country     String   @default("United Kingdom")
-  phone       String?
-  website     String?
-  
-  // School details
-  type        SchoolType @default(PRIMARY)
-  studentCount Int?
-  establishedYear Int?
-  
-  // Contact person
-  headTeacher String?
-  contactEmail String?
-  
-  // Settings
-  isActive    Boolean  @default(true)
-  
-  // Timestamps
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relations
-  users       User[]
-  licenses    License[]
-  
-  @@map("schools")
-}
-
-model License {
-  id          String      @id @default(cuid())
-  type        LicenseType
-  status      LicenseStatus @default(ACTIVE)
-  
-  // Pricing
-  amount      Int         // Amount in pence
-  currency    String      @default("GBP")
-  
-  // Validity
-  startDate   DateTime    @default(now())
-  endDate     DateTime?
-  
-  // Stripe integration
-  stripeCustomerId String?
-  stripeSubscriptionId String?
-  stripePriceId String?
-  
-  // Timestamps
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  
-  // Relations
-  school      School      @relation(fields: [schoolId], references: [id])
-  schoolId    String
-  
-  payments    Payment[]
-  
-  @@map("licenses")
-}
-
-model Payment {
-  id          String        @id @default(cuid())
-  amount      Int           // Amount in pence
-  currency    String        @default("GBP")
-  status      PaymentStatus @default(PENDING)
-  
-  // Stripe integration
-  stripePaymentIntentId String @unique
-  stripeCustomerId String?
-  
-  // Payment details
-  paymentMethod String?
-  description String?
-  
-  // Timestamps
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  
-  // Relations
-  license     License       @relation(fields: [licenseId], references: [id])
-  licenseId   String
-  
-  @@map("payments")
-}
-
-// NextAuth required models
+// NextAuth.js Models
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -151,7 +28,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@map("accounts")
 }
 
 model Session {
@@ -160,8 +36,49 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@map("sessions")
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  name      String?
+  role      String   @default("SCHOOL_ADMIN") // SUPER_ADMIN, SCHOOL_ADMIN, TEACHER
+  
+  // Profile information
+  title     String?
+  phone     String?
+  
+  // Verification
+  emailVerified DateTime?
+  isEmailVerified Boolean @default(false)
+  verificationToken String?
+  emailVerificationToken String?
+  emailVerificationExpires DateTime?
+  
+  // Password reset
+  resetToken String?
+  resetTokenExpiry DateTime?
+  passwordResetToken String?
+  passwordResetExpires DateTime?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  school    School?  @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  
+  // NextAuth relations
+  accounts Account[]
+  sessions Session[]
+  
+  // App relations
+  licenses License[]
+  payments Payment[]
 }
 
 model VerificationToken {
@@ -170,43 +87,131 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map("verification_tokens")
 }
 
-// Enums
-enum Role {
-  SUPER_ADMIN
-  SCHOOL_ADMIN
-  TEACHER
+// Application Models
+model School {
+  id           String   @id @default(cuid())
+  name         String
+  type         String   @default("PRIMARY") // PRIMARY, SECONDARY, INDEPENDENT, ACADEMY, FREE_SCHOOL, SPECIAL, NURSERY
+  
+  // Contact information
+  address      String?
+  city         String?
+  county       String?
+  postcode     String?
+  country      String   @default("United Kingdom")
+  
+  // Contact details
+  contactEmail String?
+  contactPhone String?
+  website      String?
+  
+  // School details
+  headTeacher     String?
+  studentCount    Int?
+  establishedYear Int?
+  urn            String? // Unique Reference Number
+  ofstedRating   String? // Outstanding, Good, Requires Improvement, Inadequate
+  
+  // Trust/Multi-Academy information
+  trustName   String?
+  isPartOfTrust Boolean @default(false)
+  
+  // Status
+  isActive    Boolean  @default(true)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  users       User[]
+  licenses    License[]
+  payments    Payment[]
 }
 
-enum SchoolType {
-  PRIMARY
-  SECONDARY
-  INDEPENDENT
-  ACADEMY
-  FREE_SCHOOL
-  SPECIAL
-  NURSERY
+model License {
+  id          String   @id @default(cuid())
+  type        String   // SINGLE_SCHOOL, MULTI_SCHOOL, TRIAL
+  status      String   @default("PENDING") // ACTIVE, EXPIRED, CANCELLED, PENDING
+  
+  // License details
+  description String?
+  features    String?  // JSON string of included features
+  maxUsers    Int?     // Maximum number of users (null = unlimited)
+  
+  // Pricing
+  amount      Int      // Amount in pence/cents
+  currency    String   @default("GBP")
+  
+  // Validity period
+  startDate   DateTime?
+  endDate     DateTime?
+  expiresAt   DateTime?
+  
+  // Renewal
+  autoRenew   Boolean  @default(false)
+  renewalDate DateTime?
+  
+  // Relations
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  
+  userId      String?  // License purchaser
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  payments    Payment[]
 }
 
-enum LicenseType {
-  SINGLE_SCHOOL
-  MULTI_SCHOOL
-  TRIAL
-}
-
-enum LicenseStatus {
-  ACTIVE
-  EXPIRED
-  CANCELLED
-  PENDING
-}
-
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  CANCELLED
-  REFUNDED
+model Payment {
+  id                String   @id @default(cuid())
+  
+  // Stripe information
+  stripePaymentIntentId String? @unique
+  stripeCustomerId     String?
+  stripeSessionId      String?
+  
+  // Payment details
+  amount        Int      // Amount in pence/cents
+  currency      String   @default("GBP")
+  status        String   @default("PENDING") // PENDING, SUCCEEDED, FAILED, CANCELLED, REFUNDED
+  
+  // Payment method
+  paymentMethod String?  // card, bank_transfer, etc.
+  last4         String?  // Last 4 digits of card
+  brand         String?  // visa, mastercard, etc.
+  
+  // Description and metadata
+  description   String?
+  metadata      String?  // JSON string for additional data
+  
+  // Failure information
+  failureCode   String?
+  failureMessage String?
+  
+  // Refund information
+  refundAmount  Int?     // Amount refunded in pence/cents
+  refundReason  String?
+  refundedAt    DateTime?
+  
+  // Relations
+  schoolId      String?
+  school        School?  @relation(fields: [schoolId], references: [id])
+  
+  licenseId     String?
+  license       License? @relation(fields: [licenseId], references: [id])
+  
+  userId        String?  // User who made the payment
+  user          User?    @relation(fields: [userId], references: [id])
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  paidAt        DateTime?
 }

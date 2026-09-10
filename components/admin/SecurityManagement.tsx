@@ -20,7 +20,8 @@ import {
   MoreHorizontal,
   CheckCircle,
   XCircle,
-  Ban
+  Ban,
+  Users
 } from 'lucide-react';
 
 // Mock security data

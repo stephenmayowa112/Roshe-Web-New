@@ -322,7 +322,7 @@ export default function SettingsManagement() {
           <h4 className="text-sm font-medium text-yellow-800">Security Notice</h4>
         </div>
         <p className="text-sm text-yellow-700 mt-1">
-          API keys are sensitive. Only update them if necessary and ensure they're kept secure.
+          API keys are sensitive. Only update them if necessary and ensure they&apos;re kept secure.
         </p>
       </div>
       

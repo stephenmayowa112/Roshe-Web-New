@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     const { user } = authResult;
 
-    if (!user.schoolId) {
+    if (!user?.schoolId) {
       return NextResponse.json(
         { error: 'No school associated with this account' },
         { status: 404 }
@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest) {
 
     const { user } = authResult;
 
-    if (!user.schoolId) {
+    if (!user?.schoolId) {
       return NextResponse.json(
         { error: 'No school associated with this account' },
         { status: 404 }
