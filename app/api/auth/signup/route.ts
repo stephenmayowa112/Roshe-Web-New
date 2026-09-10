@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
                             Math.random().toString(36).substring(2, 15);
 
     // Create school and user in transaction
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // Create school
       const school = await tx.school.create({
         data: {

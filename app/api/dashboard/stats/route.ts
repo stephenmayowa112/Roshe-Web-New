@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       userCount
     ] = await Promise.all([
       // School information
-      prisma.school.findUnique({
+      user?.schoolId ? prisma.school.findUnique({
         where: { id: user.schoolId },
         select: {
           id: true,
@@ -31,10 +31,10 @@ export async function GET(request: NextRequest) {
           studentCount: true,
           createdAt: true,
         }
-      }),
+      }) : null,
       
       // Active licenses
-      prisma.license.findMany({
+      user?.schoolId ? prisma.license.findMany({
         where: {
           schoolId: user.schoolId,
           status: 'ACTIVE',
@@ -46,10 +46,10 @@ export async function GET(request: NextRequest) {
           endDate: true,
           amount: true,
         }
-      }),
+      }) : [],
       
       // Total payment amount
-      prisma.payment.aggregate({
+      user?.schoolId ? prisma.payment.aggregate({
         where: {
           license: {
             schoolId: user.schoolId,
@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
         _sum: {
           amount: true,
         },
-      }),
+      }) : { _sum: { amount: null } },
       
       // Recent payments
-      prisma.payment.findMany({
+      user?.schoolId ? prisma.payment.findMany({
         where: {
           license: {
             schoolId: user.schoolId,
@@ -79,14 +79,14 @@ export async function GET(request: NextRequest) {
           createdAt: true,
           description: true,
         },
-      }),
+      }) : [],
       
       // User count
-      prisma.user.count({
+      user?.schoolId ? prisma.user.count({
         where: {
           schoolId: user.schoolId,
         }
-      })
+      }) : 0
     ]);
 
     const stats = {
