@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { 
   Search, 
   Filter, 
@@ -56,7 +56,7 @@ export default function UsersManagement() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -86,17 +86,17 @@ export default function UsersManagement() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, selectedRole, selectedStatus, searchTerm]);
 
   useEffect(() => {
     fetchUsers();
-  }, [currentPage, selectedRole, selectedStatus]);
+  }, [fetchUsers]);
 
   useEffect(() => {
     // Debounce search
     const timer = setTimeout(() => {
       setCurrentPage(1);
-      fetchUsers();
+      // The fetchUsers will be called automatically due to the dependency change
     }, 500);
 
     return () => clearTimeout(timer);

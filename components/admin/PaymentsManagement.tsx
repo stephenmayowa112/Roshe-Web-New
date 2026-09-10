@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { 
   Search, 
   Download, 
@@ -87,7 +87,7 @@ export default function PaymentsManagement() {
     refundedPayments: 0,
   });
 
-  const fetchPayments = async () => {
+  const fetchPayments = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -158,11 +158,11 @@ export default function PaymentsManagement() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, selectedStatus, selectedDateRange, searchTerm]);
 
   useEffect(() => {
     fetchPayments();
-  }, [currentPage, selectedStatus, selectedDateRange]);
+  }, [fetchPayments]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
