@@ -7,6 +7,7 @@ A comprehensive admin dashboard system for Roshe Studios with full control over 
 ## 🏗️ **System Architecture**
 
 ### **Frontend Components** (`/components/admin/`)
+
 - **AdminSidebar.tsx** - Collapsible navigation with role-based access
 - **AdminHeader.tsx** - Header with user info and actions
 - **AdminOverview.tsx** - Dashboard homepage with key metrics
@@ -19,6 +20,7 @@ A comprehensive admin dashboard system for Roshe Studios with full control over 
 - **SecurityManagement.tsx** - Security monitoring and access control
 
 ### **Backend API Routes** (`/app/api/admin/`)
+
 - **`/admin/stats`** - Dashboard statistics and metrics
 - **`/admin/users`** - User management CRUD operations
 - **`/admin/users/[id]`** - Individual user operations

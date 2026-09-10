@@ -167,7 +167,7 @@ export default function PaymentsManagement() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentPage(1);
-      fetchPayments();
+      // The fetchPayments will be called automatically due to the dependency change
     }, 500);
 
     return () => clearTimeout(timer);
