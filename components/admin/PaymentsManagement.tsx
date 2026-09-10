@@ -161,6 +161,7 @@ export default function PaymentsManagement() {
   }, [currentPage, selectedStatus, selectedDateRange, searchTerm]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPayments();
   }, [fetchPayments]);
 

@@ -89,6 +89,7 @@ export default function UsersManagement() {
   }, [currentPage, selectedRole, selectedStatus, searchTerm]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchUsers();
   }, [fetchUsers]);
 
