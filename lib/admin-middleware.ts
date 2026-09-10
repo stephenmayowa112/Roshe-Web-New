@@ -44,7 +44,7 @@ export async function requireAdmin(): Promise<AdminUser> {
     throw new Error('USER_NOT_FOUND');
   }
 
-  if (user.role !== 'ADMIN') {
+  if (!['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
     throw new Error('FORBIDDEN');
   }
 

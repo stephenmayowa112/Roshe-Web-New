@@ -24,7 +24,7 @@ async function checkAdminAccess() {
     where: { id: decoded.userId }
   });
 
-  if (!user || user.role !== 'ADMIN') {
+  if (!user || !['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
     throw new Error('Forbidden');
   }
 

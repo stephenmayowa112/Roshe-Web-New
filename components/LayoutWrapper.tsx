@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -10,6 +11,16 @@ interface LayoutWrapperProps {
 
 export default function LayoutWrapper({ children }: LayoutWrapperProps) {
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Keep the initial server and client markup identical while the route is resolved.
+  if (!isMounted) {
+    return <>{children}</>;
+  }
 
   // Keep app dashboards outside the public site chrome.
   const isDashboard = pathname.startsWith('/studio/dashboard') || pathname.startsWith('/admin');

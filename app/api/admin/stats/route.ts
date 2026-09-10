@@ -25,7 +25,7 @@ export async function GET() {
       where: { id: decoded.userId }
     });
 
-    if (!user || user.role !== 'ADMIN') {
+    if (!user || !['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
