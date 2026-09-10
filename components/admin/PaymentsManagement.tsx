@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Search, 
   Download, 
@@ -19,93 +19,34 @@ import {
   DollarSign
 } from 'lucide-react';
 
-// Mock data - will be replaced with real API calls
-const mockPayments = [
-  {
-    id: 'pay_1234567890',
-    stripePaymentId: 'pi_3abcdef123',
-    schoolName: 'St. Mary\'s Primary School',
-    schoolId: 'school_001',
-    licenseId: 'lic_001',
-    amount: 20000, // £200 in pence
-    currency: 'GBP',
-    status: 'SUCCEEDED',
-    method: 'card',
-    brand: 'visa',
-    last4: '4242',
-    description: 'Single School License - Annual',
-    createdAt: '2024-01-15T10:30:00Z',
-    paidAt: '2024-01-15T10:30:15Z',
-    failureReason: null,
-    refunded: false,
-    refundAmount: 0,
-    fees: 89, // Stripe fees in pence
-    net: 19911,
-  },
-  {
-    id: 'pay_2345678901',
-    stripePaymentId: 'pi_3bcdefg456',
-    schoolName: 'Greenfield Academy',
-    schoolId: 'school_002',
-    licenseId: 'lic_002',
-    amount: 70000, // £700 in pence
-    currency: 'GBP',
-    status: 'SUCCEEDED',
-    method: 'card',
-    brand: 'mastercard',
-    last4: '5555',
-    description: 'Multi-School License - Annual',
-    createdAt: '2024-01-10T14:20:00Z',
-    paidAt: '2024-01-10T14:20:08Z',
-    failureReason: null,
-    refunded: false,
-    refundAmount: 0,
-    fees: 208,
-    net: 69792,
-  },
-  {
-    id: 'pay_3456789012',
-    stripePaymentId: 'pi_3cdefgh789',
-    schoolName: 'Riverside Primary',
-    schoolId: 'school_003',
-    licenseId: 'lic_003',
-    amount: 20000,
-    currency: 'GBP',
-    status: 'FAILED',
-    method: 'card',
-    brand: 'visa',
-    last4: '0002',
-    description: 'Single School License - Annual',
-    createdAt: '2024-01-08T16:45:00Z',
-    paidAt: null,
-    failureReason: 'Your card was declined.',
-    refunded: false,
-    refundAmount: 0,
-    fees: 0,
-    net: 0,
-  },
-  {
-    id: 'pay_4567890123',
-    stripePaymentId: 'pi_3defghi012',
-    schoolName: 'Oak Tree School',
-    schoolId: 'school_004',
-    licenseId: 'lic_004',
-    amount: 20000,
-    currency: 'GBP',
-    status: 'SUCCEEDED',
-    method: 'card',
-    brand: 'amex',
-    last4: '8431',
-    description: 'Single School License - Annual',
-    createdAt: '2023-12-20T11:15:00Z',
-    paidAt: '2023-12-20T11:15:12Z',
-    failureReason: null,
-    refunded: true,
-    refundAmount: 20000,
-    fees: 89,
-    net: -89,
-  },
-];
+interface Payment {
+  id: string;
+  stripePaymentIntentId: string | null;
+  amount: number;
+  currency: string;
+  status: string;
+  paymentMethod: string | null;
+  last4: string | null;
+  brand: string | null;
+  description: string | null;
+  failureMessage: string | null;
+  refundAmount: number | null;
+  createdAt: string;
+  paidAt: string | null;
+  school: {
+    name: string;
+  } | null;
+  license: {
+    type: string;
+  } | null;
+}
+
+interface PaymentStats {
+  totalRevenue: number;
+  successfulPayments: number;
+  failedPayments: number;
+  refundedPayments: number;
+}
 
 const statusColors = {
   SUCCEEDED: 'bg-green-100 text-green-800',
@@ -131,26 +72,106 @@ const brandColors = {
 };
 
 export default function PaymentsManagement() {
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedDateRange, setSelectedDateRange] = useState('30');
-
-  const filteredPayments = mockPayments.filter(payment => {
-    const matchesSearch = payment.schoolName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         payment.stripePaymentId.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = selectedStatus === 'all' || payment.status === selectedStatus;
-    
-    // Date range filter (simplified)
-    const paymentDate = new Date(payment.createdAt);
-    const now = new Date();
-    const daysAgo = parseInt(selectedDateRange);
-    const cutoffDate = new Date(now.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
-    const matchesDateRange = selectedDateRange === 'all' || paymentDate >= cutoffDate;
-    
-    return matchesSearch && matchesStatus && matchesDateRange;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [stats, setStats] = useState<PaymentStats>({
+    totalRevenue: 0,
+    successfulPayments: 0,
+    failedPayments: 0,
+    refundedPayments: 0,
   });
+
+  const fetchPayments = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: '10',
+        search: searchTerm,
+        status: selectedStatus,
+        dateRange: selectedDateRange,
+      });
+
+      // For now, we'll use mock data since the API endpoint doesn't exist yet
+      // Replace this with actual API call once implemented
+      const mockData = {
+        payments: [
+          {
+            id: 'pay_1234567890',
+            stripePaymentIntentId: 'pi_3abcdef123',
+            amount: 20000,
+            currency: 'GBP',
+            status: 'SUCCEEDED',
+            paymentMethod: 'card',
+            brand: 'visa',
+            last4: '4242',
+            description: 'Single School License - Annual',
+            createdAt: '2024-01-15T10:30:00Z',
+            paidAt: '2024-01-15T10:30:15Z',
+            failureMessage: null,
+            refundAmount: null,
+            school: { name: 'St. Mary\'s Primary School' },
+            license: { type: 'SINGLE_SCHOOL' },
+          },
+          {
+            id: 'pay_2345678901',
+            stripePaymentIntentId: 'pi_3bcdefg456',
+            amount: 70000,
+            currency: 'GBP',
+            status: 'SUCCEEDED',
+            paymentMethod: 'card',
+            brand: 'mastercard',
+            last4: '5555',
+            description: 'Multi-School License - Annual',
+            createdAt: '2024-01-10T14:20:00Z',
+            paidAt: '2024-01-10T14:20:08Z',
+            failureMessage: null,
+            refundAmount: null,
+            school: { name: 'Greenfield Academy' },
+            license: { type: 'MULTI_SCHOOL' },
+          },
+        ],
+        totalPages: 1,
+        stats: {
+          totalRevenue: 90000,
+          successfulPayments: 2,
+          failedPayments: 0,
+          refundedPayments: 0,
+        }
+      };
+
+      setPayments(mockData.payments);
+      setTotalPages(mockData.totalPages);
+      setStats(mockData.stats);
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching payments:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPayments();
+  }, [currentPage, selectedStatus, selectedDateRange]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentPage(1);
+      fetchPayments();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-GB', {
@@ -170,10 +191,46 @@ export default function PaymentsManagement() {
     });
   };
 
-  const totalRevenue = filteredPayments.reduce((sum, p) => sum + (p.status === 'SUCCEEDED' ? p.amount : 0), 0);
-  const totalFees = filteredPayments.reduce((sum, p) => sum + (p.status === 'SUCCEEDED' ? p.fees : 0), 0);
-  const successfulPayments = filteredPayments.filter(p => p.status === 'SUCCEEDED').length;
-  const failedPayments = filteredPayments.filter(p => p.status === 'FAILED').length;
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white rounded-lg border border-gray-200 p-4">
+              <div className="animate-pulse">
+                <div className="h-8 bg-gray-200 rounded w-16 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-20"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="animate-pulse space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-16 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Failed to Load Payments</h3>
+        <p className="text-gray-600 mb-4">{error}</p>
+        <button
+          onClick={fetchPayments}
+          className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors"
+        >
+          <RefreshCw className="w-4 h-4" />
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -221,9 +278,12 @@ export default function PaymentsManagement() {
         </div>
 
         <div className="flex gap-3">
-          <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition-colors">
-            <Filter className="w-4 h-4" />
-            More Filters
+          <button
+            onClick={fetchPayments}
+            className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Refresh
           </button>
           <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition-colors">
             <Download className="w-4 h-4" />
@@ -237,7 +297,7 @@ export default function PaymentsManagement() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-900">{formatCurrency(totalRevenue)}</div>
+              <div className="text-2xl font-bold text-gray-900">{formatCurrency(stats.totalRevenue)}</div>
               <div className="text-sm text-gray-600">Total Revenue</div>
             </div>
             <div className="p-2 bg-green-100 rounded-lg">
@@ -249,7 +309,7 @@ export default function PaymentsManagement() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-900">{filteredPayments.length}</div>
+              <div className="text-2xl font-bold text-gray-900">{payments.length}</div>
               <div className="text-sm text-gray-600">Total Transactions</div>
             </div>
             <div className="p-2 bg-blue-100 rounded-lg">
@@ -261,7 +321,7 @@ export default function PaymentsManagement() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-green-600">{successfulPayments}</div>
+              <div className="text-2xl font-bold text-green-600">{stats.successfulPayments}</div>
               <div className="text-sm text-gray-600">Successful</div>
             </div>
             <div className="p-2 bg-green-100 rounded-lg">
@@ -273,31 +333,12 @@ export default function PaymentsManagement() {
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-red-600">{failedPayments}</div>
+              <div className="text-2xl font-bold text-red-600">{stats.failedPayments}</div>
               <div className="text-sm text-gray-600">Failed</div>
             </div>
             <div className="p-2 bg-red-100 rounded-lg">
               <XCircle className="w-5 h-5 text-red-600" />
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Revenue Overview */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Breakdown</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{formatCurrency(totalRevenue)}</div>
-            <div className="text-sm text-gray-600">Gross Revenue</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-red-600">-{formatCurrency(totalFees)}</div>
-            <div className="text-sm text-gray-600">Processing Fees</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{formatCurrency(totalRevenue - totalFees)}</div>
-            <div className="text-sm text-gray-600">Net Revenue</div>
           </div>
         </div>
       </div>
@@ -318,85 +359,113 @@ export default function PaymentsManagement() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {filteredPayments.map((payment) => {
-                const StatusIcon = statusIcons[payment.status as keyof typeof statusIcons];
-                const actualStatus = payment.refunded ? 'REFUNDED' : payment.status;
-                
-                return (
-                  <tr key={payment.id} className="hover:bg-gray-50">
-                    <td className="py-4 px-4">
-                      <div>
-                        <div className="font-medium text-gray-900">{payment.id}</div>
-                        <div className="text-sm text-gray-500">{payment.stripePaymentId}</div>
-                        <div className="text-xs text-gray-400">{payment.description}</div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <Building2 className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm text-gray-900">{payment.schoolName}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="text-sm">
-                        <div className="font-medium text-gray-900">{formatCurrency(payment.amount)}</div>
-                        {payment.refunded && (
-                          <div className="text-red-600 text-xs">Refunded: {formatCurrency(payment.refundAmount)}</div>
-                        )}
-                        {payment.status === 'SUCCEEDED' && (
-                          <div className="text-gray-500 text-xs">Fee: {formatCurrency(payment.fees)}</div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <CreditCard className={`w-4 h-4 ${brandColors[payment.brand as keyof typeof brandColors] || 'text-gray-400'}`} />
-                        <div className="text-sm">
-                          <div className="text-gray-900 capitalize">{payment.brand}</div>
-                          <div className="text-gray-500">•••• {payment.last4}</div>
+              {payments.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-8 px-4 text-center text-gray-500">
+                    No payments found
+                  </td>
+                </tr>
+              ) : (
+                payments.map((payment) => {
+                  const StatusIcon = statusIcons[payment.status as keyof typeof statusIcons] || Clock;
+                  const actualStatus = payment.refundAmount ? 'REFUNDED' : payment.status;
+                  
+                  return (
+                    <tr key={payment.id} className="hover:bg-gray-50">
+                      <td className="py-4 px-4">
+                        <div>
+                          <div className="font-medium text-gray-900">{payment.id}</div>
+                          <div className="text-sm text-gray-500">{payment.stripePaymentIntentId || 'N/A'}</div>
+                          <div className="text-xs text-gray-400">{payment.description || 'No description'}</div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        statusColors[actualStatus as keyof typeof statusColors]
-                      }`}>
-                        <StatusIcon className="w-3 h-3 mr-1" />
-                        {actualStatus}
-                      </span>
-                      {payment.failureReason && (
-                        <div className="text-xs text-red-600 mt-1">{payment.failureReason}</div>
-                      )}
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="text-sm">
-                        <div className="text-gray-900">{formatDateTime(payment.createdAt)}</div>
-                        {payment.paidAt && (
-                          <div className="text-gray-500 text-xs">Paid: {formatDateTime(payment.paidAt)}</div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-4 h-4 text-gray-400" />
+                          <span className="text-sm text-gray-900">{payment.school?.name || 'Unknown School'}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="text-sm">
+                          <div className="font-medium text-gray-900">{formatCurrency(payment.amount)}</div>
+                          {payment.refundAmount && (
+                            <div className="text-red-600 text-xs">Refunded: {formatCurrency(payment.refundAmount)}</div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <CreditCard className={`w-4 h-4 ${brandColors[payment.brand as keyof typeof brandColors] || 'text-gray-400'}`} />
+                          <div className="text-sm">
+                            <div className="text-gray-900 capitalize">{payment.brand || 'Card'}</div>
+                            <div className="text-gray-500">•••• {payment.last4 || '****'}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          statusColors[actualStatus as keyof typeof statusColors] || 'bg-gray-100 text-gray-800'
+                        }`}>
+                          <StatusIcon className="w-3 h-3 mr-1" />
+                          {actualStatus}
+                        </span>
+                        {payment.failureMessage && (
+                          <div className="text-xs text-red-600 mt-1">{payment.failureMessage}</div>
                         )}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4 text-right">
-                      <div className="flex items-center gap-2 justify-end">
-                        <button className="p-1 text-gray-400 hover:text-gray-600 rounded" title="View Details">
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        {payment.status === 'SUCCEEDED' && !payment.refunded && (
-                          <button className="p-1 text-gray-400 hover:text-gray-600 rounded" title="Refund">
-                            <RefreshCw className="w-4 h-4" />
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="text-sm">
+                          <div className="text-gray-900">{formatDateTime(payment.createdAt)}</div>
+                          {payment.paidAt && (
+                            <div className="text-gray-500 text-xs">Paid: {formatDateTime(payment.paidAt)}</div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <div className="flex items-center gap-2 justify-end">
+                          <button className="p-1 text-gray-400 hover:text-gray-600 rounded" title="View Details">
+                            <Eye className="w-4 h-4" />
                           </button>
-                        )}
-                        <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                          <button className="p-1 text-gray-400 hover:text-gray-600 rounded">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+            <div className="text-sm text-gray-700">
+              Showing payments
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Previous
+              </button>
+              <span className="text-sm text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border border-gray-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
