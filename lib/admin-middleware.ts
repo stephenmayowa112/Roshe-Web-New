@@ -6,8 +6,8 @@ import { prisma } from '@/lib/db';
 export interface AdminUser {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  firstName: string | null;
+  lastName: string | null;
   role: string;
 }
 
