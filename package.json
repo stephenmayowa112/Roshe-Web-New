@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "clean": "next clean",
@@ -13,7 +13,9 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "tsx scripts/seed.ts",
-    "db:setup": "prisma db push && npm run db:seed"
+    "db:setup": "prisma db push && npm run db:seed",
+    "vercel:setup": "npx prisma db push && tsx scripts/setup-vercel-postgres.ts",
+    "vercel:seed": "tsx scripts/setup-vercel-postgres.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
