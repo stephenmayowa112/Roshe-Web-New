@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
+import { JWT_SECRET } from '@/lib/jwt';
 
 const prisma = new PrismaClient();
 

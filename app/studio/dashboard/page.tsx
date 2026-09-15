@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Play, FileText, Users, PenTool, Settings, Download } from 'lucide-react';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 const resources = [
   {
@@ -76,6 +77,34 @@ const recentlyUsed = [
 
 export default function DashboardPage() {
   const [showFilmGuide, setShowFilmGuide] = useState(false);
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f5bf05] mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'unauthenticated') {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-gray-600 mb-4">Please sign in to access your dashboard.</p>
+          <a
+            href="/studio/signin"
+            className="bg-[#f5bf05] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#e6b100] transition-colors"
+          >
+            Sign In
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   const handleWatchFilm = () => {
     // TODO: Implement film watching functionality
@@ -93,6 +122,26 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6">
+      {/* Welcome Section */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Welcome back, {session?.user?.name || session?.user?.email}!
+            </h1>
+            {session?.user?.school && (
+              <p className="text-gray-600">
+                {session.user.school.name} • {session.user.role.replace('_', ' ')}
+              </p>
+            )}
+          </div>
+          <div className="text-right">
+            <div className="text-sm text-gray-500">Last login</div>
+            <div className="text-sm font-medium">Today</div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative mb-8 rounded-xl overflow-hidden">
         <div className="relative h-80">

@@ -4,24 +4,55 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { signIn, getSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function StudioSignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [keepSignedIn, setKeepSignedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement sign in logic
-    console.log('Sign in data:', formData, { keepSignedIn });
+    setIsLoading(true);
+    
+    try {
+      const result = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+      
+      if (result?.error) {
+        toast.error(result.error);
+      } else {
+        toast.success('Signed in successfully!');
+        router.push('/studio/dashboard');
+      }
+    } catch (error) {
+      toast.error('An error occurred during sign in');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    // TODO: Implement Google sign in
-    console.log('Google sign in');
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const result = await signIn('google', {
+        callbackUrl: '/studio/dashboard',
+      });
+    } catch (error) {
+      toast.error('Error signing in with Google');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -82,7 +113,8 @@ export default function StudioSignInPage() {
           {/* Google Sign In */}
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors mb-6"
+            disabled={isLoading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -148,9 +180,10 @@ export default function StudioSignInPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#f5bf05] text-black font-semibold py-3 rounded-lg hover:bg-[#e6b100] transition-colors"
+              disabled={isLoading}
+              className="w-full bg-[#f5bf05] text-black font-semibold py-3 rounded-lg hover:bg-[#e6b100] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Log in
+              {isLoading ? 'Signing in...' : 'Log in'}
             </button>
 
             <div className="flex items-center">

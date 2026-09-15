@@ -2,16 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
+import { randomBytes } from 'crypto';
 
 const prisma = new PrismaClient();
 
 const signupSchema = z.object({
+  schoolName: z.string().min(1, 'School name is required'),
+  region: z.string().min(1, 'Region is required'),
   email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  schoolName: z.string().min(2, 'School name must be at least 2 characters'),
-  title: z.string().optional(),
-  phone: z.string().optional(),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, 
+      'Password must contain uppercase, lowercase, number and special character'),
 });
 
 export async function POST(request: NextRequest) {
@@ -31,47 +33,67 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if school already exists
+    let school = await prisma.school.findFirst({
+      where: { name: validatedData.schoolName }
+    });
+
+    // Create school if it doesn't exist
+    if (!school) {
+      school = await prisma.school.create({
+        data: {
+          name: validatedData.schoolName,
+          city: validatedData.region,
+          type: 'PRIMARY', // Default type
+          isActive: true,
+        }
+      });
+    }
+
     // Hash password
     const hashedPassword = await hash(validatedData.password, 12);
 
-    // Generate verification token
-    const verificationToken = Math.random().toString(36).substring(2, 15) + 
-                            Math.random().toString(36).substring(2, 15);
+    // Generate email verification token
+    const emailVerificationToken = randomBytes(32).toString('hex');
+    const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    // Create school and user in transaction
-    const result = await prisma.$transaction(async (tx: any) => {
-      // Create school
-      const school = await tx.school.create({
-        data: {
-          name: validatedData.schoolName,
-          contactEmail: validatedData.email,
-        }
-      });
-
-      // Create user
-      const user = await tx.user.create({
-        data: {
-          email: validatedData.email,
-          password: hashedPassword,
-          name: validatedData.name,
-          title: validatedData.title,
-          phone: validatedData.phone,
-          role: 'SCHOOL_ADMIN',
-          schoolId: school.id,
-          verificationToken,
-        }
-      });
-
-      return { user, school };
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        email: validatedData.email,
+        password: hashedPassword,
+        name: validatedData.email.split('@')[0], // Use email prefix as default name
+        role: 'SCHOOL_ADMIN',
+        schoolId: school.id,
+        emailVerificationToken,
+        emailVerificationExpires,
+        isEmailVerified: false,
+      },
+      include: {
+        school: true,
+      }
     });
 
-    // TODO: Send verification email
-    // await sendVerificationEmail(validatedData.email, verificationToken);
+    // TODO: Send email verification email
+    // For now, we'll auto-verify for demo purposes
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isEmailVerified: true,
+        emailVerified: new Date(),
+      }
+    });
 
     return NextResponse.json({
-      message: 'Account created successfully. Please check your email to verify your account.',
-      userId: result.user.id,
-    }, { status: 201 });
+      message: 'User created successfully',
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        school: user.school,
+      }
+    });
 
   } catch (error) {
     console.error('Signup error:', error);
@@ -79,6 +101,13 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof Error && error.message.includes('Unique constraint')) {
+      return NextResponse.json(
+        { error: 'User with this email already exists' },
         { status: 400 }
       );
     }

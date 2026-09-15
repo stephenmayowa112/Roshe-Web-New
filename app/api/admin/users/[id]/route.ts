@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
+import { JWT_SECRET } from '@/lib/jwt';
 
 // Helper function to check admin access
 async function checkAdminAccess() {
@@ -15,7 +16,7 @@ async function checkAdminAccess() {
 
   let decoded;
   try {
-    decoded = jwt.verify(token.value, process.env.JWT_SECRET!) as any;
+    decoded = jwt.verify(token.value, JWT_SECRET) as any;
   } catch (error) {
     throw new Error('Invalid token');
   }

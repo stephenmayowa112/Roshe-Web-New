@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   
   // Ensure component is mounted before checking pathname to avoid hydration mismatch
   useEffect(() => {
@@ -18,6 +20,14 @@ export default function Navbar() {
   }, []);
 
   const isLicensingPage = mounted && pathname === '/licensing';
+  
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' });
+  };
+  
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' });
+  };
 
   return (
     <header className="w-full bg-white sticky top-0 z-50">
@@ -55,12 +65,26 @@ export default function Navbar() {
             <Link href="/studio" className="text-gray-600 hover:text-black">
               Studio
             </Link>
-            <Link 
-              href="/studio/signin"
-              className="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition-colors"
-            >
-              Sign In
-            </Link>
+            {session ? (
+              <div className="flex items-center gap-3">
+                <Link href="/studio/dashboard" className="text-gray-600 hover:text-black">
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="bg-red-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-red-700 transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link 
+                href="/studio/signin"
+                className="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         ) : (
           <nav className="hidden md:flex items-center gap-8">
@@ -100,7 +124,14 @@ export default function Navbar() {
           {isLicensingPage ? (
             <div className="space-y-6">
               <Link href="/studio" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-3 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Studio</Link>
-              <Link href="/studio/signin" onClick={() => setIsMobileMenuOpen(false)} className="bg-white text-black px-4 py-3 rounded font-medium inline-block">Sign In</Link>
+              {session ? (
+                <>
+                  <Link href="/studio/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-yellow-500 py-3 uppercase font-medium outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 block">Dashboard</Link>
+                  <button onClick={handleSignOut} className="bg-red-600 text-white px-4 py-3 rounded font-medium inline-block hover:bg-red-700">Sign Out</button>
+                </>
+              ) : (
+                <Link href="/studio/signin" onClick={() => setIsMobileMenuOpen(false)} className="bg-white text-black px-4 py-3 rounded font-medium inline-block">Sign In</Link>
+              )}
             </div>
           ) : (
             <>

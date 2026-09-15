@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import LayoutWrapper from '@/components/LayoutWrapper';
+import { Providers } from '@/components/Providers';
+import { Toaster } from 'react-hot-toast';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -95,9 +97,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-sans text-gray-900 bg-gray-50" style={{ fontFamily: "'Poppins', sans-serif" }} suppressHydrationWarning>
-        <LayoutWrapper>
-          {children}
-        </LayoutWrapper>
+        <Providers>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
+          <Toaster position="top-right" />
+        </Providers>
       </body>
     </html>
   );

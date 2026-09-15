@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
+import { JWT_SECRET } from '@/lib/jwt';
 
 export async function GET() {
   try {
@@ -15,7 +16,7 @@ export async function GET() {
 
     let decoded;
     try {
-      decoded = jwt.verify(token.value, process.env.JWT_SECRET!) as any;
+      decoded = jwt.verify(token.value, JWT_SECRET) as any;
     } catch (error) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }

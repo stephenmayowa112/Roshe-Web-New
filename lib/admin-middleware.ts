@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
+import { JWT_SECRET } from '@/lib/jwt';
 
 export interface AdminUser {
   id: string;
@@ -24,7 +25,7 @@ export async function requireAdmin(): Promise<AdminUser> {
 
   let decoded;
   try {
-    decoded = jwt.verify(token.value, process.env.JWT_SECRET!) as any;
+    decoded = jwt.verify(token.value, JWT_SECRET) as any;
   } catch (error) {
     throw new Error('INVALID_TOKEN');
   }

@@ -66,7 +66,9 @@ export default function AdminOverview() {
       const response = await fetch('/api/admin/stats');
       
       if (!response.ok) {
-        throw new Error('Failed to fetch admin statistics');
+        const body = await response.json().catch(() => null);
+        const message = typeof body?.error === 'string' ? body.error : response.statusText;
+        throw new Error(`Failed to fetch admin statistics (${response.status}: ${message})`);
       }
       
       const data = await response.json();

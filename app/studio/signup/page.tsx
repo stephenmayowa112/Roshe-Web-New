@@ -4,25 +4,60 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function StudioSignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     schoolName: '',
     region: '',
     email: '',
     password: '',
   });
+  
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement sign up logic
-    console.log('Sign up data:', formData);
+    setIsLoading(true);
+    
+    try {
+      // First register the user
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+      
+      toast.success('Account created successfully! Please check your email to verify your account.');
+      router.push('/studio/signin');
+      
+    } catch (error: any) {
+      toast.error(error.message || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignUp = () => {
-    // TODO: Implement Google sign up
-    console.log('Google sign up');
+  const handleGoogleSignUp = async () => {
+    setIsLoading(true);
+    try {
+      await signIn('google', {
+        callbackUrl: '/studio/dashboard',
+      });
+    } catch (error) {
+      toast.error('Error signing up with Google');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -83,7 +118,8 @@ export default function StudioSignUpPage() {
           {/* Google Sign Up */}
           <button
             onClick={handleGoogleSignUp}
-            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors mb-6"
+            disabled={isLoading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -174,9 +210,10 @@ export default function StudioSignUpPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#f5bf05] text-black font-semibold py-3 rounded-lg hover:bg-[#e6b100] transition-colors"
+              disabled={isLoading}
+              className="w-full bg-[#f5bf05] text-black font-semibold py-3 rounded-lg hover:bg-[#e6b100] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign up
+              {isLoading ? 'Creating Account...' : 'Sign up'}
             </button>
           </form>
 
