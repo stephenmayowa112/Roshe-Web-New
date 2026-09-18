@@ -13,6 +13,20 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   // Allow linking accounts with the same email address
   debug: process.env.NODE_ENV === 'development',
+  
+  // Cookie configuration
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: false, // Set to false for localhost
+      }
+    },
+  },
+  
   providers: [
     // Google OAuth Provider
     GoogleProvider({
