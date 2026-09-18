@@ -15,7 +15,9 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:setup": "prisma db push && npm run db:seed",
     "prisma:migrate": "npx prisma db push && tsx scripts/migrate-to-prisma-postgres.ts",
-    "prisma:seed": "tsx scripts/migrate-to-prisma-postgres.ts"
+    "prisma:seed": "tsx scripts/migrate-to-prisma-postgres.ts",
+    "auth:setup": "node scripts/setup-google-oauth.js",
+    "auth:verify": "node scripts/verify-auth-setup.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
