@@ -1,8 +1,10 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
+import { getServerSession } from 'next-auth';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
 import { JWT_SECRET } from '@/lib/jwt';
+import { authOptions } from '@/lib/auth';
 
 export interface AdminUser {
   id: string;
@@ -18,20 +20,28 @@ export interface AdminUser {
 export async function requireAdmin(): Promise<AdminUser> {
   const cookieStore = await cookies();
   const token = cookieStore.get('auth-token');
-  
-  if (!token) {
+
+  let userId: string | undefined;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token.value, JWT_SECRET) as { userId?: string };
+      userId = decoded.userId;
+    } catch (error) {
+      // Fall back to the NextAuth session when an old auth cookie is invalid.
+    }
+  }
+
+  if (!userId) {
+    const session = await getServerSession(authOptions);
+    userId = session?.user?.id;
+  }
+
+  if (!userId) {
     throw new Error('UNAUTHORIZED');
   }
 
-  let decoded;
-  try {
-    decoded = jwt.verify(token.value, JWT_SECRET) as any;
-  } catch (error) {
-    throw new Error('INVALID_TOKEN');
-  }
-
   const user = await prisma.user.findUnique({
-    where: { id: decoded.userId },
+    where: { id: userId },
     select: {
       id: true,
       email: true,

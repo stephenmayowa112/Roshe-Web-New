@@ -32,7 +32,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check password
+    // Check password (only for users with passwords)
+    if (!user.password) {
+      return NextResponse.json(
+        { error: 'This account uses social login. Please sign in with Google.' },
+        { status: 401 }
+      );
+    }
+    
     const isValidPassword = await compare(validatedData.password, user.password);
     
     if (!isValidPassword) {

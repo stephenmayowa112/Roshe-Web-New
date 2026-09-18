@@ -1,35 +1,9 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
-import { JWT_SECRET } from '@/lib/jwt';
+import { withAdminAuth } from '@/lib/admin-middleware';
 
-export async function GET() {
+export const GET = withAdminAuth(async () => {
   try {
-    // Check authentication
-    const cookieStore = await cookies();
-    const token = cookieStore.get('auth-token');
-    
-    if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    let decoded;
-    try {
-      decoded = jwt.verify(token.value, JWT_SECRET) as any;
-    } catch (error) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-    }
-
-    // Check if user is admin
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId }
-    });
-
-    if (!user || !['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
     // Get dashboard stats
     const [
       totalUsers,
@@ -121,4 +95,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});

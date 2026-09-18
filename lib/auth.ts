@@ -11,6 +11,8 @@ const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  // Allow linking accounts with the same email address
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     // Google OAuth Provider
     GoogleProvider({
@@ -48,6 +50,11 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) {
           return null;
+        }
+
+        // Check if this is an OAuth user (no password)
+        if (!user.password) {
+          throw new Error('This account uses social login. Please sign in with Google.');
         }
 
         const isPasswordValid = await compare(credentials.password, user.password);
@@ -98,42 +105,8 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     
-    async signIn({ user, account, profile }) {
-      if (account?.provider === 'google') {
-        try {
-          // Check if user already exists
-          const existingUser = await prisma.user.findUnique({
-            where: { email: user.email! }
-          });
-          
-          if (existingUser) {
-            // Update existing user with Google account info if needed
-            await prisma.user.update({
-              where: { email: user.email! },
-              data: {
-                name: user.name || existingUser.name,
-                emailVerified: new Date(),
-                isEmailVerified: true,
-              }
-            });
-          } else {
-            // Create new user for Google sign-in
-            await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name || '',
-                password: '', // Empty password for OAuth users
-                role: 'SCHOOL_ADMIN', // Default role
-                emailVerified: new Date(),
-                isEmailVerified: true,
-              }
-            });
-          }
-        } catch (error) {
-          console.error('Error in Google sign-in callback:', error);
-          return false;
-        }
-      }
+    async signIn({ user, account, profile, email }) {
+      // Allow all sign-ins - PrismaAdapter will handle user creation/linking
       return true;
     },
   },
