@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if email is verified
-    if (!user.emailVerified) {
+    if (!user.emailVerified && !user.isEmailVerified) {
       return NextResponse.json(
         { error: 'Please verify your email before signing in' },
         { status: 401 }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { signIn, getSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
@@ -24,18 +24,21 @@ export default function StudioSignInPage() {
     setIsLoading(true);
     
     try {
-      const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-      
-      if (result?.error) {
-        toast.error(result.error);
-      } else {
-        toast.success('Signed in successfully!');
-        router.push('/studio/dashboard');
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || 'Unable to sign in');
       }
+
+      toast.success('Signed in successfully!');
+      router.push(result.user.role === 'ADMIN' || result.user.role === 'SUPER_ADMIN'
+        ? '/admin'
+        : '/studio/dashboard');
     } catch (error) {
       toast.error('An error occurred during sign in');
     } finally {

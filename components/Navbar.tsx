@@ -24,10 +24,6 @@ export default function Navbar() {
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' });
   };
-  
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
-  };
 
   return (
     <header className="w-full bg-white sticky top-0 z-50">

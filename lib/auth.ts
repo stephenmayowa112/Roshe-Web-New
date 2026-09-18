@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
@@ -38,7 +39,11 @@ export const authOptions: NextAuthOptions = {
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: { school: true }
+          include: {
+            school: {
+              select: { id: true, name: true, type: true }
+            }
+          }
         });
 
         if (!user) {
@@ -61,8 +66,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name || `${user.firstName} ${user.lastName}`.trim() || user.email,
           role: user.role,
-          schoolId: user.schoolId,
-          school: user.school
+          schoolId: user.schoolId || undefined,
+          school: user.school || undefined
         };
       }
     }),
@@ -135,7 +140,6 @@ export const authOptions: NextAuthOptions = {
   
   pages: {
     signIn: '/studio/signin',
-    signUp: '/studio/signup',
     error: '/studio/auth/error',
   },
   
@@ -147,3 +151,40 @@ export const authOptions: NextAuthOptions = {
   
   debug: process.env.NODE_ENV === 'development',
 };
+
+export async function verifyAuth(request: NextRequest) {
+  try {
+    const token = request.cookies.get('auth-token')?.value;
+    if (!token) {
+      return { success: false, error: 'No authentication token provided' } as const;
+    }
+
+    const decoded = (await import('jsonwebtoken')).verify(token, JWT_SECRET) as {
+      userId: string;
+    };
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        schoolId: true,
+        emailVerified: true,
+        isEmailVerified: true,
+      },
+    });
+
+    if (!user) return { success: false, error: 'User not found' } as const;
+    if (!user.emailVerified && !user.isEmailVerified) {
+      return { success: false, error: 'Email not verified' } as const;
+    }
+
+    return {
+      success: true,
+      user: { ...user, schoolId: user.schoolId || '' },
+    } as const;
+  } catch (error) {
+    console.error('Auth verification error:', error);
+    return { success: false, error: 'Invalid authentication token' } as const;
+  }
+}
