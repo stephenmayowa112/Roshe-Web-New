@@ -6,10 +6,8 @@ import {
   Building2, 
   CreditCard, 
   FileText, 
-  TrendingUp, 
   AlertTriangle,
   CheckCircle,
-  Clock,
   RefreshCw
 } from 'lucide-react';
 
@@ -105,11 +103,6 @@ export default function AdminOverview() {
     return `${Math.floor(diffInSeconds / 86400)} days ago`;
   };
 
-  const formatGrowth = (growth: number) => {
-    const sign = growth >= 0 ? '+' : '';
-    return `${sign}${growth.toFixed(1)}%`;
-  };
-
   if (loading) {
     return (
       <div className="space-y-6">
@@ -171,71 +164,59 @@ export default function AdminOverview() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-          <p className="text-gray-600">Monitor your platform performance and activity</p>
+          <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
+          <p className="text-gray-600">A quick look at your platform.</p>
         </div>
         <button
           onClick={fetchStats}
-          className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-50 transition-colors"
+          aria-label="Refresh dashboard"
+          className="border border-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-50 transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
-          Refresh
         </button>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg border border-gray-200 p-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Users</p>
               <p className="text-3xl font-bold text-gray-900">{stats.totalUsers.toLocaleString()}</p>
-              <p className={`text-sm mt-1 ${stats.userGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatGrowth(stats.userGrowth)} vs last month
-              </p>
             </div>
             <Users className="w-8 h-8 text-blue-500" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Schools</p>
               <p className="text-3xl font-bold text-gray-900">{stats.totalSchools.toLocaleString()}</p>
-              <p className={`text-sm mt-1 ${stats.schoolGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatGrowth(stats.schoolGrowth)} vs last month
-              </p>
             </div>
             <Building2 className="w-8 h-8 text-green-500" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Active Licenses</p>
               <p className="text-3xl font-bold text-gray-900">{stats.activeLicenses.toLocaleString()}</p>
-              <p className={`text-sm mt-1 ${stats.licenseGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatGrowth(stats.licenseGrowth)} vs last month
-              </p>
             </div>
             <FileText className="w-8 h-8 text-yellow-500" />
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Revenue</p>
               <p className="text-3xl font-bold text-gray-900">{formatCurrency(stats.totalRevenue)}</p>
-              <p className={`text-sm mt-1 ${stats.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatGrowth(stats.revenueGrowth)} vs last month
-              </p>
             </div>
             <CreditCard className="w-8 h-8 text-purple-500" />
           </div>
@@ -307,48 +288,6 @@ export default function AdminOverview() {
         </div>
       </div>
 
-      {/* Recent Payments */}
-      {stats.recentActivity.payments.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Payments</h3>
-          </div>
-          <div className="p-6">
-            <div className="space-y-4">
-              {stats.recentActivity.payments.map((payment) => (
-                <div key={payment.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      payment.status === 'SUCCEEDED' 
-                        ? 'bg-green-100' 
-                        : payment.status === 'FAILED' 
-                        ? 'bg-red-100' 
-                        : 'bg-yellow-100'
-                    }`}>
-                      <CreditCard className={`w-4 h-4 ${
-                        payment.status === 'SUCCEEDED' 
-                          ? 'text-green-600' 
-                          : payment.status === 'FAILED' 
-                          ? 'text-red-600' 
-                          : 'text-yellow-600'
-                      }`} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        {payment.school?.name || 'Unknown School'}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {payment.status} • {formatDateTime(payment.createdAt)}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="font-medium text-gray-900">{formatCurrency(payment.amount)}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

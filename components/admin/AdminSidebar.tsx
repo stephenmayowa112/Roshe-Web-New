@@ -9,11 +9,7 @@ import {
   Building2, 
   CreditCard, 
   FileText, 
-  BarChart3, 
-  Settings, 
   Shield,
-  Database,
-  Mail,
   Globe
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -48,36 +44,6 @@ const navigation = [
     href: '/admin/payments',
     icon: CreditCard,
     description: 'Payment transactions and billing'
-  },
-  {
-    name: 'Analytics',
-    href: '/admin/analytics',
-    icon: BarChart3,
-    description: 'Platform analytics and insights'
-  },
-  {
-    name: 'System Settings',
-    href: '/admin/settings',
-    icon: Settings,
-    description: 'Platform configuration'
-  },
-  {
-    name: 'Security',
-    href: '/admin/security',
-    icon: Shield,
-    description: 'Security and access control'
-  },
-  {
-    name: 'Database',
-    href: '/admin/database',
-    icon: Database,
-    description: 'Database management and backups'
-  },
-  {
-    name: 'Communications',
-    href: '/admin/communications',
-    icon: Mail,
-    description: 'Email templates and notifications'
   },
 ];
 
