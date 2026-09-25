@@ -2,45 +2,59 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export default function StudioSignInPage() {
+const oauthErrorMessages: Record<string, string> = {
+  OAuthCallback:        'Google sign-in failed. Please try again.',
+  OAuthCreateAccount:   'Could not create your account with Google. Please try again.',
+  OAuthAccountNotLinked:'An account with this email already exists. Please sign in with your email and password.',
+  OAuthSignin:          'Could not start Google sign-in. Please try again.',
+  Callback:             'Sign-in callback failed. Please try again.',
+  Default:              'An authentication error occurred. Please try again.',
+};
+
+function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-  
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Show toast for any OAuth error redirected back to this page
+  useEffect(() => {
+    const errorCode = searchParams.get('error');
+    if (errorCode) {
+      const msg = oauthErrorMessages[errorCode] ?? oauthErrorMessages.Default;
+      toast.error(msg, { duration: 5000 });
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      const result = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.error || 'Unable to sign in');
+      if (result?.error) {
+        // NextAuth passes error messages through result.error
+        toast.error(result.error === 'CredentialsSignin'
+          ? 'Invalid email or password.'
+          : result.error);
+      } else if (result?.ok) {
+        toast.success('Signed in successfully!');
+        router.push('/studio/dashboard');
+        router.refresh();
       }
-
-      toast.success('Signed in successfully!');
-      router.push(result.user.role === 'ADMIN' || result.user.role === 'SUPER_ADMIN'
-        ? '/admin'
-        : '/studio/dashboard');
-    } catch (error) {
-      toast.error('An error occurred during sign in');
+    } catch {
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -49,68 +63,45 @@ export default function StudioSignInPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn('google', {
-        callbackUrl: '/studio/dashboard',
-      });
-    } catch (error) {
-      toast.error('Error signing in with Google');
+      await signIn('google', { callbackUrl: '/studio/dashboard' });
+      // page will redirect — no need to setIsLoading(false)
+    } catch {
+      toast.error('Could not start Google sign-in. Please try again.');
       setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Panel - Benefits */}
+      {/* Left Panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-black text-white p-12 flex-col justify-center">
         <div className="max-w-md mx-auto">
-          <div className="flex items-center mb-8">
-            <Image
-              src="/images/newRosheLogo.png"
-              alt="Roshe Studios Logo"
-              width={60}
-              height={60}
-              className="mr-4"
-            />
-          </div>
-          
-          <h2 className="text-3xl font-bold mb-8">
-            Our Licence gives you everything you need.
-          </h2>
-          
+          <Image src="/images/newRosheLogo.png" alt="Roshe Studios" width={60} height={60} className="mb-8" />
+          <h2 className="text-3xl font-bold mb-8">Our Licence gives you everything you need.</h2>
           <ul className="space-y-4 text-lg">
-            <li className="flex items-start">
-              <span className="text-[#f5bf05] mr-3">•</span>
-              <span>Full access to the animated film and learning resources</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-[#f5bf05] mr-3">•</span>
-              <span>Curriculum-aligned lesson plans and classroom activities</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-[#f5bf05] mr-3">•</span>
-              <span>Ready-to-use SEND, OT and SaLT support resources</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-[#f5bf05] mr-3">•</span>
-              <span>Flexible resources for assemblies, lessons and group activities</span>
-            </li>
+            {[
+              'Full access to the animated film and learning resources',
+              'Curriculum-aligned lesson plans and classroom activities',
+              'Ready-to-use SEND, OT and SaLT support resources',
+              'Flexible resources for assemblies, lessons and group activities',
+            ].map((item) => (
+              <li key={item} className="flex items-start">
+                <span className="text-[#f5bf05] mr-3">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
 
-      {/* Right Panel - Sign In Form */}
+      {/* Right Panel */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <Image
-                src="/images/newRosheLogo.png"
-                alt="Roshe Studios Logo"
-                width={50}
-                height={50}
-              />
+              <Image src="/images/newRosheLogo.png" alt="Roshe Studios" width={50} height={50} />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign in to Roshe</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Sign in to Roshe</h1>
           </div>
 
           {/* Google Sign In */}
@@ -125,12 +116,12 @@ export default function StudioSignInPage() {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
-            Continue with Google
+            {isLoading ? 'Redirecting...' : 'Continue with Google'}
           </button>
 
           <div className="text-center text-gray-500 mb-6">or</div>
 
-          {/* Manual Sign In Form */}
+          {/* Email / Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -153,11 +144,11 @@ export default function StudioSignInPage() {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  placeholder="Enter a secure password"
+                  placeholder="Enter your password"
                   className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5bf05] focus:border-transparent"
                   required
                 />
@@ -165,17 +156,16 @@ export default function StudioSignInPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-gray-400" />
-                  )}
+                  {showPassword
+                    ? <EyeOff className="h-5 w-5 text-gray-400" />
+                    : <Eye className="h-5 w-5 text-gray-400" />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex justify-end">
               <Link href="/studio/forgot-password" className="text-sm text-[#f5bf05] hover:underline">
                 Forgot password?
               </Link>
@@ -186,31 +176,30 @@ export default function StudioSignInPage() {
               disabled={isLoading}
               className="w-full bg-[#f5bf05] text-black font-semibold py-3 rounded-lg hover:bg-[#e6b100] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Log in'}
+              {isLoading ? 'Signing in…' : 'Log in'}
             </button>
-
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="keepSignedIn"
-                checked={keepSignedIn}
-                onChange={(e) => setKeepSignedIn(e.target.checked)}
-                className="h-4 w-4 text-[#f5bf05] focus:ring-[#f5bf05] border-gray-300 rounded"
-              />
-              <label htmlFor="keepSignedIn" className="ml-2 block text-sm text-gray-700">
-                Keep me signed in on this device
-              </label>
-            </div>
           </form>
 
-          <div className="text-center text-sm text-gray-600 mt-6">
+          <p className="text-center text-sm text-gray-600 mt-6">
             Don&apos;t have an account?{' '}
             <Link href="/studio/signup" className="font-semibold text-black hover:underline">
               Sign up
             </Link>
-          </div>
+          </p>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function StudioSignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#f5bf05]" />
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 }
