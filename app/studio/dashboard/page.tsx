@@ -118,7 +118,23 @@ export default function DashboardPage() {
     }
   };
 
-  useEffect(() => { fetchStats(); }, []);
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const res = await fetch('/api/dashboard/stats');
+        if (!res.ok) throw new Error(`Server error ${res.status}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setStats(data);
+      } catch (err: any) {
+        setError(err.message ?? 'Failed to load dashboard data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadStats();
+  }, []);
 
   const hasLicense = (stats?.licenses?.active ?? 0) > 0;
 
