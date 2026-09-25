@@ -27,12 +27,24 @@ export async function POST(request: NextRequest) {
       ? STRIPE_PRODUCTS.SINGLE_SCHOOL 
       : STRIPE_PRODUCTS.MULTI_SCHOOL;
 
+    const configuredPriceId = product.priceId;
+    const priceId = configuredPriceId.startsWith('prod_')
+      ? await getDefaultPriceId(configuredPriceId)
+      : configuredPriceId;
+
+    if (!priceId || !priceId.startsWith('price_')) {
+      return NextResponse.json(
+        { error: 'Stripe product price is not configured correctly.' },
+        { status: 500 }
+      );
+    }
+
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price: product.priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -64,4 +76,15 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+async function getDefaultPriceId(productId: string): Promise<string | null> {
+  const stripeProduct = await stripe!.products.retrieve(productId);
+  const defaultPrice = stripeProduct.default_price;
+
+  if (typeof defaultPrice === 'string') {
+    return defaultPrice;
+  }
+
+  return defaultPrice?.id ?? null;
 }
