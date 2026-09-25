@@ -79,6 +79,7 @@ model User {
   // App relations
   licenses License[]
   payments Payment[]
+  downloads ResourceDownload[]
 }
 
 model VerificationToken {
@@ -167,6 +168,7 @@ model License {
   
   // Relations
   payments    Payment[]
+  resources   Resource[]
 }
 
 model Payment {
@@ -214,4 +216,34 @@ model Payment {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   paidAt        DateTime?
+}
+
+// Downloadable resources unlocked by a license
+model Resource {
+  id          String   @id @default(cuid())
+  title       String                       // e.g. "Remembrance Day Assembly Script"
+  type        String                       // FILM | ASSEMBLY_SCRIPT | TEACHERS_GUIDE | STUDENT_WORKSHEET | CRAFT_ACTIVITY
+  description String?
+  fileUrl     String?                      // URL or path to the actual file
+  isActive    Boolean  @default(true)
+
+  // Which license unlocks this resource
+  licenseId   String
+  license     License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+
+  // Usage tracking
+  downloads   ResourceDownload[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Track every time a user downloads a resource
+model ResourceDownload {
+  id          String   @id @default(cuid())
+  resourceId  String
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  downloadedAt DateTime @default(now())
 }
