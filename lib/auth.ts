@@ -70,6 +70,14 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 7 * 24 * 60 * 60, // 7 days
+    updateAge: 24 * 60 * 60, // 24 hours - update session every day
+  },
+
+  events: {
+    // Clean up on sign out
+    async signOut({ token, session }) {
+      console.log('[NextAuth] User signed out:', token?.email || session?.user?.email);
+    },
   },
 
   callbacks: {
@@ -162,7 +170,30 @@ export const authOptions: NextAuthOptions = {
 
   cookies: {
     sessionToken: {
-      name: 'next-auth.session-token',
+      name: process.env.NODE_ENV === 'production' 
+        ? '__Secure-next-auth.session-token'
+        : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Secure-next-auth.callback-url'
+        : 'next-auth.callback-url',
+      options: {
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Host-next-auth.csrf-token'
+        : 'next-auth.csrf-token',
       options: {
         httpOnly: true,
         sameSite: 'lax',

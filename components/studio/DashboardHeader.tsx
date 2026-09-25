@@ -13,8 +13,12 @@ interface DashboardHeaderProps {
 export default function DashboardHeader({ userName, schoolName, userInitials }: DashboardHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    // Sign out with NextAuth and redirect to homepage
+    await signOut({ 
+      callbackUrl: '/',
+      redirect: true 
+    });
   };
 
   return (

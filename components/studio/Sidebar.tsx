@@ -24,8 +24,12 @@ const navigation = [
 export default function Sidebar() {
   const pathname = usePathname();
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    // Sign out with NextAuth and redirect to homepage
+    await signOut({ 
+      callbackUrl: '/',
+      redirect: true 
+    });
   };
 
   return (

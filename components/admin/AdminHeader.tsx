@@ -13,8 +13,12 @@ interface AdminHeaderProps {
 export default function AdminHeader({ adminName, adminEmail, initials }: AdminHeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    // Sign out with NextAuth and redirect to homepage
+    await signOut({ 
+      callbackUrl: '/',
+      redirect: true 
+    });
   };
 
   return (

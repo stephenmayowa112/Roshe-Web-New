@@ -21,8 +21,12 @@ export default function Navbar() {
 
   const isLicensingPage = mounted && pathname === '/licensing';
   
-  const handleSignOut = () => {
-    signOut({ callbackUrl: '/' });
+  const handleSignOut = async () => {
+    // Sign out with NextAuth and redirect to homepage
+    await signOut({ 
+      callbackUrl: '/',
+      redirect: true 
+    });
   };
 
   return (

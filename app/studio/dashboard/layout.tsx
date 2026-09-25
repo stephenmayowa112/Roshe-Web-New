@@ -1,33 +1,13 @@
-'use client';
+import { requireAuth } from '@/lib/auth-server';
+import DashboardLayoutClient from '@/components/studio/DashboardLayoutClient';
 
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import Sidebar from '@/components/studio/Sidebar';
-import DashboardHeader from '@/components/studio/DashboardHeader';
-
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.replace('/studio/signin');
-    }
-  }, [status, router]);
-
-  if (status === 'loading') {
-    return (
-      <div className="flex h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f5bf05] mx-auto mb-4" />
-          <p className="text-gray-600 text-sm">Loading your dashboard…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session) return null;
+/**
+ * Server Component - provides server-side authentication
+ * Redirects to sign-in if not authenticated BEFORE rendering anything
+ */
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  // Server-side authentication check - redirects if not authenticated
+  const session = await requireAuth();
 
   // Derive display values from session
   const userName = session.user?.name || session.user?.email || '';
@@ -39,19 +19,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     .toUpperCase()
     .slice(0, 2) || 'U';
 
+  // Pass data to client component for interactivity
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0">
-        <DashboardHeader
-          userName={userName}
-          schoolName={schoolName}
-          userInitials={initials}
-        />
-        <main className="flex-1 overflow-auto">
-          {children}
-        </main>
-      </div>
-    </div>
+    <DashboardLayoutClient
+      userName={userName}
+      schoolName={schoolName}
+      userInitials={initials}
+    >
+      {children}
+    </DashboardLayoutClient>
   );
 }
