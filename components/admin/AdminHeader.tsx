@@ -1,6 +1,7 @@
 "use client";
 
 import { LogOut, User } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 import { useState } from 'react';
 
 interface AdminHeaderProps {
@@ -11,6 +12,10 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ adminName, adminEmail, initials }: AdminHeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' });
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">
@@ -39,7 +44,10 @@ export default function AdminHeader({ adminName, adminEmail, initials }: AdminHe
                     <User className="w-4 h-4" />
                     Profile Settings
                   </button>
-                  <button className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left">
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left"
+                  >
                     <LogOut className="w-4 h-4" />
                     Sign Out
                   </button>
