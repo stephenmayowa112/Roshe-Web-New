@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { handleSignOut } from '@/lib/auth-client';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,14 +21,6 @@ export default function Navbar() {
   }, []);
 
   const isLicensingPage = mounted && pathname === '/licensing';
-  
-  const handleSignOut = async () => {
-    // Sign out with NextAuth and redirect to homepage
-    await signOut({ 
-      callbackUrl: '/',
-      redirect: true 
-    });
-  };
 
   return (
     <header className="w-full bg-white sticky top-0 z-50">

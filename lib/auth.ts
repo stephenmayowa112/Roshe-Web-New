@@ -87,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
+            include: { school: true },
           });
 
           if (existingUser) {
@@ -102,7 +103,8 @@ export const authOptions: NextAuthOptions = {
             // Pass DB id so JWT callback receives the real user id
             user.id = existingUser.id;
           } else {
-            // Brand-new Google user — create record
+            // Brand-new Google user — create user WITHOUT auto-creating school
+            // Let them set up their school details later
             const newUser = await prisma.user.create({
               data: {
                 email: user.email!,
@@ -111,9 +113,12 @@ export const authOptions: NextAuthOptions = {
                 role: 'SCHOOL_ADMIN',
                 emailVerified: new Date(),
                 isEmailVerified: true,
+                schoolId: null, // No school yet - user will set it up
               },
             });
             user.id = newUser.id;
+            
+            console.log('[NextAuth] Created new user:', newUser.email);
           }
 
           return true;

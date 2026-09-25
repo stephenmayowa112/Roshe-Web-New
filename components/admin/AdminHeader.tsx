@@ -1,7 +1,7 @@
 "use client";
 
 import { LogOut, User } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { handleSignOut } from '@/lib/auth-client';
 import { useState } from 'react';
 
 interface AdminHeaderProps {
@@ -12,14 +12,6 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ adminName, adminEmail, initials }: AdminHeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-
-  const handleSignOut = async () => {
-    // Sign out with NextAuth and redirect to homepage
-    await signOut({ 
-      callbackUrl: '/',
-      redirect: true 
-    });
-  };
 
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4">

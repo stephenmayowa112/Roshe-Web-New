@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { handleSignOut } from '@/lib/auth-client';
 import {
   LayoutDashboard,
   School,
@@ -23,14 +23,6 @@ const navigation = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-
-  const handleSignOut = async () => {
-    // Sign out with NextAuth and redirect to homepage
-    await signOut({ 
-      callbackUrl: '/',
-      redirect: true 
-    });
-  };
 
   return (
     <aside className="w-44 bg-[#1a1a1a] text-white flex flex-col flex-shrink-0 h-screen">

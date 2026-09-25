@@ -1,8 +1,8 @@
 'use client';
 
 import { ChevronDown, LogOut } from 'lucide-react';
-import { signOut } from 'next-auth/react';
 import { useState } from 'react';
+import { handleSignOut } from '@/lib/auth-client';
 
 interface DashboardHeaderProps {
   userName: string;
@@ -12,14 +12,6 @@ interface DashboardHeaderProps {
 
 export default function DashboardHeader({ userName, schoolName, userInitials }: DashboardHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const handleSignOut = async () => {
-    // Sign out with NextAuth and redirect to homepage
-    await signOut({ 
-      callbackUrl: '/',
-      redirect: true 
-    });
-  };
 
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">

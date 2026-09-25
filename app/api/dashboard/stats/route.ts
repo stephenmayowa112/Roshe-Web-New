@@ -13,10 +13,16 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Always look up the DB user by email so we have the schoolId
+    // Get the current user from database
     const dbUser = await prisma.user.findUnique({
       where: { email: session.user.email },
-      select: { id: true, schoolId: true, role: true },
+      select: { 
+        id: true, 
+        schoolId: true, 
+        role: true,
+        email: true,
+        name: true
+      },
     });
 
     if (!dbUser) {
@@ -25,60 +31,74 @@ export async function GET(request: NextRequest) {
 
     const schoolId = dbUser.schoolId;
 
-    // Run all queries in parallel
+    // If user has no school yet, return empty state
+    if (!schoolId) {
+      return NextResponse.json({
+        school: {
+          name: 'Your School',
+          type: 'PRIMARY',
+          studentCount: 0,
+          memberSince: new Date(),
+        },
+        licenses: {
+          active: 0,
+          details: [],
+        },
+        payments: {
+          totalSpent: 0,
+          recent: [],
+        },
+        users: { count: 1 }, // Just the user themselves
+        isEmpty: true, // Flag to indicate new user with no data
+      });
+    }
+
+    // Run all queries in parallel for users with schools
     const [school, activeLicenses, paymentAgg, recentPayments, userCount] =
       await Promise.all([
         // School info
-        schoolId
-          ? prisma.school.findUnique({
-              where: { id: schoolId },
-              select: { id: true, name: true, type: true, studentCount: true, createdAt: true },
-            })
-          : null,
+        prisma.school.findUnique({
+          where: { id: schoolId },
+          select: { id: true, name: true, type: true, studentCount: true, createdAt: true },
+        }),
 
-        // Active licenses for this school
-        schoolId
-          ? prisma.license.findMany({
-              where: { schoolId, status: 'ACTIVE' },
-              select: {
-                id: true,
-                type: true,
-                description: true,
-                startDate: true,
-                endDate: true,
-                amount: true,
-                currency: true,
-              },
-            })
-          : [],
+        // Active licenses for THIS school only
+        prisma.license.findMany({
+          where: { schoolId, status: 'ACTIVE' },
+          select: {
+            id: true,
+            type: true,
+            description: true,
+            startDate: true,
+            endDate: true,
+            amount: true,
+            currency: true,
+          },
+        }),
 
-        // Sum of succeeded payments
-        schoolId
-          ? prisma.payment.aggregate({
-              where: { schoolId, status: 'SUCCEEDED' },
-              _sum: { amount: true },
-            })
-          : { _sum: { amount: 0 } },
+        // Sum of succeeded payments for THIS school only
+        prisma.payment.aggregate({
+          where: { schoolId, status: 'SUCCEEDED' },
+          _sum: { amount: true },
+        }),
 
-        // 5 most recent succeeded payments
-        schoolId
-          ? prisma.payment.findMany({
-              where: { schoolId, status: 'SUCCEEDED' },
-              orderBy: { createdAt: 'desc' },
-              take: 5,
-              select: {
-                id: true,
-                amount: true,
-                currency: true,
-                status: true,
-                description: true,
-                createdAt: true,
-              },
-            })
-          : [],
+        // 5 most recent succeeded payments for THIS school only
+        prisma.payment.findMany({
+          where: { schoolId, status: 'SUCCEEDED' },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+          select: {
+            id: true,
+            amount: true,
+            currency: true,
+            status: true,
+            description: true,
+            createdAt: true,
+          },
+        }),
 
-        // Team members in this school
-        schoolId ? prisma.user.count({ where: { schoolId } }) : 0,
+        // Team members in THIS school only
+        prisma.user.count({ where: { schoolId } }),
       ]);
 
     return NextResponse.json({
@@ -97,6 +117,7 @@ export async function GET(request: NextRequest) {
         recent: recentPayments,
       },
       users: { count: userCount },
+      isEmpty: false,
     });
   } catch (error) {
     console.error('[Dashboard stats] Error:', error);
