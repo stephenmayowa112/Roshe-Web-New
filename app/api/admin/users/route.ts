@@ -1,180 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/db';
-import bcrypt from 'bcryptjs';
-import { JWT_SECRET } from '@/lib/jwt';
+import { hash } from 'bcryptjs';
+import { requireAdmin } from '@/lib/admin-middleware';
+import { sql } from '@/lib/neon';
 
-// Helper function to check admin access
-async function checkAdminAccess() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth-token');
-  
-  if (!token) {
-    throw new Error('Unauthorized');
-  }
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token.value, JWT_SECRET) as any;
-  } catch (error) {
-    throw new Error('Invalid token');
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: decoded.userId }
-  });
-
-  if (!user || !['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
-    throw new Error('Forbidden');
-  }
-
-  return user;
-}
-
-// GET /api/admin/users - List all users with filtering
 export async function GET(request: NextRequest) {
   try {
-    await checkAdminAccess();
-
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const search = searchParams.get('search') || '';
-    const role = searchParams.get('role') || 'all';
-    const status = searchParams.get('status') || 'all';
-
-    const skip = (page - 1) * limit;
-    
-    // Build where clause
-    const where: any = {};
-    
-    if (search) {
-      where.OR = [
-        { firstName: { contains: search, mode: 'insensitive' } },
-        { lastName: { contains: search, mode: 'insensitive' } },
-        { email: { contains: search, mode: 'insensitive' } }
-      ];
-    }
-    
-    if (role !== 'all') {
-      where.role = role.toUpperCase();
-    }
-    
-    if (status !== 'all') {
-      where.isEmailVerified = status === 'verified';
-    }
-
-    // Get users with pagination
-    const [users, totalCount] = await Promise.all([
-      prisma.user.findMany({
-        where,
-        skip,
-        take: limit,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          school: {
-            select: { name: true, id: true }
-          },
-          _count: {
-            select: { licenses: true }
-          }
-        }
-      }),
-      prisma.user.count({ where })
-    ]);
-
-    return NextResponse.json({
-      users,
-      totalCount,
-      totalPages: Math.ceil(totalCount / limit),
-      currentPage: page
-    });
+    await requireAdmin();
+    const params = new URL(request.url).searchParams;
+    const page = Math.max(1, Number(params.get('page') || 1));
+    const limit = Math.max(1, Number(params.get('limit') || 10));
+    const search = params.get('search') || '';
+    const role = params.get('role') || 'all';
+    const status = params.get('status') || 'all';
+    const filters: string[] = [];
+    const values: unknown[] = [];
+    if (search) { values.push(`%${search}%`); filters.push(`(u."firstName" ILIKE $${values.length} OR u."lastName" ILIKE $${values.length} OR u."email" ILIKE $${values.length})`); }
+    if (role !== 'all') { values.push(role.toUpperCase()); filters.push(`u."role" = $${values.length}`); }
+    if (status !== 'all') { values.push(status === 'verified'); filters.push(`u."isEmailVerified" = $${values.length}`); }
+    const where = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+    const countRows = await sql.query(`SELECT COUNT(*)::int AS count FROM "User" u ${where}`, values);
+    const offset = (page - 1) * limit;
+    const rows = await sql.query(`
+      SELECT u.*, jsonb_build_object('name', s."name", 'id', s."id") AS school,
+             (SELECT COUNT(*)::int FROM "License" l WHERE l."userId" = u."id") AS "licenseCount"
+      FROM "User" u LEFT JOIN "School" s ON s."id" = u."schoolId"
+      ${where} ORDER BY u."createdAt" DESC LIMIT $${values.length + 1} OFFSET $${values.length + 2}
+    `, [...values, limit, offset]);
+    const totalCount = Number((countRows[0] as any).count);
+    return NextResponse.json({ users: rows, totalCount, totalPages: Math.ceil(totalCount / limit), currentPage: page });
   } catch (error: any) {
     console.error('Get users error:', error);
-    
-    if (error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    if (error.message === 'Forbidden') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message === 'Unauthorized' ? 'Unauthorized' : error.message === 'Forbidden' ? 'Forbidden' : 'Internal server error' }, { status: error.message === 'Unauthorized' ? 401 : error.message === 'Forbidden' ? 403 : 500 });
   }
 }
 
-// POST /api/admin/users - Create new user
 export async function POST(request: NextRequest) {
   try {
-    await checkAdminAccess();
-
-    const body = await request.json();
-    const { firstName, lastName, email, role, schoolId, password } = body;
-
-    // Validate required fields
-    if (!firstName || !lastName || !email || !role || !password) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 400 }
-      );
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Create user
-    const user = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        role: role.toUpperCase(),
-        schoolId: schoolId || null,
-        isEmailVerified: true // Admin created users are auto-verified
-      },
-      include: {
-        school: {
-          select: { name: true, id: true }
-        }
-      }
-    });
-
-    // Remove password from response
-    const { password: _, ...userResponse } = user;
-
-    return NextResponse.json(userResponse, { status: 201 });
+    await requireAdmin();
+    const { firstName, lastName, email, role, schoolId, password } = await request.json();
+    if (!firstName || !lastName || !email || !role || !password) return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    const existing = await sql`SELECT "id" FROM "User" WHERE "email" = ${email} LIMIT 1`;
+    if (existing.length) return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
+    const passwordHash = await hash(password, 12);
+    const users = await sql`
+      INSERT INTO "User" ("firstName", "lastName", "email", "password", "role", "schoolId", "isEmailVerified", "createdAt", "updatedAt")
+      VALUES (${firstName}, ${lastName}, ${email}, ${passwordHash}, ${role.toUpperCase()}, ${schoolId || null}, TRUE, NOW(), NOW())
+      RETURNING "id", "firstName", "lastName", "email", "role", "schoolId", "isEmailVerified", "createdAt", "updatedAt"
+    `;
+    const user = users[0] as any;
+    const schools = user.schoolId ? await sql`SELECT "id", "name" FROM "School" WHERE "id" = ${user.schoolId}` : [];
+    return NextResponse.json({ ...user, school: schools[0] ?? null }, { status: 201 });
   } catch (error: any) {
     console.error('Create user error:', error);
-    
-    if (error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    if (error.message === 'Forbidden') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message === 'Unauthorized' ? 'Unauthorized' : error.message === 'Forbidden' ? 'Forbidden' : 'Internal server error' }, { status: error.message === 'Unauthorized' ? 401 : error.message === 'Forbidden' ? 403 : 500 });
   }
 }

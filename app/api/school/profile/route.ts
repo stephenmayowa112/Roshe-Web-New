@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth';
-
-const prisma = new PrismaClient();
+import { sql } from '@/lib/neon';
 
 const updateSchoolSchema = z.object({
   name: z.string().min(2, 'School name must be at least 2 characters'),
@@ -36,31 +34,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const school = await prisma.school.findUnique({
-      where: { id: user.schoolId },
-      include: {
-        users: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            title: true,
-            role: true,
-            createdAt: true,
-          }
-        },
-        licenses: {
-          where: { status: 'ACTIVE' },
-          select: {
-            id: true,
-            type: true,
-            status: true,
-            startDate: true,
-            endDate: true,
-          }
-        }
-      }
-    });
+    const [schools, users, licenses] = await Promise.all([
+      sql`SELECT * FROM "School" WHERE "id" = ${user.schoolId} LIMIT 1`,
+      sql`SELECT "id", "name", "email", "title", "role", "createdAt" FROM "User" WHERE "schoolId" = ${user.schoolId} ORDER BY "createdAt" DESC`,
+      sql`SELECT "id", "type", "status", "startDate", "endDate" FROM "License" WHERE "schoolId" = ${user.schoolId} AND "status" = 'ACTIVE'`,
+    ]);
+    const school = schools[0] ? { ...schools[0], users, licenses } : null;
 
     if (!school) {
       return NextResponse.json(
@@ -100,10 +79,18 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const validatedData = updateSchoolSchema.parse(body);
 
-    const updatedSchool = await prisma.school.update({
-      where: { id: user.schoolId },
-      data: validatedData,
-    });
+    const updatedSchools = await sql`
+      UPDATE "School"
+      SET "name" = ${validatedData.name}, "address" = ${validatedData.address ?? null},
+          "city" = ${validatedData.city ?? null}, "postcode" = ${validatedData.postcode ?? null},
+          "contactPhone" = ${validatedData.phone ?? null}, "website" = ${validatedData.website || null},
+          "type" = ${validatedData.type}, "studentCount" = ${validatedData.studentCount ?? null},
+          "establishedYear" = ${validatedData.establishedYear ?? null}, "headTeacher" = ${validatedData.headTeacher ?? null},
+          "contactEmail" = ${validatedData.contactEmail ?? null}, "updatedAt" = NOW()
+      WHERE "id" = ${user.schoolId}
+      RETURNING *
+    `;
+    const updatedSchool = updatedSchools[0];
 
     return NextResponse.json({
       message: 'School profile updated successfully',

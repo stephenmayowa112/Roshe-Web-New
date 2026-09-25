@@ -2,9 +2,9 @@ import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { getServerSession } from 'next-auth';
 import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/db';
 import { JWT_SECRET } from '@/lib/jwt';
 import { authOptions } from '@/lib/auth';
+import { sql } from '@/lib/neon';
 
 export interface AdminUser {
   id: string;
@@ -40,16 +40,13 @@ export async function requireAdmin(): Promise<AdminUser> {
     throw new Error('UNAUTHORIZED');
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-      email: true,
-      firstName: true,
-      lastName: true,
-      role: true,
-    }
-  });
+  const users = await sql`
+    SELECT "id", "email", "firstName", "lastName", "role"
+    FROM "User"
+    WHERE "id" = ${userId}
+    LIMIT 1
+  `;
+  const user = users[0] as AdminUser | undefined;
 
   if (!user) {
     throw new Error('USER_NOT_FOUND');

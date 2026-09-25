@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
 import { JWT_SECRET } from '@/lib/jwt';
-
-const prisma = new PrismaClient();
+import { sql } from '@/lib/neon';
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -18,12 +16,14 @@ export async function POST(request: NextRequest) {
     const validatedData = signinSchema.parse(body);
 
     // Find user with school data
-    const user = await prisma.user.findUnique({
-      where: { email: validatedData.email },
-      include: {
-        school: true,
-      }
-    });
+    const users = await sql`
+      SELECT u.*, row_to_json(s) AS school
+      FROM "User" u
+      LEFT JOIN "School" s ON s."id" = u."schoolId"
+      WHERE u."email" = ${validatedData.email}
+      LIMIT 1
+    `;
+    const user = users[0] as any;
 
     if (!user) {
       return NextResponse.json(

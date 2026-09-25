@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hash } from 'bcryptjs';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
 import { randomBytes } from 'crypto';
-
-const prisma = new PrismaClient();
+import { sql } from '@/lib/neon';
 
 const signupSchema = z.object({
   schoolName: z.string().min(1, 'School name is required'),
@@ -22,9 +20,8 @@ export async function POST(request: NextRequest) {
     const validatedData = signupSchema.parse(body);
 
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email: validatedData.email }
-    });
+    const existingUsers = await sql`SELECT "id" FROM "User" WHERE "email" = ${validatedData.email} LIMIT 1`;
+    const existingUser = existingUsers[0];
 
     if (existingUser) {
       return NextResponse.json(
@@ -34,20 +31,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if school already exists
-    let school = await prisma.school.findFirst({
-      where: { name: validatedData.schoolName }
-    });
+    const schools = await sql`SELECT * FROM "School" WHERE "name" = ${validatedData.schoolName} LIMIT 1`;
+    let school = schools[0] as any;
 
     // Create school if it doesn't exist
     if (!school) {
-      school = await prisma.school.create({
-        data: {
-          name: validatedData.schoolName,
-          city: validatedData.region,
-          type: 'PRIMARY', // Default type
-          isActive: true,
-        }
-      });
+      const createdSchools = await sql`
+        INSERT INTO "School" ("name", "city", "type", "isActive", "createdAt", "updatedAt")
+        VALUES (${validatedData.schoolName}, ${validatedData.region}, 'PRIMARY', TRUE, NOW(), NOW())
+        RETURNING *
+      `;
+      school = createdSchools[0];
     }
 
     // Hash password
@@ -58,31 +52,16 @@ export async function POST(request: NextRequest) {
     const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
     // Create user
-    const user = await prisma.user.create({
-      data: {
-        email: validatedData.email,
-        password: hashedPassword,
-        name: validatedData.email.split('@')[0], // Use email prefix as default name
-        role: 'SCHOOL_ADMIN',
-        schoolId: school.id,
-        emailVerificationToken,
-        emailVerificationExpires,
-        isEmailVerified: false,
-      },
-      include: {
-        school: true,
-      }
-    });
+    const users = await sql`
+      INSERT INTO "User" ("email", "password", "name", "role", "schoolId", "emailVerificationToken", "emailVerificationExpires", "isEmailVerified", "createdAt", "updatedAt")
+      VALUES (${validatedData.email}, ${hashedPassword}, ${validatedData.email.split('@')[0]}, 'SCHOOL_ADMIN', ${school.id}, ${emailVerificationToken}, ${emailVerificationExpires}, FALSE, NOW(), NOW())
+      RETURNING *
+    `;
+    const user = { ...users[0] as any, school };
 
     // TODO: Send email verification email
     // For now, we'll auto-verify for demo purposes
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        isEmailVerified: true,
-        emailVerified: new Date(),
-      }
-    });
+    await sql`UPDATE "User" SET "isEmailVerified" = TRUE, "emailVerified" = NOW(), "updatedAt" = NOW() WHERE "id" = ${user.id}`;
 
     return NextResponse.json({
       message: 'User created successfully',

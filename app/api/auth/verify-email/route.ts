@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { sql } from '@/lib/neon';
 
 const verifyEmailSchema = z.object({
   token: z.string().min(1, 'Verification token is required'),
@@ -14,9 +12,8 @@ export async function POST(request: NextRequest) {
     const { token } = verifyEmailSchema.parse(body);
 
     // Find user with verification token
-    const user = await prisma.user.findFirst({
-      where: { verificationToken: token }
-    });
+    const users = await sql`SELECT * FROM "User" WHERE "verificationToken" = ${token} LIMIT 1`;
+    const user = users[0] as any;
 
     if (!user) {
       return NextResponse.json(
@@ -26,13 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update user as verified
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        emailVerified: new Date(),
-        verificationToken: null,
-      }
-    });
+    await sql`UPDATE "User" SET "emailVerified" = NOW(), "verificationToken" = NULL, "isEmailVerified" = TRUE, "updatedAt" = NOW() WHERE "id" = ${user.id}`;
 
     return NextResponse.json({
       message: 'Email verified successfully. You can now sign in.',

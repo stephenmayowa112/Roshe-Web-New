@@ -1,222 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
-import { prisma } from '@/lib/db';
-import bcrypt from 'bcryptjs';
-import { JWT_SECRET } from '@/lib/jwt';
+import { hash } from 'bcryptjs';
+import { requireAdmin } from '@/lib/admin-middleware';
+import { sql } from '@/lib/neon';
 
-// Helper function to check admin access
-async function checkAdminAccess() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth-token');
-  
-  if (!token) {
-    throw new Error('Unauthorized');
-  }
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token.value, JWT_SECRET) as any;
-  } catch (error) {
-    throw new Error('Invalid token');
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: decoded.userId }
-  });
-
-  if (!user || !['ADMIN', 'SUPER_ADMIN'].includes(user.role)) {
-    throw new Error('Forbidden');
-  }
-
-  return user;
+async function getUser(id: string) {
+  const users = await sql`SELECT u.*, row_to_json(s) AS school FROM "User" u LEFT JOIN "School" s ON s."id" = u."schoolId" WHERE u."id" = ${id} LIMIT 1`;
+  return users[0] as any;
 }
 
-// GET /api/admin/users/[id] - Get specific user
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await checkAdminAccess();
-    const resolvedParams = await params;
-
-    const user = await prisma.user.findUnique({
-      where: { id: resolvedParams.id },
-      include: {
-        school: true,
-        licenses: {
-          include: {
-            school: {
-              select: { name: true }
-            }
-          }
-        },
-        payments: {
-          include: {
-            school: {
-              select: { name: true }
-            }
-          },
-          orderBy: { createdAt: 'desc' }
-        }
-      }
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Remove password from response
-    const { password, ...userResponse } = user;
-
-    return NextResponse.json(userResponse);
+    await requireAdmin();
+    const user = await getUser((await params).id);
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    const [licenses, payments] = await Promise.all([
+      sql`SELECT l.*, s."name" AS "schoolName" FROM "License" l LEFT JOIN "School" s ON s."id" = l."schoolId" WHERE l."userId" = ${user.id}`,
+      sql`SELECT p.*, s."name" AS "schoolName" FROM "Payment" p LEFT JOIN "School" s ON s."id" = p."schoolId" WHERE p."userId" = ${user.id} ORDER BY p."createdAt" DESC`,
+    ]);
+    const { password: _password, ...response } = user;
+    return NextResponse.json({ ...response, licenses, payments });
   } catch (error: any) {
-    console.error('Get user error:', error);
-    
-    if (error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    if (error.message === 'Forbidden') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message === 'Unauthorized' ? 'Unauthorized' : error.message === 'Forbidden' ? 'Forbidden' : 'Internal server error' }, { status: error.message === 'Unauthorized' ? 401 : error.message === 'Forbidden' ? 403 : 500 });
   }
 }
 
-// PUT /api/admin/users/[id] - Update user
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await checkAdminAccess();
-    const resolvedParams = await params;
-
+    await requireAdmin();
+    const id = (await params).id;
     const body = await request.json();
-    const { firstName, lastName, email, role, schoolId, password, isEmailVerified } = body;
-
-    // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { id: resolvedParams.id }
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Check if email is being changed and if it conflicts with another user
-    if (email && email !== existingUser.email) {
-      const emailConflict = await prisma.user.findUnique({
-        where: { email }
-      });
-
-      if (emailConflict) {
-        return NextResponse.json(
-          { error: 'Email already exists' },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Prepare update data
-    const updateData: any = {};
-    if (firstName) updateData.firstName = firstName;
-    if (lastName) updateData.lastName = lastName;
-    if (email) updateData.email = email;
-    if (role) updateData.role = role.toUpperCase();
-    if (schoolId !== undefined) updateData.schoolId = schoolId;
-    if (isEmailVerified !== undefined) updateData.isEmailVerified = isEmailVerified;
-    
-    // Hash new password if provided
-    if (password) {
-      updateData.password = await bcrypt.hash(password, 12);
-    }
-
-    // Update user
-    const user = await prisma.user.update({
-      where: { id: resolvedParams.id },
-      data: updateData,
-      include: {
-        school: {
-          select: { name: true, id: true }
-        }
-      }
-    });
-
-    // Remove password from response
-    const { password: _, ...userResponse } = user;
-
-    return NextResponse.json(userResponse);
+    const existing = await getUser(id);
+    if (!existing) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    const updates: string[] = [];
+    const values: unknown[] = [];
+    const add = (column: string, value: unknown) => { values.push(value); updates.push(`"${column}" = $${values.length}`); };
+    if (body.firstName) add('firstName', body.firstName);
+    if (body.lastName) add('lastName', body.lastName);
+    if (body.email) add('email', body.email);
+    if (body.role) add('role', body.role.toUpperCase());
+    if (body.schoolId !== undefined) add('schoolId', body.schoolId);
+    if (body.isEmailVerified !== undefined) add('isEmailVerified', body.isEmailVerified);
+    if (body.password) add('password', await hash(body.password, 12));
+    if (!updates.length) return NextResponse.json({ error: 'No changes supplied' }, { status: 400 });
+    values.push(id);
+    const rows = await sql.query(`UPDATE "User" SET ${updates.join(', ')}, "updatedAt" = NOW() WHERE "id" = $${values.length} RETURNING "id", "firstName", "lastName", "email", "role", "schoolId", "isEmailVerified", "createdAt", "updatedAt"`, values);
+    return NextResponse.json(rows[0]);
   } catch (error: any) {
-    console.error('Update user error:', error);
-    
-    if (error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    if (error.message === 'Forbidden') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message === 'Unauthorized' ? 'Unauthorized' : error.message === 'Forbidden' ? 'Forbidden' : 'Internal server error' }, { status: error.message === 'Unauthorized' ? 401 : error.message === 'Forbidden' ? 403 : 500 });
   }
 }
 
-// DELETE /api/admin/users/[id] - Delete user
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await checkAdminAccess();
-    const resolvedParams = await params;
-
-    // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { id: resolvedParams.id }
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    // Don't allow deleting other admins (safety measure)
-    if (existingUser.role === 'ADMIN') {
-      return NextResponse.json(
-        { error: 'Cannot delete admin users' },
-        { status: 400 }
-      );
-    }
-
-    // Delete user (this will cascade delete related records due to Prisma schema)
-    await prisma.user.delete({
-      where: { id: resolvedParams.id }
-    });
-
+    await requireAdmin();
+    const id = (await params).id;
+    const user = await getUser(id);
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (user.role === 'ADMIN') return NextResponse.json({ error: 'Cannot delete admin users' }, { status: 400 });
+    await sql`DELETE FROM "User" WHERE "id" = ${id}`;
     return NextResponse.json({ message: 'User deleted successfully' });
   } catch (error: any) {
-    console.error('Delete user error:', error);
-    
-    if (error.message === 'Unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    if (error.message === 'Forbidden') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message === 'Unauthorized' ? 'Unauthorized' : error.message === 'Forbidden' ? 'Forbidden' : 'Internal server error' }, { status: error.message === 'Unauthorized' ? 401 : error.message === 'Forbidden' ? 403 : 500 });
   }
 }
