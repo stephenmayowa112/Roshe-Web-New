@@ -22,7 +22,7 @@ type UserRow = {
 type SchoolRow = { id: string; name: string; type: string } | null;
 
 async function findUserByEmail(email: string) {
-  const rows = await sql<UserRow & SchoolRow extends never ? never : UserRow & { schoolName: string | null; schoolType: string | null }>`
+  const rows = await sql`
     SELECT u."id", u."email", u."password", u."name", u."firstName", u."lastName",
            u."role", u."schoolId", u."emailVerified", u."isEmailVerified",
            s."name" AS "schoolName", s."type" AS "schoolType"
@@ -35,7 +35,7 @@ async function findUserByEmail(email: string) {
 }
 
 async function findUserById(id: string) {
-  const rows = await sql<UserRow & { schoolName: string | null; schoolType: string | null }>`
+  const rows = await sql`
     SELECT u."id", u."email", u."password", u."name", u."firstName", u."lastName",
            u."role", u."schoolId", u."emailVerified", u."isEmailVerified",
            s."name" AS "schoolName", s."type" AS "schoolType"
@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
           image: null,
           role: user.role,
           schoolId: user.schoolId ?? undefined,
-          school: schoolFromRow(user),
+          school: schoolFromRow(user as UserRow & { schoolName: string | null; schoolType: string | null }) ?? undefined,
         };
       },
     }),
@@ -107,7 +107,7 @@ export const authOptions: NextAuthOptions = {
           `;
           user.id = existingUser.id;
         } else {
-          const rows = await sql<{ id: string }>`
+          const rows = await sql`
             INSERT INTO "User" ("email", "name", "password", "role", "emailVerified", "isEmailVerified", "schoolId", "createdAt", "updatedAt")
             VALUES (${user.email!}, ${user.name ?? ''}, NULL, 'SCHOOL_ADMIN', NOW(), TRUE, NULL, NOW(), NOW())
             RETURNING "id"
@@ -123,16 +123,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as { role?: string }).role;
+        token.role = (user as { role: string }).role;
         token.schoolId = (user as { schoolId?: string }).schoolId;
-        token.school = (user as { school?: SchoolRow }).school;
+        token.school = (user as { school?: SchoolRow }).school ?? undefined;
       }
       if ((trigger === 'update' || (!token.role && token.sub)) && (token.id || token.sub)) {
         const dbUser = await findUserById((token.id ?? token.sub) as string);
         if (dbUser) {
           token.role = dbUser.role;
           token.schoolId = dbUser.schoolId ?? undefined;
-          token.school = schoolFromRow(dbUser);
+          token.school = schoolFromRow(dbUser as UserRow & { schoolName: string | null; schoolType: string | null }) ?? undefined;
         }
       }
       return token;
@@ -142,7 +142,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = (token.id ?? token.sub) as string;
         session.user.role = token.role as string;
         session.user.schoolId = token.schoolId as string | undefined;
-        session.user.school = token.school as SchoolRow;
+        session.user.school = token.school as Exclude<SchoolRow, null> | undefined;
       }
       return session;
     },
@@ -175,7 +175,7 @@ export async function verifyAuth(request: NextRequest) {
     if (!user.emailVerified && !user.isEmailVerified) return { success: false, error: 'Email not verified' } as const;
     return {
       success: true,
-      user: { ...user, schoolId: user.schoolId || '', school: schoolFromRow(user) },
+      user: { ...user, schoolId: user.schoolId || '', school: schoolFromRow(user as UserRow & { schoolName: string | null; schoolType: string | null }) },
     } as const;
   } catch (error) {
     console.error('Auth verification error:', error);

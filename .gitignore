@@ -5,3 +5,8 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Keep only the primary project documentation in version control.
+*.md
+!README.md
+!DEPLOYMENT.md

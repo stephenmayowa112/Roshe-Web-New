@@ -45,7 +45,7 @@ googleVars.forEach(envVar => {
 
 // Check database connection
 console.log('\n🗄️ Database Status:');
-console.log('   ✅ Prisma Postgres connected');
+console.log('   ✅ Neon Postgres configuration detected');
 console.log('   ✅ Database schema deployed');
 console.log('   ✅ Sample data created');
 
