@@ -27,8 +27,11 @@ export async function handleSignOut() {
     // Sign out with NextAuth (this will also clear its cookies)
     await signOut({ 
       callbackUrl: '/',
-      redirect: true 
+      redirect: false // Don't redirect yet
     });
+    
+    // Force reload to clear any client-side cache
+    window.location.href = '/';
   } catch (error) {
     console.error('Sign out error:', error);
     // Force redirect even if signOut fails

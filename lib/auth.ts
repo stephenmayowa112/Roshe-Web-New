@@ -22,16 +22,21 @@ type UserRow = {
 type SchoolRow = { id: string; name: string; type: string } | null;
 
 async function findUserByEmail(email: string) {
-  const rows = await sql`
-    SELECT u."id", u."email", u."password", u."name", u."firstName", u."lastName",
-           u."role", u."schoolId", u."emailVerified", u."isEmailVerified",
-           s."name" AS "schoolName", s."type" AS "schoolType"
-    FROM "User" u
-    LEFT JOIN "School" s ON s."id" = u."schoolId"
-    WHERE u."email" = ${email}
-    LIMIT 1
-  `;
-  return rows[0] ?? null;
+  try {
+    const rows = await sql`
+      SELECT u."id", u."email", u."password", u."name", u."firstName", u."lastName",
+             u."role", u."schoolId", u."emailVerified", u."isEmailVerified",
+             s."name" AS "schoolName", s."type" AS "schoolType"
+      FROM "User" u
+      LEFT JOIN "School" s ON s."id" = u."schoolId"
+      WHERE u."email" = ${email}
+      LIMIT 1
+    `;
+    return rows[0] ?? null;
+  } catch (error) {
+    console.error('[Auth] Database error in findUserByEmail:', error);
+    throw new Error('Error connecting to database: ' + (error as Error).message);
+  }
 }
 
 async function findUserById(id: string) {
@@ -68,20 +73,44 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        const user = await findUserByEmail(credentials.email);
-        if (!user) return null;
-        if (!user.password) throw new Error('This account uses Google sign-in. Please use "Continue with Google".');
-        if (!(await compare(credentials.password, user.password))) return null;
-        if (!user.isEmailVerified && !user.emailVerified) throw new Error('Please verify your email before signing in.');
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name || `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || user.email,
-          image: null,
-          role: user.role,
-          schoolId: user.schoolId ?? undefined,
-          school: schoolFromRow(user as UserRow & { schoolName: string | null; schoolType: string | null }) ?? undefined,
-        };
+        
+        try {
+          console.log('[Auth] Attempting to find user:', credentials.email);
+          const user = await findUserByEmail(credentials.email);
+          
+          if (!user) {
+            console.log('[Auth] User not found');
+            return null;
+          }
+          
+          if (!user.password) {
+            throw new Error('This account uses Google sign-in. Please use "Continue with Google".');
+          }
+          
+          const isValid = await compare(credentials.password, user.password);
+          if (!isValid) {
+            console.log('[Auth] Invalid password');
+            return null;
+          }
+          
+          if (!user.isEmailVerified && !user.emailVerified) {
+            throw new Error('Please verify your email before signing in.');
+          }
+          
+          console.log('[Auth] Authentication successful for:', user.email);
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || user.email,
+            image: null,
+            role: user.role,
+            schoolId: user.schoolId ?? undefined,
+            school: schoolFromRow(user as UserRow & { schoolName: string | null; schoolType: string | null }) ?? undefined,
+          };
+        } catch (error) {
+          console.error('[Auth] Authorization error:', error);
+          throw error;
+        }
       },
     }),
   ],
